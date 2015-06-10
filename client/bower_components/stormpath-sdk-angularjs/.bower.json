@@ -1,0 +1,42 @@
+{
+  "name": "stormpath-sdk-angularjs",
+  "version": "0.5.0",
+  "main": [
+    "dist/stormpath-sdk-angularjs.min.js",
+    "dist/stormpath-sdk-angularjs.tpls.min.js"
+  ],
+  "keywords": [
+    "stormpath",
+    "jwt",
+    "token",
+    "user",
+    "angular",
+    "token based authentication",
+    "login",
+    "password",
+    "registration",
+    "user management"
+  ],
+  "ignore": [
+    ".tmp",
+    "build",
+    "docs",
+    "example",
+    "ngdoc_assets",
+    "src"
+  ],
+  "dependencies": {
+    "angular": ">=1.2.*"
+  },
+  "homepage": "https://github.com/stormpath/stormpath-sdk-angularjs",
+  "_release": "0.5.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.5.0",
+    "commit": "6221d3eefe55c4118356dd0b7fd09e9e682b40b3"
+  },
+  "_source": "git://github.com/stormpath/stormpath-sdk-angularjs.git",
+  "_target": "~0.5.0",
+  "_originalSource": "stormpath-sdk-angularjs",
+  "_direct": true
+}
