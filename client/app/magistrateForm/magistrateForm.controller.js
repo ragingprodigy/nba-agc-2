@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('JudgeFormCtrl', function ($scope, $state) {
+  .controller('MagistrateFormCtrl', function ($scope, $state) {
         $scope.payInvoice = function() {
             // User wants to Pay now!
             $state.go('invoice');

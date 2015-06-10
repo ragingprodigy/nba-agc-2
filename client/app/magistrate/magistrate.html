@@ -1,3 +1,157 @@
-<div class="col-md-12">
-This is the magistrate view.
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">MAGISTRATES</div>
+                </div>
+                <div class="panel-body">
+                    <form method="post" name="dataForm" ng-hide="nextForm">
+
+                        <div class="alert alert-info">
+                            <i class="glyphicon glyphicon-chevron-down"></i> Please Enter your name below
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="prefix">Prefix</label>
+                                <select name="prefix" id="prefix" ng-model="d.prefix" class="form-control" required autofocus>
+                                    <option>Dr.</option>
+                                    <option>Prof.</option>
+                                    <option>Mr.</option>
+                                    <option>Mrs.</option>
+                                    <option>Ms.</option>
+                                    <option>Chief</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="surname">Surname</label>
+                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="d.surname"
+                                           placeholder="Surname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="middlename">Middle Name</label>
+                                    <input class="form-control" type="text" name="middlename" id="middlename" ng-model="d.middlename"
+                                           placeholder="Middle">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input class="form-control" type="text" name="firstname" id="firstname" ng-model="d.firstname"
+                                           placeholder="First Name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="suffix">Suffix</label>
+                                <select name="suffix" id="suffix" ng-model="d.suffix" class="form-control">
+                                    <option>MNI</option>
+                                    <option>MON</option>
+                                    <option>CON</option>
+                                    <option>GCON</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" ng-disabled="dataForm.$invalid"
+                                    class="btn btn-block btn-primary" ng-click="nextForm=true"> <i
+                                    class="fa fa-play"></i>
+                                Next
+                            </button>
+                        </div>
+                    </form>
+
+
+                    <form method="post" name="dataForm2" ng-show="nextForm">
+
+                        <div class="alert alert-info">
+                            <i class="glyphicon glyphicon-chevron-down"></i> Enter the Name on your Call to Bar
+                            Certificate
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="surname">Surname</label>
+                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="d.surname"
+                                           placeholder="Surname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="middlename">Middle Name</label>
+                                    <input class="form-control" type="text" name="middlename" id="middlename" ng-model="d.middlename"
+                                           placeholder="Middle">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input class="form-control" type="text" name="firstname" id="firstname" ng-model="d.firstname"
+                                           placeholder="First Name" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button"
+                                    class="btn btn-block btn-success" ng-click="showTable=true"> <i
+                                    class="fa fa-play"></i>
+                                Next
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <table class="table table-bordered table-striped table-hover" ng-show="showTable">
+                        <tr>
+                            <th>S/N</th>
+                            <th>Surname</th>
+                            <th>Middle Name</th>
+                            <th>First Name</th>
+                            <th>Called to Bar</th>
+                            <th class="col-sm-1"></th>
+                        </tr>
+                        <tr>
+                            <td>1.</td>
+                            <td>James</td>
+                            <td>Dean</td>
+                            <td>Patterson</td>
+                            <td>1976</td>
+                            <td><button class="btn btn-xs btn-success" ng-click="details()"><i class="fa fa-check"></i>
+                            </button> </td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Ludlum</td>
+                            <td>Bruce</td>
+                            <td>William</td>
+                            <td>1976</td>
+                            <td><button class="btn btn-xs btn-success" ng-click="details()"><i class="fa fa-check"></i>
+                            </button> </td>
+                        </tr>
+                        <tr>
+                            <td>3.</td>
+                            <td>Spindall</td>
+                            <td>John</td>
+                            <td>Jones</td>
+                            <td>1976</td>
+                            <td><button class="btn btn-xs btn-success" ng-click="details()"><i class="fa fa-check"></i>
+                            </button> </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-include="'components/rightInfo/rightInfo.html'" class="col-sm-4"></div>
+
+    </div>
 </div>
