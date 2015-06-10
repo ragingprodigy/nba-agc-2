@@ -10,11 +10,23 @@
       <a href="/" class="navbar-brand">nba-agc2</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
-      <ul class="nav navbar-nav">
-        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
-            <a ng-href="{{item.link}}">{{item.title}}</a>
-        </li>
-      </ul>
+        <ul class="nav navbar-nav">
+            <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+                <a ng-href="{{item.link}}">{{item.title}}</a>
+            </li>
+            <li if-user ng-class="{active: isActive('/profile')}">
+                <a ui-sref="profile">Profile</a>
+            </li>
+            <li if-not-user ng-class="{active: isActive('/register')}">
+                <a ui-sref="register">Register</a>
+            </li>
+            <li if-not-user ng-class="{active: isActive('/login')}">
+                <a ui-sref="login">Login</a>
+            </li>
+            <li if-user ng-class="{active: isActive('/logout')}">
+                <a ui-sref="main" sp-logout>Logout</a>
+            </li>
+        </ul>
     </div>
   </div>
 </div>
