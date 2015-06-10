@@ -44,8 +44,12 @@
 }
 
 .form-price {
-    font-size: 240%;
+    font-size: 170%;
     font-weight: bolder;
     display: block;
-    margin-top: 15px
+    display: block;
+}
+
+#navbar-main .btn.btn-danger {
+    margin-top: 7px;
 }

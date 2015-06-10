@@ -14,6 +14,7 @@ module.exports = function(app) {
     spMiddleware.attachDefaults(app);
 
   // Insert routes below
+  app.use('/api/registrations', require('./api/registration'));
   app.use('/api/members', require('./api/member'));
   app.use('/api/things', spMiddleware.authenticate, require('./api/thing'));
   

@@ -8,18 +8,9 @@ exports.verify = function(req, res) {
     var fn = new RegExp(req.body.firstName, 'i'),
         mn = new RegExp(req.body.middleName, 'i'),
         sn = new RegExp(req.body.surname, 'i'),
-        n_fn = new RegExp(req.body.nb_firstName, 'i'),
-        n_mn = new RegExp(req.body.nb_middleName, 'i'),
         n_sn = new RegExp(req.body.nb_surname, 'i');
 
-    Member.find().or([
-        { 'firstName': { $regex: fn }},
-        { 'firstName': { $regex: n_fn }},
-        { 'middleName': { $regex: mn }},
-        { 'middleName': { $regex: n_mn }},
-        { 'surname': { $regex: sn }},
-        { 'surname': { $regex: n_sn }}
-    ]).exec(function(err, members) {
+    Member.find().or([ { 'surname': { $regex: n_sn }}, { 'firstName': { $regex: n_sn }} ]).exec(function(err, members) {
         if (err) return handleError(res, err);
         return res.status(200).json(members);
     });

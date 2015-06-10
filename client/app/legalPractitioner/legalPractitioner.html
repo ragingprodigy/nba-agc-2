@@ -68,35 +68,14 @@
                     <form method="post" name="dataForm2" ng-show="showForm2" ng-submit="dataForm2.$valid && doLookup()">
 
                         <div class="alert alert-info">
-                            <i class="glyphicon glyphicon-chevron-down"></i> Enter the Name on your Call to Bar
-                            Certificate
+                            <i class="glyphicon glyphicon-chevron-down"></i> Enter your Last Name as it appears on your Call to Bar Certificate
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="_surname">Surname</label>
-                                    <input class="form-control" type="text" name="surname" id="_surname"
-                                           ng-model="person.nb_surname"
-                                           placeholder="Surname" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="middleName">Middle Name</label>
-                                    <input class="form-control" type="text" name="middleName" id="_middleName"
-                                           ng-model="person.nb_middleName"
-                                           placeholder="Middle">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="_firstName">First Name</label>
-                                    <input class="form-control" type="text" name="firstName" id="_firstName"
-                                           ng-model="person.nb_firstName"
-                                           placeholder="First Name" required>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="_surname">Surname</label>
+                            <input class="form-control" type="text" name="surname" id="_surname"
+                                   ng-model="person.nb_surname"
+                                   placeholder="Surname" required>
                         </div>
 
                         <div class="text-center">

@@ -9,7 +9,7 @@
       </button>
       <a href="/" class="navbar-brand">nba-agc2</a>
     </div>
-    <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+    <div collapse="isCollapsed" class="navbar-collapse collapse pull-right" id="navbar-main">
         <ul class="nav navbar-nav">
             <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
                 <a ng-href="{{item.link}}">{{item.title}}</a>
@@ -25,6 +25,9 @@
             </li>
             <li if-user ng-class="{active: isActive('/logout')}">
                 <a ui-sref="main" sp-logout>Logout</a>
+            </li>
+            <li if-not-user>
+                <button class="btn btn-danger" ng-click="doReset()">CANCEL REGISTRATION</button>
             </li>
         </ul>
     </div>

@@ -7,7 +7,7 @@ var MemberSchema = new Schema({
   firstName: String,
   middleName: String,
   surname: String,
-  yearCalled: String,
+  yearCalled: Number,
   branch: String,
   nbaId: String,
   active: Boolean

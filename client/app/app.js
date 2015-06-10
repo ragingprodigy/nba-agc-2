@@ -4,6 +4,7 @@ angular.module('nbaAgc2App', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
+  'ngStorage',
   'ui.router',
   'ui.bootstrap',
     'stormpath',

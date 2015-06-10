@@ -8,14 +8,14 @@
                     <div class="panel-title">ATTENDEE DATA - Please provide additional data</div>
                 </div>
                 <div class="panel-body">
-                    <form method="post" name="dataForm" ng-hide="nextForm">
+                    <form method="post" name="dataForm">
 
                         <div class="alert alert-info">Fields marked <span class="required">*</span> are required! </div>
 
                         <div class="row">
                             <div class="col-md-2">
                                 <label for="prefix">Prefix</label>
-                                <select readonly="readonly" name="prefix" id="prefix" ng-model="d.prefix"
+                                <select name="prefix" id="prefix" ng-model="data.prefix"
                                         class="form-control"
                                         required autofocus>
                                     <option>Dr.</option>
@@ -29,27 +29,24 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="surname">Surname</label>
-                                    <input readonly="readonly" class="form-control" type="text" name="surname" id="surname" ng-model="d.surname"
-                                           valuse="A Surname" required>
+                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="data.surname" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="middlename">Middle Name</label>
-                                    <input readonly="readonly" class="form-control" type="text" name="middlename" id="middlename" ng-model="d.middlename"
-                                           value="A Middle Name">
+                                    <label for="middleName">Middle Name</label>
+                                    <input class="form-control" type="text" name="middleName" id="middleName" ng-model="data.middleName">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input readonly="readonly" class="form-control" type="text" name="firstname" id="firstname" ng-model="d.firstname"
-                                           value="A First Name" required>
+                                    <label for="firstName">First Name</label>
+                                    <input class="form-control" type="text" name="firstName" id="firstName" ng-model="data.firstName" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <label for="suffix">Suffix</label>
-                                <select readonly="readonly" name="suffix" id="suffix" ng-model="d.suffix" class="form-control">
+                                <select name="suffix" id="suffix" ng-model="data.suffix" class="form-control">
                                     <option>ESQ</option>
                                 </select>
                             </div>
@@ -59,18 +56,19 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ctb">Year of Call to Bar</label>
-                                    <input readonly="readonly" class="form-control" type="text" name="ctb" id="ctb" ng-model="d.yearCalled" placeholder="1989" required>
+                                    <input readonly="readonly" class="form-control" type="text" name="ctb" id="ctb" ng-model="data.yearCalled" placeholder="1989">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <div class="form-price label label-primary">NGN 75,000</div>
+                                    <label>Conference Fee</label>
+                                    <div class="form-price label label-primary">NGN {{data.conferenceFee}}</div>
                                 </div>
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="branch">NBA Branch</label>
-                                    <input readonly="readonly" class="form-control" type="text" name="branch" id="branch" ng-model="d.branch" placeholder="LAGOS Branch" required>
+                                    <input readonly="readonly" class="form-control" type="text" name="branch" id="branch" ng-model="data.branch" placeholder="LAGOS Branch">
                                 </div>
                             </div>
                         </div>
@@ -78,27 +76,27 @@
                         <div class="form-group">
                             <label for="company">Firm / Company / Organization <span class="required">*</span> </label>
                             <input class="form-control" type="text" name="company" id="company"
-                                   ng-model="d.company" placeholder="Firm / Company / Organization" required>
+                                   ng-model="data.company" placeholder="Firm / Company / Organization" required>
                         </div>
 
                         <div class="form-group">
                             <label for="address">Address <span class="required">*</span> </label>
                             <input type="text" class="form-control" name="address" id="address"
-                                   ng-model="d.address" placeholder="Address" required>
+                                   ng-model="data.address" placeholder="Address" required>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Office Telephone Number <span class="required">*</span> </label>
-                                    <input class="form-control" type="tel" name="phone" id="phone" ng-model="d.phone"
+                                    <input class="form-control" type="tel" name="phone" id="phone" ng-model="data.phone"
                                            placeholder="Office Phone Number" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="mobile">Mobile Phone Number</label>
-                                    <input class="form-control" type="tel" name="mobile" id="mobile" ng-model="d.mobile"
+                                    <input class="form-control" type="tel" name="mobile" id="mobile" ng-model="data.mobile"
                                            placeholder="Mobile Phone Number">
                                 </div>
                             </div>
@@ -107,21 +105,21 @@
                         <div class="form-group">
                             <label for="email">Email Address <span class="required">*</span> </label>
                             <input type="email" class="form-control" name="email" id="email"
-                                   ng-model="d.email" placeholder="Email Address" required>
+                                   ng-model="data.email" placeholder="Email Address" required>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="emergency">Emergency Contact Name</label>
-                                    <input class="form-control" type="text" name="e_name" id="emergency" ng-model="d.e_name"
+                                    <input class="form-control" type="text" name="e_name" id="emergency" ng-model="data.e_name"
                                            placeholder="Emergency Contact Name" >
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="e_phone">Emergency Contact Number</label>
-                                    <input class="form-control" type="tel" name="e_phone" id="e_phone" ng-model="d.e_phone"
+                                    <input class="form-control" type="tel" name="e_phone" id="e_phone" ng-model="data.e_phone"
                                            placeholder="Emergency Contact Number" >
                                 </div>
                             </div>
@@ -129,17 +127,11 @@
 
                         <hr>
                         <div class="text-center form-action">
-                            <button type="button" ng-disabled="!dataForm.$invalid"
-                                    class="btn btn-lg btn-success pull-left"
-                                    ng-click="payInvoice()"> <i
-                                    class="fa fa-money"></i>
-                                Pay Now <i class="fa fa-check"></i>
-                            </button>
-                            <button type="button" ng-disabled="!dataForm.$invalid"
-                                    class="btn btn-lg btn-info pull-right"
-                                    ng-click="bookInvoice()"> <i
-                                    class="fa fa-save"></i>
-                                Book on Hold
+                            <button type="button" ng-disabled="dataForm.$invalid"
+                                    class="btn btn-lg btn-block btn-success"
+                                    ng-click="reviewForm()"> <i
+                                    class="fa fa-play"></i>
+                                Next <i class="fa fa-check"></i>
                             </button>
                         </div>
                     </form>

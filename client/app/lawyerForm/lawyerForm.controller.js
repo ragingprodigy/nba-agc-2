@@ -1,18 +1,23 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('LawyerFormCtrl', function ($scope, $state) {
-    $scope.message = 'Hello';
+  .controller('LawyerFormCtrl', function ($scope, $state, $http, $sessionStorage, registration) {
+        if ($sessionStorage.lpRegistrant != null) {
+            registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
+                $scope.data = d;
+            });
+        } else
+            $state.go('legalPractitioner');
 
-    $scope.payInvoice = function() {
+    $scope.reviewForm = function() {
 
-        // User wants to Pay now!
-        $state.go('invoice');
+        if (confirm("Are you sure?")) {
+
+            // Update the Registration Information
+            registration.update({id: $scope.data._id}, $scope.data);
+
+            // User wants to Pay now!
+            $state.go('invoice');
+        }
     };
-
-    $scope.bookInvoice = function() {
-
-        // User wants to pay later
-        $state.go('invoice');
-    }
   });
