@@ -21,10 +21,17 @@
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/invoice/invoice.css">
+      <link rel="stylesheet" href="app/judge/judge.css">
+      <link rel="stylesheet" href="app/lawyerForm/lawyerForm.css">
+      <link rel="stylesheet" href="app/legalPractitioner/legalPractitioner.css">
       <link rel="stylesheet" href="app/login/login.css">
+      <link rel="stylesheet" href="app/magistrate/magistrate.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/profile/profile.css">
       <link rel="stylesheet" href="app/register/register.css">
+      <link rel="stylesheet" href="app/registerAs/registerAs.css">
+      <link rel="stylesheet" href="app/sanAndBench/sanAndBench.css">
       <link rel="stylesheet" href="components/modal/modal.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -36,6 +43,8 @@
 
     <!-- Add your site or application content here -->
     <div ui-view=""></div>
+
+    <div ng-include="'components/footer/footer.html'"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -70,14 +79,29 @@
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="app/invoice/invoice.controller.js"></script>
+          <script src="app/invoice/invoice.js"></script>
+          <script src="app/judge/judge.controller.js"></script>
+          <script src="app/judge/judge.js"></script>
+          <script src="app/lawyerForm/lawyerForm.controller.js"></script>
+          <script src="app/lawyerForm/lawyerForm.js"></script>
+          <script src="app/legalPractitioner/legalPractitioner.controller.js"></script>
+          <script src="app/legalPractitioner/legalPractitioner.js"></script>
           <script src="app/login/login.controller.js"></script>
           <script src="app/login/login.js"></script>
+          <script src="app/magistrate/magistrate.controller.js"></script>
+          <script src="app/magistrate/magistrate.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="app/profile/profile.controller.js"></script>
           <script src="app/profile/profile.js"></script>
           <script src="app/register/register.controller.js"></script>
           <script src="app/register/register.js"></script>
+          <script src="app/registerAs/registerAs.controller.js"></script>
+          <script src="app/registerAs/registerAs.js"></script>
+          <script src="app/sanAndBench/sanAndBench.controller.js"></script>
+          <script src="app/sanAndBench/sanAndBench.js"></script>
+          <script src="components/footer/footer.controller.js"></script>
           <script src="components/modal/modal.service.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->

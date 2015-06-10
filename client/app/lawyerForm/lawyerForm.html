@@ -1,0 +1,180 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">ATTENDEE DATA - Please provide additional data</div>
+                </div>
+                <div class="panel-body">
+                    <form method="post" name="dataForm" ng-hide="nextForm">
+
+                        <div class="alert alert-info">Fields marked <span class="required">*</span> are required! </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="prefix">Prefix</label>
+                                <select readonly="readonly" name="prefix" id="prefix" ng-model="d.prefix"
+                                        class="form-control"
+                                        required autofocus>
+                                    <option>Dr.</option>
+                                    <option>Prof.</option>
+                                    <option>Mr.</option>
+                                    <option>Mrs.</option>
+                                    <option>Ms.</option>
+                                    <option>Chief</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="surname">Surname</label>
+                                    <input readonly="readonly" class="form-control" type="text" name="surname" id="surname" ng-model="d.surname"
+                                           valuse="A Surname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="middlename">Middle</label>
+                                    <input readonly="readonly" class="form-control" type="text" name="middlename" id="middlename" ng-model="d.middlename"
+                                           value="A Middle Name">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input readonly="readonly" class="form-control" type="text" name="firstname" id="firstname" ng-model="d.firstname"
+                                           value="A First Name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="suffix">Suffix</label>
+                                <select readonly="readonly" name="suffix" id="suffix" ng-model="d.suffix" class="form-control">
+                                    <option>ESQ</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ctb">Year of Call to Bar</label>
+                                    <input readonly="readonly" class="form-control" type="text" name="branch" id="branch" ng-model="d.yearCalled" placeholder="1989" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="form-price label label-primary">NGN 75,000</div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="branch">NBA Branch</label>
+                                    <input readonly="readonly" class="form-control" type="text" name="branch" id="branch" ng-model="d.branch" placeholder="LAGOS Branch" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company">Firm / Company / Organization <span class="required">*</span> </label>
+                            <input class="form-control" type="text" name="company" id="company"
+                                   ng-model="d.company" placeholder="Firm / Company / Organization" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address <span class="required">*</span> </label>
+                            <input type="text" class="form-control" name="address" id="address"
+                                   ng-model="d.address" placeholder="Address" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Office Telephone Number <span class="required">*</span> </label>
+                                    <input class="form-control" type="tel" name="phone" id="phone" ng-model="d.phone"
+                                           placeholder="Office Phone Number" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mobile">Mobile Phone Number</label>
+                                    <input class="form-control" type="tel" name="mobile" id="mobile" ng-model="d.mobile"
+                                           placeholder="Mobile Phone Number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span> </label>
+                            <input type="email" class="form-control" name="email" id="email"
+                                   ng-model="d.email" placeholder="Email Address" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="emergency">Emergency Contact Name</label>
+                                    <input class="form-control" type="text" name="e_name" id="emergency" ng-model="d.e_name"
+                                           placeholder="Emergency Contact Name" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="e_phone">Emergency Contact Number</label>
+                                    <input class="form-control" type="tel" name="e_phone" id="e_phone" ng-model="d.e_phone"
+                                           placeholder="Emergency Contact Number" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="text-center form-action">
+                            <button type="button" ng-disabled="!dataForm.$invalid"
+                                    class="btn btn-lg btn-success pull-left"
+                                    ng-click="payInvoice()"> <i
+                                    class="fa fa-money"></i>
+                                Pay Now <i class="fa fa-check"></i>
+                            </button>
+                            <button type="button" ng-disabled="!dataForm.$invalid"
+                                    class="btn btn-lg btn-info pull-right"
+                                    ng-click="bookInvoice()"> <i
+                                    class="fa fa-save"></i>
+                                Book on Hold
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">INFORMATION</div>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-info">
+                        Please note that the rate for the pre-conference manual registration closes on the 21st
+                        of August 2015 while all pre-conference manual registration will end on the 7th of August 2015.
+                    </div>
+                    <div class="alert-info alert">
+                        Conferees who register after the 21st of August, 2015 will be required to pay the corresponding
+                        Onsite Fee and submit their forms and payment teller onsite at the registration centre in Abuja.
+                        After the 7th of August, no forms should be submitted or will be received by the NBA Secretariat
+                        or Branch Offices.
+                    </div>
+                    <div class="alert alert-info">
+                        For further details and enquiries please call any of the following:
+                        <ul>
+                            <li><strong>Chinelo Agbala</strong> 08067200353</li>
+                            <li><strong>Oti Edah</strong>, 08065901348;</li>
+                            <li><strong>Kemi Beatrice Odeniyi</strong> 08068619570</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert-info alert">We regret to inform that there will be no refund for cancellations.</div>
+                    <div class="alert-info alert">By submitting this form you accept the terms and conditions of this registration.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

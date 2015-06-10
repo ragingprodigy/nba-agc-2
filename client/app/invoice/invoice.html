@@ -1,0 +1,82 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row" ng-hide="livePay">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="alert alert-info">
+                <h3>Payment Instructions <button class="pull-right btn btn-xs btn-danger" ng-click="livePay=true">Toggle
+                </button>
+                </h3>
+                <p>
+                    Where does the template get inserted?
+
+                    When a state is activated, its templates are automatically inserted into the ui-view of its parent state's template. If it's a top-level state—which 'contacts' is because it has no parent state–then its parent template is index.html.
+
+                    Right now, the 'contacts' state won't ever be activated. So let's see how we can activate a state.
+
+                    Activating a state
+
+                    There are three main ways to activate a state:
+
+                    Call $state.go(). High-level convenience method. Learn More
+                    Click a link containing the ui-sref directive. Learn More
+                    Navigate to the url associated with the state. Learn More.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE</div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th colspan="3">FIRST NAME, M, LASTNAME</th>
+                            <td>ESQ.</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fa fa-bullhorn"></i> 1976 </th>
+                            <th colspan="2"><i class="fa fa-money"></i> NGN 75, 000</th>
+                            <td><i class="fa fa-building"></i> LAGOS BRANCH </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><i class="fa fa-envelope-o"></i> somebody.anybody@example.com</td>
+                            <td colspan="2"><i class="fa fa-phone-square"></i> +1230900080004</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <i class="fa fa-map-marker"></i> This In-Depth Guide will take you through all aspects of the UI-Router and its components and options. If you just need a quick reference guide visit the API Reference
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" align="right">
+                                <h2>Payment Code:</h2>
+                            </th>
+                            <th colspan="2">
+                                <h2>A12F/75000</h2>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: bottom;">
+                                <button ng-hide="livePay" class="btn btn-block btn-success btn-lg"><i
+                                        class="fa fa-print"></i>
+                                    Print
+                                </button>
+                                <button ng-show="livePay" class="pull-right btn-block btn btn-lg btn-danger"
+                                        ng-click="livePay=false">Toggle
+                                </button>
+                            </td>
+                            <td colspan="3" class="text-right">
+                                <div ng-hide="livePay" class="label label-primary form-price">NGN 75,000</div>
+                                <button class="btn btn-block btn-lg btn-success" ng-show="livePay">Pay Now</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
