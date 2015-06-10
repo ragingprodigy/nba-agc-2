@@ -6,6 +6,7 @@
 'use strict';
 
 var Thing = require('../api/thing/thing.model');
+var Member = require('../api/member/member.model');
 
 
 Thing.find({}).remove(function() {
@@ -28,4 +29,18 @@ Thing.find({}).remove(function() {
     name : 'Deployment Ready',
     info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
   });
+});
+
+Member.find({}).remove(function(){
+   Member.create({
+       firstName: 'James', middleName: 'Frederick', surname:'Patterson', yearCalled: 1991, branch: 'Lagos'
+   },{
+       firstName: 'Peter', middleName: 'Vaughn', surname:'Sutton', yearCalled: 1981, branch: 'Rivers'
+   },{
+       firstName: 'Paul', middleName: 'Peter', surname:'Baker', yearCalled: 1998, branch: 'Anambra'
+   },{
+       firstName: 'Phillipa', middleName: 'Agnes', surname:'Gendarme', yearCalled: 2003, branch: 'Lagos'
+   },{
+       firstName: 'Felicia', middleName: 'Agnes', surname:'Matlock', yearCalled: 2009, branch: 'Ogun'
+   });
 });

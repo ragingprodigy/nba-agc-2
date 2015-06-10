@@ -8,7 +8,7 @@
                     <div class="panel-title">LEGAL PRACTITIONER</div>
                 </div>
                 <div class="panel-body">
-                    <form method="post" name="dataForm" ng-hide="nextForm">
+                    <form method="post" name="dataForm" ng-hide="showForm2" ng-submit="dataForm.$valid && nextForm()">
 
                         <div class="alert alert-info">
                             <i class="glyphicon glyphicon-chevron-down"></i> Please Enter your name below
@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <label for="prefix">Prefix</label>
-                                <select name="prefix" id="prefix" ng-model="d.prefix" class="form-control" required autofocus>
+                                <select name="prefix" id="prefix" ng-model="person.prefix" class="form-control" required autofocus>
                                     <option>Dr.</option>
                                     <option>Prof.</option>
                                     <option>Mr.</option>
@@ -29,35 +29,35 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="surname">Surname</label>
-                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="d.surname"
+                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="person.surname"
                                            placeholder="Surname" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="middlename">Middle Name</label>
-                                    <input class="form-control" type="text" name="middlename" id="middlename" ng-model="d.middlename"
+                                    <label for="middleName">Middle Name</label>
+                                    <input class="form-control" type="text" name="middleName" id="middleName" ng-model="person.middleName"
                                            placeholder="Middle">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input class="form-control" type="text" name="firstname" id="firstname" ng-model="d.firstname"
+                                    <label for="firstName">First Name</label>
+                                    <input class="form-control" type="text" name="firstName" id="firstName" ng-model="person.firstName"
                                            placeholder="First Name" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <label for="suffix">Suffix</label>
-                                <select name="suffix" id="suffix" ng-model="d.suffix" class="form-control">
+                                <select name="suffix" id="suffix" ng-model="person.suffix" class="form-control">
                                     <option>ESQ</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="text-center">
-                            <button type="button" ng-disabled="dataForm.$invalid"
-                                    class="btn btn-block btn-primary" ng-click="nextForm=true"> <i
+                            <button type="submit" ng-disabled="dataForm.$invalid"
+                                    class="btn btn-block btn-primary" ng-submit="dataForm.$valid && nextForm()"> <i
                                     class="fa fa-play"></i>
                                 Next
                             </button>
@@ -65,7 +65,7 @@
                     </form>
 
 
-                    <form method="post" name="dataForm2" ng-show="nextForm">
+                    <form method="post" name="dataForm2" ng-show="showForm2" ng-submit="dataForm2.$valid && doLookup()">
 
                         <div class="alert alert-info">
                             <i class="glyphicon glyphicon-chevron-down"></i> Enter the Name on your Call to Bar
@@ -75,30 +75,33 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="surname">Surname</label>
-                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="d.surname"
+                                    <label for="_surname">Surname</label>
+                                    <input class="form-control" type="text" name="surname" id="_surname"
+                                           ng-model="person.nb_surname"
                                            placeholder="Surname" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="middlename">Middle Name</label>
-                                    <input class="form-control" type="text" name="middlename" id="middlename" ng-model="d.middlename"
+                                    <label for="middleName">Middle Name</label>
+                                    <input class="form-control" type="text" name="middleName" id="_middleName"
+                                           ng-model="person.nb_middleName"
                                            placeholder="Middle">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input class="form-control" type="text" name="firstname" id="firstname" ng-model="d.firstname"
+                                    <label for="_firstName">First Name</label>
+                                    <input class="form-control" type="text" name="firstName" id="_firstName"
+                                           ng-model="person.nb_firstName"
                                            placeholder="First Name" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="text-center">
-                            <button type="button"
-                                    class="btn btn-block btn-success" ng-click="showTable=true"> <i
+                            <button type="submit"  ng-disabled="dataForm2.$invalid"
+                                    class="btn btn-block btn-success" ng-submit="dataForm2.$valid && doLookup()"> <i
                                     class="fa fa-play"></i>
                                 Next
                             </button>
@@ -116,32 +119,16 @@
                             <th>Called to Bar</th>
                             <th class="col-sm-1"></th>
                         </tr>
-                        <tr>
-                            <td>1.</td>
-                            <td>James</td>
-                            <td>Dean</td>
-                            <td>Patterson</td>
-                            <td>1976</td>
-                            <td><button class="btn btn-xs btn-success" ng-click="details()"><i class="fa fa-check"></i>
-                            </button> </td>
-                        </tr>
-                        <tr>
-                            <td>2.</td>
-                            <td>Ludlum</td>
-                            <td>Bruce</td>
-                            <td>William</td>
-                            <td>1976</td>
-                            <td><button class="btn btn-xs btn-success" ng-click="details()"><i class="fa fa-check"></i>
-                            </button> </td>
-                        </tr>
-                        <tr>
-                            <td>3.</td>
-                            <td>Spindall</td>
-                            <td>John</td>
-                            <td>Jones</td>
-                            <td>1976</td>
-                            <td><button class="btn btn-xs btn-success" ng-click="details()"><i class="fa fa-check"></i>
-                            </button> </td>
+                        <tr ng-repeat="member in members">
+                            <td>{{$index+1}}.</td>
+                            <td>{{member.surname}}</td>
+                            <td>{{member.middleName}}</td>
+                            <td>{{member.firstName}}</td>
+                            <td>{{member.yearCalled}}</td>
+                            <td>
+                                <button class="btn btn-xs btn-success" ng-click="details(member)"><i
+                                    class="fa fa-check"></i></button>
+                            </td>
                         </tr>
                     </table>
                 </div>
