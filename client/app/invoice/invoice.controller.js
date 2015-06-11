@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('InvoiceCtrl', function ($scope, $sessionStorage, registration, $state) {
-        if ($sessionStorage.lpRegistrant != null) {
+  .controller('InvoiceCtrl', function ($scope, $sessionStorage, Registration, $state) {
+        if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
             // Check if the User has filled the form
-            registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
+            Registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
                 $scope.data = d;
-                if (!$scope.data.formFilled) $state.go($scope.data.registrationType)
+                if (!$scope.data.formFilled){
+                    $state.go($scope.data.registrationType);
+                }
 
             });
         } else {
@@ -18,13 +20,16 @@ angular.module('nbaAgc2App')
         };
 
         $scope.getName = function (data) {
-            if (!data) return "";
+            if (!data) {
+                return '';
+            }
 
-            $scope.userName = data.prefix+" "+data.surname+" "+data.middleName+" "+data.firstName+" "+data.suffix;
+            $scope.userName = data.prefix+' '+data.surname+' '+data.middleName+' '+data.firstName+' '+data.suffix;
+
             return $scope.userName;
-        }
+        };
 
         $scope.payOnline = function(){
             $state.go('webpay');
-        }
+        };
   });

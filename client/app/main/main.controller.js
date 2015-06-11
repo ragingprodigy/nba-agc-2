@@ -20,10 +20,10 @@ angular.module('nbaAgc2App')
       $http.delete('/api/things/' + thing._id);
     };*/
         $scope.startReg = function() {
-            if ($sessionStorage.lpRegistrant!=null && $sessionStorage.lpRegistrant!= undefined) {
+            if ($sessionStorage.lpRegistrant!==null && $sessionStorage.lpRegistrant!== undefined) {
                 $state.go($sessionStorage.lpRegistrant.registrationType);
             } else {
-                $state.go("registerAs");
+                $state.go('registerAs');
             }
-        }
+        };
   });

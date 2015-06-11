@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('WebpayCtrl', function ($scope, $sessionStorage, registration, $state) {
-        if ($sessionStorage.lpRegistrant != null) {
+  .controller('WebpayCtrl', function ($scope, $sessionStorage, Registration, $state) {
+        if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
             // Check if the User has filled the form
-            registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
+            Registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
                 $scope.data = d;
-                if (!$scope.data.formFilled) $state.go($scope.data.registrationType)
+                if (!$scope.data.formFilled){
+                    $state.go($scope.data.registrationType);
+                }
 
             });
         } else {
@@ -21,7 +23,7 @@ angular.module('nbaAgc2App')
 
         $scope.markComplete = function(r) {
             r.completed = false;
-            registration.update({id: r._id}, r);
+            Registration.update({id: r._id}, r);
             return false;
         };
 
@@ -30,8 +32,10 @@ angular.module('nbaAgc2App')
         };
 
         $scope.getName = function () {
-            if (!$scope.data) return "";
-            return $scope.data.prefix+" "+$scope.data.surname+" "+$scope.data.middleName+" "+$scope.data.firstName+" "+$scope.data.suffix;
+            if (!$scope.data){
+                return '';
+            }
+            return $scope.data.prefix+' '+$scope.data.surname+' '+$scope.data.middleName+' '+$scope.data.firstName+' '+$scope.data.suffix;
         };
 
         $scope.payNow = function() {

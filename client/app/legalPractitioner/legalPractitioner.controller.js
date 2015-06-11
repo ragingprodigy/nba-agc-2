@@ -1,25 +1,24 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage, registration) {
+  .controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage, Registration) {
 
         $scope.person = {};
         $scope.members = [];
 
-        if ($sessionStorage.lpRegistrant != null) {
+        if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
 
             // Retrieve the data from the Server
-            registration.get({id: $sessionStorage.lpRegistrant._id}, function(regData){
+            Registration.get({id: $sessionStorage.lpRegistrant._id}, function(regData){
                 $sessionStorage.lpRegistrant = regData;
                 // Set Some data in the browser cookie and on the server
                 $state.go('lawyerForm');
             });
-            //$http.get('/api/registrations/'+$sessionStorage.lpRegistrant._id).success();
         }
 
         // Ask for Name as it appears on Call to Bar Certificate!
         $scope.nextForm = function() {
-            $scope.person.nb_surname = $scope.person.surname;
+            $scope.person.nbSurname = $scope.person.surname;
             $scope.showForm2 = true;
         };
 
@@ -36,7 +35,7 @@ angular.module('nbaAgc2App')
         $scope.person.branch = person.branch;
         $scope.person.nbaId = person._id;
         // Notify the server that a registration has been started for the current user!
-        var reg = new registration($scope.person);
+        var reg = new Registration($scope.person);
         reg.$save().then(function(registrationData) {
 
             $sessionStorage.lpRegistrant = registrationData;
@@ -44,5 +43,5 @@ angular.module('nbaAgc2App')
             // Set Some data in the browser cookie and on the server
             $state.go('lawyerForm');
         });
-    }
+    };
   });

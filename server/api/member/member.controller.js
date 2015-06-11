@@ -9,7 +9,7 @@ exports.verify = function(req, res) {
     var fn = new RegExp(req.body.firstName, 'i'),
         mn = new RegExp(req.body.middleName, 'i'),
         sn = new RegExp(req.body.surname, 'i'),
-        n_sn = new RegExp(req.body.nb_surname, 'i');
+        n_sn = new RegExp(req.body.nbSurname, 'i');
 
     Member.find().or([ { 'surname': { $regex: n_sn }}, { 'firstName': { $regex: n_sn }} ]).exec(function(err, members) {
         if (err) return handleError(res, err);

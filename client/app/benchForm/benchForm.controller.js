@@ -1,22 +1,27 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('BenchFormCtrl', function ($scope, $state, registration, $sessionStorage) {
+  .controller('BenchFormCtrl', function ($scope, $state, Registration, $sessionStorage) {
 
         console.log($sessionStorage.lpRegistrant);
 
         // If any other type of Registration is on-going, cancel it
-        if ($sessionStorage.lpRegistrant != null && $sessionStorage.lpRegistrant.registrationType=="sanAndBench") {
-            registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
-                $scope.data = d;
-                $scope.nextForm = true;
-            });
+        if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined){
+            if ($sessionStorage.lpRegistrant.registrationType==='sanAndBench') {
+
+                Registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
+                    $scope.data = d;
+                    $scope.nextForm = true;
+                });
+            } else {
+                $state.go($sessionStorage.lpRegistrant.registrationType);
+            }
         } else {
             $sessionStorage.$reset();
             $scope.data = {
-                registrationType: "sanAndBench",
-                member: ""
-            }
+                registrationType: 'sanAndBench',
+                member: ''
+            };
         }
 
         var k, results;
@@ -28,9 +33,11 @@ angular.module('nbaAgc2App')
 
         $scope.startReg = function() {
 
-            if (confirm("Is this information correct?")) {
+            var cnf = window.confirm('Is this information correct?');
 
-                var reg = new registration($scope.data);
+            if (cnf) {
+
+                var reg = new Registration($scope.data);
                 reg.$save().then(function(registrationData) {
 
                     $sessionStorage.lpRegistrant = registrationData;
@@ -43,12 +50,13 @@ angular.module('nbaAgc2App')
 
         $scope.reviewForm = function() {
 
-            if (confirm("Are you sure?")) {
+            var cnf = window.confirm('Are you sure?');
+            if (cnf) {
 
                 $scope.data.formFilled = true;
 
                 // Update the Registration Information
-                registration.update({id: $scope.data._id}, $scope.data);
+                Registration.update({id: $scope.data._id}, $scope.data);
 
                 // User wants to Pay now!
                 $state.go('invoice');
