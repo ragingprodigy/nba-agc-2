@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 var pRef = function (ct) {
     ct = ct||5;
     var text = "",
-        possible = "ABCDEFGHJKLMNPQRSTUVWXY0123456789";
+        possible = 'ABCDEFGHJKLMNPQRSTUVWXY123456789';
     for( var i=0; i < ct; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     return text;
@@ -15,6 +15,7 @@ var pRef = function (ct) {
 
 var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
+  user: { type:String, default: 0 },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
   middleName:  { type:String, default: "" },

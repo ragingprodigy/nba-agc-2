@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
+    "bcrypt-nodejs": "latest",
     "body-parser": "~1.5.0",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^0.4.1",
     "cookie-parser": "~1.0.1",
     "ejs": "~0.8.4",
@@ -13,11 +15,13 @@
     "express": "^4.12.4",
     "express-session": "~1.0.2",
     "lodash": "~2.4.1",
+    "mandrill-api": "^1.0.45",
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "morgan": "~1.0.0",
-    "serve-favicon": "~2.0.1",
-    "stormpath-sdk-express": "^0.4.7"
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "serve-favicon": "~2.0.1"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
