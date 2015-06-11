@@ -62,7 +62,7 @@ var RegistrationSchema = new Schema({
 });
 
 RegistrationSchema.post('save', function(entry){
-   if (entry.registrationType == 'legalPractitioner') {
+   if (entry.registrationType === 'legalPractitioner') {
        // Calculate the cost and save
        Member.findById(entry.member, function(err, member){
            if (err) return;
