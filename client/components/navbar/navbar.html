@@ -7,29 +7,33 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">nba-agc2</a>
+      <a href="/" class="navbar-brand">N.B.A. A.G.C. REGISTRATION PORTAL</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse pull-right" id="navbar-main">
         <ul class="nav navbar-nav">
-            <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
-                <a ng-href="{{item.link}}">{{item.title}}</a>
-            </li>
             <li if-user ng-class="{active: isActive('/profile')}">
                 <a ui-sref="profile">Profile</a>
             </li>
             <!--<li if-not-user ng-class="{active: isActive('/register')}">
                 <a ui-sref="register">Register</a>
             </li>-->
-            <li if-not-user ng-class="{active: isActive('/login')}">
+            <li if-not-user ng-class="{active: isActive('/login')}" ng-hide="noneInProgress()">
                 <a ui-sref="login">Check Registration Details</a>
             </li>
             <li if-user ng-class="{active: isActive('/logout')}">
                 <a ui-sref="main" sp-logout>Logout</a>
             </li>
-            <li if-not-user>
+            <li if-not-user ng-show="noneInProgress()">
                 <button class="btn btn-danger" ng-click="doReset()">CANCEL REGISTRATION</button>
             </li>
         </ul>
     </div>
   </div>
+</div>
+
+<header class="hero-unit hidden-print" id="banner"></header>
+
+<div class="text-center text-uppercase" style="margin-bottom: 15px">
+    <strong>Welcome to the NIGERIAN BAR ASSOCIATION's Annual General Conference Portal. Please read and follow the
+    instructions below.</strong>
 </div>

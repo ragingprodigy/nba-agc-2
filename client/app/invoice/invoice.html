@@ -1,12 +1,98 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <div class="row" ng-hide="livePay">
-        <div class="col-sm-8 col-sm-offset-2">
-            <div class="alert alert-info">
-                <h3>Payment Instructions <button class="pull-right btn btn-xs btn-danger" ng-click="livePay=true">Toggle
-                </button>
-                </h3>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE <button class="hidden-print btn btn-xs btn-info pull-right"
+                                                                     ng-click="pInfo=!pInfo"> <i
+                            class="fa fa-info-circle"></i> How
+                    To Pay</button> </div>
+                </div>
+                <div class="panel-body">
+                    <form method="POST" id="upay_form" name="upay_form" action="https://cipg.accessbankplc.com/MerchantServices/MakePayment.aspx" target="_top">
+                    <table class="table table-bordered table-striped">
+                        <tr class="space">
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="4" class="text-uppercase text-center"><h4>{{getName(data)}}</h4></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><i class="fa fa-bullhorn"></i> {{ data.yearCalled }} - Year of CALL </th>
+                            <td colspan="2"><i class="fa fa-building"></i> {{data.branch}} BRANCH </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-phone-square"></i> {{data.phone}}</td>
+                            <td><i class="fa fa-mobile-phone"></i> {{data.mobile}}</td>
+                            <td colspan="2"><i class="fa fa-envelope-o"></i> {{data.email}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <i class="fa fa-map-marker"></i> {{data.company}}
+                            </td>
+                            <td colspan="2">
+                                <i class="fa fa-map-marker"></i> {{data.address}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <i class="fa fa-user"></i> {{data.emergencyContact}}
+                            </td>
+                            <td colspan="2">
+                                <i class="fa fa-phone"></i> {{data.emergencyPhone}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Order ID:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>{{data.regCode}}/{{data.conferenceFee}}</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Conference Fees:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>NGN {{ data.conferenceFee }}</h4>
+                            </th>
+                        </tr>
+                        <tr class="hidden-print">
+                            <td colspan="4" class="text-center">
+                                <button type="button" class="btn btn-danger pull-left" ng-click="back()"><i
+                                        class="fa fa-arrow-left"></i> GO BACK</button>
+                                <button ng-hide="data.completed" ng-click="payOnline()" class="btn btn-success"
+                                        type="button"><i
+                                        class="fa fa-play"></i> PAY ONLINE </button>
+                                <button ng-hide="data.completed" ng-click="manualPay()" class="btn btn-primary"
+                                        type="button"><i
+                                        class="fa fa-anchor"></i> PAY TO THE BANK </button>
+                                <button type="button" class="btn pull-right" onclick="window.print()"><i
+                                        class="fa fa-print"></i>
+                                    PRINT
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                        <input type="hidden" name="mercId" value="09948">
+                        <input type="hidden" name="currCode" value="566">
+                        <input type="hidden" name="amt" value="{{ data.conferenceFee }}">
+                        <input type="hidden" name="orderId" value="{{data.regCode}}/{{data.conferenceFee}}">
+                        <input type="hidden" name="prod" value="NBA AGC 2015 Registration for {{userName}}">
+                        <input type="hidden" name="email" value="{{data.email}}">
+                        <input type="hidden" name="submit" value="Pay">
+                    </form>
+                </div>
+            </div>
+
+            <div class="alert alert-info hidden-print" ng-show="pInfo">
+                <h3>Payment Instructions</h3>
                 <p>
                     Where does the template get inserted?
 
@@ -15,68 +101,10 @@
                     Right now, the 'contacts' state won't ever be activated. So let's see how we can activate a state.
 
                     Activating a state
-
-                    There are three main ways to activate a state:
-
-                    Call $state.go(). High-level convenience method. Learn More
-                    Click a link containing the ui-sref directive. Learn More
-                    Navigate to the url associated with the state. Learn More.
                 </p>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-8 col-sm-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">PAYMENT INVOICE</div>
-                </div>
-                <div class="panel-body">
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th colspan="3">FIRST NAME, M, LASTNAME</th>
-                            <td>ESQ.</td>
-                        </tr>
-                        <tr>
-                            <th><i class="fa fa-bullhorn"></i> 1976 </th>
-                            <th colspan="2"><i class="fa fa-money"></i> NGN 75, 000</th>
-                            <td><i class="fa fa-building"></i> LAGOS BRANCH </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><i class="fa fa-envelope-o"></i> somebody.anybody@example.com</td>
-                            <td colspan="2"><i class="fa fa-phone-square"></i> +1230900080004</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <i class="fa fa-map-marker"></i> This In-Depth Guide will take you through all aspects of the UI-Router and its components and options. If you just need a quick reference guide visit the API Reference
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" align="right">
-                                <h2>Payment Code:</h2>
-                            </th>
-                            <th colspan="2">
-                                <h2>A12F/75000</h2>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: bottom;">
-                                <button ng-hide="livePay" class="btn btn-block btn-success btn-lg"><i
-                                        class="fa fa-print"></i>
-                                    Print
-                                </button>
-                                <button ng-show="livePay" class="pull-right btn-block btn btn-lg btn-danger"
-                                        ng-click="livePay=false">Toggle
-                                </button>
-                            </td>
-                            <td colspan="3" class="text-right">
-                                <div ng-hide="livePay" class="label label-primary form-price">NGN 75,000</div>
-                                <button class="btn btn-block btn-lg btn-success" ng-show="livePay">Pay Now</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+
+        <div class="col-sm-4 hidden-print" ng-include="'components/rightInfo/rightInfo.html'"></div>
     </div>
 </div>

@@ -1,22 +1,85 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>Annual General Conference 2015</h1>
-    <p class="lead">Re-Building a Nation</p>
-      <a class="btn btn-primary btn-lg" ui-sref="registerAs">
-          <i class="fa fa-play"></i> Start Registration
-      </a>
-  </div>
-</header>
-
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Conference Information</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
-      </ul>
+        <div class="text-center">
+            <a class="btn btn-primary btn-lg" ng-click="startReg()">
+                {{!noneInProgress()?'Start':'Resume'}} Registration <i class="fa fa-play"></i>
+            </a>
+        </div>
+        <br>
+      <div class="row">
+          <div class="col-md-7">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <div class="panel-title">CONFERENCE FEES</div>
+                  </div>
+                  <div class="panel-body">
+                      <table class="table table-bordered table-striped table-condensed table-hover">
+                          <thead>
+                          <tr>
+                              <th style="vertical-align: middle;">Year (Age at the Bar)</th>
+                              <th class="text-center">Regular Fee<br><small class="text-danger">May 1st -
+                                  Aug. 21st</small></th>
+                              <th class="text-center">Onsite Fee<br><small class="text-danger">Aug. 22nd -
+                                  Aug. 28th</small></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                              <td>1-5 Years</td>
+                              <td class="text-center">N 8,000</td>
+                              <td class="text-center">N 15,000</td>
+                          </tr>
+                          <tr>
+                              <td>6-10 Years</td>
+                              <td class="text-center">N 15,000</td>
+                              <td class="text-center">N 25,000</td>
+                          </tr>
+                          <tr>
+                              <td>11-14 Years</td>
+                              <td class="text-center">N 20,000</td>
+                              <td class="text-center">N 40,000</td>
+                          </tr>
+                          <tr>
+                              <td>15-20 Years</td>
+                              <td class="text-center">N 30,000</td>
+                              <td class="text-center">N 50,000</td>
+                          </tr>
+                          <tr>
+                              <td>Above 20 Years</td>
+                              <td class="text-center">N 50,000</td>
+                              <td class="text-center">N 80,000</td>
+                          </tr>
+                          <tr>
+                              <td>SAN/AGS/Benchers</td>
+                              <td class="text-center">N 100,000</td>
+                              <td class="text-center">N 120,000</td>
+                          </tr>
+                          <tr>
+                              <td>Honourable Judges</td>
+                              <td class="text-center">N 75,000</td>
+                              <td class="text-center">N 75,000</td>
+                          </tr>
+                          <tr>
+                              <td>Magistrates</td>
+                              <td class="text-center">N 50,000</td>
+                              <td class="text-center">N 50,000</td>
+                          </tr>
+                          <tr>
+                              <td>Governors, Legislators & Political Appointees</td>
+                              <td class="text-center">N 250,000</td>
+                              <td class="text-center">N 250,000</td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-5" ng-include="'components/rightInfo/rightInfo.html'"></div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+  .controller('MainCtrl', function ($scope, $sessionStorage, $state) {
+    /*$scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
@@ -18,5 +18,12 @@ angular.module('nbaAgc2App')
 
     $scope.deleteThing = function(thing) {
       $http.delete('/api/things/' + thing._id);
-    };
+    };*/
+        $scope.startReg = function() {
+            if ($sessionStorage.lpRegistrant!=null && $sessionStorage.lpRegistrant!= undefined) {
+                $state.go($sessionStorage.lpRegistrant.registrationType);
+            } else {
+                $state.go("registerAs");
+            }
+        }
   });

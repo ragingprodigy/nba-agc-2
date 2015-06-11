@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage) {
+  .controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage, registration) {
 
         $scope.person = {};
         $scope.members = [];
@@ -9,11 +9,12 @@ angular.module('nbaAgc2App')
         if ($sessionStorage.lpRegistrant != null) {
 
             // Retrieve the data from the Server
-            $http.get('/api/registrations/'+$sessionStorage.lpRegistrant._id).success(function(regData){
+            registration.get({id: $sessionStorage.lpRegistrant._id}, function(regData){
                 $sessionStorage.lpRegistrant = regData;
                 // Set Some data in the browser cookie and on the server
                 $state.go('lawyerForm');
             });
+            //$http.get('/api/registrations/'+$sessionStorage.lpRegistrant._id).success();
         }
 
         // Ask for Name as it appears on Call to Bar Certificate!
@@ -32,8 +33,11 @@ angular.module('nbaAgc2App')
 
     $scope.details = function(person) {
         $scope.person.member = person._id;
+        $scope.person.branch = person.branch;
+        $scope.person.nbaId = person._id;
         // Notify the server that a registration has been started for the current user!
-        $http.post('/api/registrations', $scope.person ).success(function(registrationData) {
+        var reg = new registration($scope.person);
+        reg.$save().then(function(registrationData) {
 
             $sessionStorage.lpRegistrant = registrationData;
 

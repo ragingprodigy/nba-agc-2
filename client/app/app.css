@@ -27,6 +27,14 @@
     font-style: normal;
 }
 
+body {
+    background-color: #E5FFEF;
+}
+
+.navbar-default .navbar-brand {
+    color: #1A6E1A;
+}
+
 /**
  * App-wide Styles
  */
@@ -44,7 +52,7 @@
 }
 
 .form-price {
-    font-size: 170%;
+    font-size: 150%;
     font-weight: bolder;
     display: block;
     display: block;
@@ -52,4 +60,39 @@
 
 #navbar-main .btn.btn-danger {
     margin-top: 7px;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.ng-valid-required {
+    border-color: #00b700;
+}
+
+.ng-dirty.ng-invalid {
+    border-color: #ba0000;
+}
+
+#site-body {
+    margin-bottom: 100px;
+}
+
+table tr.space td {
+    padding: 0;
+}
+
+.text-white {
+    color: #FFF!important;
+}
+
+@media print {
+    .panel {
+        border: none;
+    }
+}
+
+.help-block {
+    color: #3C9891;
+    font-size: smaller;
 }

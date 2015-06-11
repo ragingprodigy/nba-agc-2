@@ -22,6 +22,8 @@ exports.show = function(req, res) {
 
 // Creates a new registration in the DB.
 exports.create = function(req, res) {
+
+    console.log(req.body);
     // Check the
   Registration.create(req.body, function(err, registration) {
     if(err) { return handleError(res, err); }
@@ -56,5 +58,5 @@ exports.destroy = function(req, res) {
 };
 
 function handleError(res, err) {
-  return res.send(500, err);
+  return res.status(500).send(err);
 }

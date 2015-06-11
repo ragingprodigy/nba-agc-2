@@ -5,6 +5,7 @@ var Member = require('./member.model');
 
 // Get the details of a member From either the Verified List or General List
 exports.verify = function(req, res) {
+
     var fn = new RegExp(req.body.firstName, 'i'),
         mn = new RegExp(req.body.middleName, 'i'),
         sn = new RegExp(req.body.surname, 'i'),

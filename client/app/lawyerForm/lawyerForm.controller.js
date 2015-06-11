@@ -9,15 +9,17 @@ angular.module('nbaAgc2App')
         } else
             $state.go('legalPractitioner');
 
-    $scope.reviewForm = function() {
+        $scope.reviewForm = function() {
 
-        if (confirm("Are you sure?")) {
+            if (confirm("Are you sure?")) {
 
-            // Update the Registration Information
-            registration.update({id: $scope.data._id}, $scope.data);
+                $scope.data.formFilled = true;
 
-            // User wants to Pay now!
-            $state.go('invoice');
-        }
-    };
+                // Update the Registration Information
+                registration.update({id: $scope.data._id}, $scope.data);
+
+                // User wants to Pay now!
+                $state.go('invoice');
+            }
+        };
   });

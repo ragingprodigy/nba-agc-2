@@ -4,8 +4,17 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     Member = require('../member/member.model');
 
+var pRef = function (ct) {
+    ct = ct||5;
+    var text = "",
+        possible = "ABCDEFGHJKLMNPQRSTUVWXY0123456789";
+    for( var i=0; i < ct; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+};
+
 var RegistrationSchema = new Schema({
-  member: Schema.ObjectId,
+  member: { type:String, default: 0 },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
   middleName:  { type:String, default: "" },
@@ -19,6 +28,15 @@ var RegistrationSchema = new Schema({
   court:  { type:String, default: "" },
   state:  { type:String, default: "" },
   division:  { type:String, default: "" },
+  branch:  { type:String, default: "" },
+  yearCalled: {
+      type: String,
+      default: 1960
+  },
+  regCode: {
+      type:String,
+      default: pRef()
+  },
   registrationType: {
       type:String,
       default: "legalPractitioner"
@@ -29,9 +47,9 @@ var RegistrationSchema = new Schema({
       type: Number,
       default: 0
   },
-  yearCalled: {
-      type: Number,
-      default: 1960
+  formFilled: {
+      type: Boolean,
+      default: false
   },
   completed: {
       type: Boolean,

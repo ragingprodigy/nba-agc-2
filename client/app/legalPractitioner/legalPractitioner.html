@@ -5,26 +5,24 @@
         <div class="col-sm-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">LEGAL PRACTITIONER</div>
+                    <div class="panel-title">
+                        LEGAL PRACTITIONER
+                        <a ui-sref="registerAs" class="btn btn-danger btn-xs pull-right text-white"><i
+                                class="fa fa-backward"></i> Go Back</a>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <form method="post" name="dataForm" ng-hide="showForm2" ng-submit="dataForm.$valid && nextForm()">
 
-                        <div class="alert alert-info">
+                        <div class="alert alert-success">
                             <i class="glyphicon glyphicon-chevron-down"></i> Please Enter your name below
                         </div>
 
                         <div class="row">
                             <div class="col-md-2">
                                 <label for="prefix">Prefix</label>
-                                <select name="prefix" id="prefix" ng-model="person.prefix" class="form-control" required autofocus>
-                                    <option>Dr.</option>
-                                    <option>Prof.</option>
-                                    <option>Mr.</option>
-                                    <option>Mrs.</option>
-                                    <option>Ms.</option>
-                                    <option>Chief</option>
-                                </select>
+                                <input type="text" name="prefix" id="prefix" ng-model="person.prefix"
+                                       class="form-control" required autofocus>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -49,9 +47,8 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="suffix">Suffix</label>
-                                <select name="suffix" id="suffix" ng-model="person.suffix" class="form-control">
-                                    <option>ESQ</option>
-                                </select>
+                                <input type="text" name="suffix" id="suffix" ng-model="person.suffix"
+                                       class="form-control">
                             </div>
                         </div>
 
@@ -67,29 +64,49 @@
 
                     <form method="post" name="dataForm2" ng-show="showForm2" ng-submit="dataForm2.$valid && doLookup()">
 
-                        <div class="alert alert-info">
+                        <div class="alert alert-danger">
                             <i class="glyphicon glyphicon-chevron-down"></i> Enter your Last Name as it appears on your Call to Bar Certificate
                         </div>
 
-                        <div class="form-group">
-                            <label for="_surname">Surname</label>
-                            <input class="form-control" type="text" name="surname" id="_surname"
-                                   ng-model="person.nb_surname"
-                                   placeholder="Surname" required>
+                        <div class="row">
+                            <div ng-class="{'col-md-6': showTable, 'col-md-12': !showTable}">
+                                <div class="form-group">
+                                    <label for="_surname">Surname <span class="required">*</span> </label>
+                                    <input class="form-control" type="text" name="surname" id="_surname"
+                                           ng-model="person.nb_surname"
+                                           placeholder="Surname" required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit"  ng-disabled="dataForm2.$invalid"
+                                            class="btn btn-block btn-success" ng-submit="dataForm2.$valid && doLookup()"> <i
+                                            class="fa fa-play"></i>
+                                        FETCH NAMES
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="showTable">
+                                <div class="form-group">
+                                    <label for="_surname">Filter</label>
+                                    <input class="form-control" type="text" name="surname" id="_filter"
+                                           ng-model="nameFilter"
+                                           placeholder="Filter the Results">
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="text-center">
-                            <button type="submit"  ng-disabled="dataForm2.$invalid"
-                                    class="btn btn-block btn-success" ng-submit="dataForm2.$valid && doLookup()"> <i
-                                    class="fa fa-play"></i>
-                                Next
-                            </button>
-                        </div>
                     </form>
 
                     <hr>
 
                     <table class="table table-bordered table-striped table-hover" ng-show="showTable">
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-success">
+                                    Select your name from the list below. In the event that the list is long, you can
+                                    filter it by your <b>year of call</b> or <b>other names</b> using the textbox above.
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <th>S/N</th>
                             <th>Surname</th>
@@ -98,7 +115,7 @@
                             <th>Called to Bar</th>
                             <th class="col-sm-1"></th>
                         </tr>
-                        <tr ng-repeat="member in members">
+                        <tr ng-repeat="member in members | filter: nameFilter">
                             <td>{{$index+1}}.</td>
                             <td>{{member.surname}}</td>
                             <td>{{member.middleName}}</td>
@@ -106,7 +123,7 @@
                             <td>{{member.yearCalled}}</td>
                             <td>
                                 <button class="btn btn-xs btn-success" ng-click="details(member)"><i
-                                    class="fa fa-check"></i></button>
+                                    class="fa fa-check"></i> SELECT</button>
                             </td>
                         </tr>
                     </table>
