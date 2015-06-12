@@ -18,6 +18,12 @@ exports.postPay = function(req, res) {
   });
 };
 
+exports.fetch = function (req, res) {
+  
+  console.log(req.user);
+
+  res.send([]);
+};
 
 // Get list of registrations
 exports.index = function(req, res) {

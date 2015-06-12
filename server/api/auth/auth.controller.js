@@ -61,10 +61,13 @@ exports.signUp = function(req, res) {
 };
 
 exports.signIn = function(req, res) {
+    console.log(req.body);
+
     User.findOne({ email: req.body.email }, '+password', function(err, user) {
         if (!user) {
             return res.status(401).send({ message: 'Wrong email and/or password' });
         }
+
         user.validPassword(req.body.password, function(err, isMatch) {
             if (!isMatch) {
                 return res.status(401).send({ message: 'Wrong email and/or password' });

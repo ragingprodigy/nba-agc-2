@@ -3,7 +3,8 @@
  */
 'use strict';
 
-var jwt = require('jwt-simple');
+var jwt = require('jwt-simple'),
+    moment = require('moment');
 
 /*
  |--------------------------------------------------------------------------
