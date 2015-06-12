@@ -4,14 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     Member = require('../member/member.model');
 
-var pRef = function (ct) {
-    ct = ct||5;
-    var text = "",
-        possible = 'ABCDEFGHJKLMNPQRSTUVWXY123456789';
-    for( var i=0; i < ct; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-};
+var pRef = require('../../components/tools/pRef');
 
 var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
@@ -26,6 +19,7 @@ var RegistrationSchema = new Schema({
   mobile:  { type:String, default: "" },
   address:  { type:String, default: "" },
   company:  { type:String, default: "" },
+  designation:  { type:String, default: "" },
   court:  { type:String, default: "" },
   state:  { type:String, default: "" },
   division:  { type:String, default: "" },
@@ -44,6 +38,11 @@ var RegistrationSchema = new Schema({
   },
   emergencyContact:  { type:String, default: "" },
   emergencyPhone:  { type:String, default: "" },
+  group:  {
+      san: { type: Boolean, default: false },
+      ag: { type: Boolean, default: false },
+      bencher: { type: Boolean, default: false }
+  },
   conferenceFee: {
       type: Number,
       default: 0
@@ -56,17 +55,40 @@ var RegistrationSchema = new Schema({
       type: Boolean,
       default: false
   },
+  paymentSuccessful: {
+      type: Boolean,
+      default: false
+  },
   lastModified: {
       type: Date,
       default: Date.now
-  }
+  },
+
+    TransactionRef:  { type:String, default: "" },
+    PaymentRef:  { type:String, default: "" },
+    PaymentGate:  { type:String, default: "" },
+    Status:  { type:String, default: "" },
+    ResponseCode:  { type:String, default: "" },
+    ResponseDescription:  { type:String, default: "" },
+    DateTime:  { type:String, default: "" },
+    Amount:  { type:String, default: "" },
+    AmountDiscrepancyCode:  { type:String, default: "" },
+    bankAccount:  { type:String, default: "" },
+    bankDeposit:  { type:Number, default: 0 },
+    bankDatePaid:  { type:String, default: "" }
 });
 
+RegistrationSchema.statics.pRef = pRef;
+
 RegistrationSchema.post('save', function(entry){
+
+
+    var Registration = entry.constructor;
+
    if (entry.registrationType === 'legalPractitioner') {
        // Calculate the cost and save
        Member.findById(entry.member, function(err, member){
-           if (err) return;
+           if (!!err) return;
            var currentYear = new Date().getFullYear();
            var atTheBar = currentYear - member.yearCalled;
            var feeDue = 50000;
@@ -76,10 +98,12 @@ RegistrationSchema.post('save', function(entry){
            else if (atTheBar <= 14) { feeDue = 20000; }
            else if (atTheBar <= 20) { feeDue = 30000; }
 
-           entry.lastModified = new Date();
-           entry.yearCalled = member.yearCalled;
-           entry.conferenceFee = feeDue;
-           entry.save();
+           Registration.update({ _id: entry._id }, { $set: { yearCalled: member.yearCalled } }, function(e){
+            return;
+           });
+           Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue} }, function(e){
+            return;
+           });
        });
    } else {
        var feeDue = 0;
@@ -99,9 +123,9 @@ RegistrationSchema.post('save', function(entry){
                break;
        }
 
-       entry.lastModified = new Date();
-       entry.conferenceFee = feeDue;
-       entry.save();
+       Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue } }, function(e){
+          return;
+       });
    }
 });
 

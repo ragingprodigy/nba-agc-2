@@ -4,15 +4,42 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt   = require('bcrypt-nodejs');
 
+var pRef = require('../../components/tools/pRef');
+
 // define the schema for our user model
 var userSchema = new Schema({
 
-    email        : String,
-    password     : String
+    email : {
+        type: String,
+        unique: true,
+        lowercase: true
+    },
+    password     : {
+        type: String,
+        select: false
+    },
+    resetToken: {
+        type: String,
+        default: ""
+    },
+    tokenExpires: {
+        type: Date,
+        default: Date.now
+    },
+    lastModified: {
+        type: Date,
+        default: Date.now
+    }
 
 });
 
 // methods ======================
+// Generate passwordReset token
+userSchema.statics.randomString = function(size) {
+    size = size || 32;
+    return pRef(size);
+};
+
 // generating a hash
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

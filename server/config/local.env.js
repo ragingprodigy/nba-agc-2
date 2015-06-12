@@ -9,7 +9,8 @@ module.exports = {
     DOMAIN: 'http://localhost:9000',
     SESSION_SECRET: "nbaagc2-se78683*&^*hg3j5cret",
     // Control debug level for modules using visionmedia/debug
-    DEBUG: ''
+    DEBUG: '',
+    MANDRILL_API_KEY: '9UAR7iFKFPiZy9fGAJ0lLw'
 
     /*STORMPATH_API_KEY_ID: '6GVSYRJZ6I4M7XYT8X0UKIJFA',
     STORMPATH_API_KEY_SECRET: 'Yj+BTI3+YGITPI3aoRhBP6kuHOSJY1cVD17yiBbV1xM',

@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var Registration = require('./registration.model');
+var User = require('../user/user.model');
+
 
 // Get list of registrations
 exports.index = function(req, res) {
@@ -22,12 +24,10 @@ exports.show = function(req, res) {
 
 // Creates a new registration in the DB.
 exports.create = function(req, res) {
-
-    console.log(req.body);
     // Check the
   Registration.create(req.body, function(err, registration) {
     if(err) { return handleError(res, err); }
-    return res.json(201, registration);
+    return res.status(201).json(registration);
   });
 };
 
@@ -40,7 +40,7 @@ exports.update = function(req, res) {
     var updated = _.merge(registration, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, registration);
+      return res.status(200).json(registration);
     });
   });
 };
@@ -50,13 +50,26 @@ exports.destroy = function(req, res) {
   Registration.findById(req.params.id, function (err, registration) {
     if(err) { return handleError(res, err); }
     if(!registration) { return res.send(404); }
-    registration.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
+      //Remove User for this Registration
+      User.findById(registration.user, function(err, user){
+          if (!registration.completed) {
+              if (user) {
+                  user.remove();
+              }
+
+              registration.remove(function(err) {
+                  if(err) { return handleError(res, err); }
+                  return res.send(204);
+              });
+          } else {
+              return res.send(204);
+          }
+      });
+
   });
 };
 
 function handleError(res, err) {
+    console.log(err);
   return res.status(500).send(err);
 }

@@ -14,6 +14,10 @@ var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var passport = require('passport');
 var path = require('path');
+var cors = require('cors');
+var logger = require('morgan');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 var session = require('express-session');
 var config = require('./environment');
 
@@ -23,6 +27,7 @@ module.exports = function(app) {
   app.set('views', config.root + '/server/views');
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
+  app.use(cors());
   app.use(compression());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
