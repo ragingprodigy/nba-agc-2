@@ -12,6 +12,10 @@ module.exports = function(app) {
 
     app.use('/auth', require('./api/auth'));
 
+    app.get('/mu-e356046b-19ab9d8f-60de6263-b400f9e0', function(req, res){
+      res.send(42);
+    });
+
   // Insert routes below
   app.use('/api/users', require('./api/user'));
   app.use('/api/registrations', require('./api/registration'));
