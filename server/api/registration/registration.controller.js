@@ -44,6 +44,9 @@ exports.show = function(req, res) {
 
 // Creates a new registration in the DB.
 exports.create = function(req, res) {
+
+  req.body.regCode = Registration.pRef(5);
+  
     // Check the
   Registration.create(req.body, function(err, registration) {
     if(err) { return handleError(res, err); }

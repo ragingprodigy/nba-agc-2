@@ -37,8 +37,8 @@ var RegistrationSchema = new Schema({
       type:String,
       default: "legalPractitioner"
   },
-  emergencyContact:  { type:String, default: "" },
-  emergencyPhone:  { type:String, default: "" },
+  /*emergencyContact:  { type:String, default: "" },
+  emergencyPhone:  { type:String, default: "" },*/
   group:  {
       san: { type: Boolean, default: false },
       ag: { type: Boolean, default: false },
@@ -64,19 +64,19 @@ var RegistrationSchema = new Schema({
       type: Date,
       default: Date.now
   },
-
-    TransactionRef:  { type:String, default: "" },
-    PaymentRef:  { type:String, default: "" },
-    PaymentGate:  { type:String, default: "" },
-    Status:  { type:String, default: "" },
-    ResponseCode:  { type:String, default: "" },
-    ResponseDescription:  { type:String, default: "" },
-    DateTime:  { type:String, default: "" },
-    Amount:  { type:String, default: "" },
-    AmountDiscrepancyCode:  { type:String, default: "" },
-    bankAccount:  { type:String, default: "" },
-    bankDeposit:  { type:Number, default: 0 },
-    bankDatePaid:  { type:String, default: "" }
+  
+  TransactionRef:  { type:String, default: "" },
+  PaymentRef:  { type:String, default: "" },
+  PaymentGate:  { type:String, default: "" },
+  Status:  { type:String, default: "" },
+  ResponseCode:  { type:String, default: "" },
+  ResponseDescription:  { type:String, default: "" },
+  DateTime:  { type:String, default: "" },
+  Amount:  { type:String, default: "" },
+  AmountDiscrepancyCode:  { type:String, default: "" },
+  bankAccount:  { type:String, default: "" },
+  bankDeposit:  { type:Number, default: 0 },
+  bankDatePaid:  { type:String, default: "" }
 });
 
 RegistrationSchema.statics.pRef = pRef;

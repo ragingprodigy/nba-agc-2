@@ -7,6 +7,8 @@ var mandrill = require('mandrill-api');
 var RegistrationMailError = require('../../api/registration/registration.mail.error.model');
 var RegistrationMail = require('../../api/registration/registration.mail.model');
 
+var request = require('request');
+
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_API_KEY);
 var message = {
     "html": '',
@@ -37,6 +39,21 @@ var sendMessage = function(message, callback) {
     mandrill_client.messages.send({"message": message}, function(result) {
 
         callback(result);
+
+    });
+};
+
+exports.sendRegistrationText = function(registration, next) {
+    var message = 'Congratulations '+ registration.firstName +', your registration has been received!';
+
+    request('http://www.smslive247.com/http/index.aspx?cmd=sendquickmsg&owneremail='+process.env.SMS_OWNER_EMAIL+'&subacct='+process.env.SMS_SUB_ACCOUNT+'&subacctpwd='+process.env.SMS_SUB_ACCOUNT_PASSWORD+'&message='+message+'&sender='+process.env.SMS_SENDER+'&sendto='+registration.mobile+'&msgtype='+process.env.SMS_MSG_TYPE, function(error, resp, body) {
+
+        if (!error && resp.statusCode === 200) {
+          next(null, body);
+        } else {
+          console.log(error);
+          next(error);
+        }
 
     });
 };

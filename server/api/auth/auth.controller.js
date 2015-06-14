@@ -23,40 +23,63 @@ exports.signUp = function(req, res) {
 
     User.findOne({ email: req.body.email }, function(err, existingUser) {
         if (existingUser) {
-            return res.status(409).send({ message: 'Email Address is already taken. If you have registered before, please sign in using the Login button at the top of your screen. If not, please go back and put in a different email address.' });
-        }
-        var newPass = User.randomString(8);
-
-        var user = new User();
-
-        user.email = req.body.email;
-        user.password = user.generateHash(newPass);
-
-        user.save(function() {
-
+            // Allow users to register more than once
             Registration.findById(req.body._id, function(err, registration){
                 if (registration) {
                     registration.user = user._id;
                     registration.save(function () {
 
-                        // Send Email to the User Here
-                        mailer.sendWelcomeMail(registration.email, newPass, function(err){
-                            if (err !== null) { return handleError(res, err); }
-
-                            res.send({ token: createJWT(user) });
-                        });
+                       res.send({ token: createJWT(user) });
                     });
                 } else {
 
-                    // Remove Account
-                    user.remove(function(){
-                        res.send({'error':'account created but reg not found!'});
-                    });
+                    res.send({'message':'Registration info not found!'});
 
                 }
             });
 
-        });
+            //return res.status(409).send({ message: 'Email Address is already taken. If you have registered before, please sign in using the Login button at the top of your screen. If not, please go back and put in a different email address.' });
+        } else {
+
+            var newPass = User.randomString(8);
+
+            var user = new User();
+
+            user.email = req.body.email;
+            user.password = user.generateHash(newPass);
+
+            user.save(function() {
+
+                Registration.findById(req.body._id, function(err, registration){
+                    if (registration) {
+                        registration.user = user._id;
+                        registration.save(function () {
+
+                            // Send Email to the User Here
+                            mailer.sendWelcomeMail(registration.email, newPass, function(err){
+                                if (err !== null) { return handleError(res, err); }
+
+                                // Send the text message
+                                mailer.sendRegistrationText(registration, function(error, respponse){
+                                    if (error!==null) { return handleError(res, error); }
+                                    
+                                    res.send({ token: createJWT(user) });
+                                });
+                        
+                            });
+                        });
+                    } else {
+
+                        // Remove Account
+                        user.remove(function(){
+                            res.send({'error':'account created but reg not found!'});
+                        });
+
+                    }
+                });
+
+            });
+        }
     });
 };
 

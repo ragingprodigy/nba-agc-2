@@ -10,7 +10,13 @@ module.exports = {
     SESSION_SECRET: "nbaagc2-se78683*&^*hg3j5cret",
     // Control debug level for modules using visionmedia/debug
     DEBUG: '',
-    MANDRILL_API_KEY: '9UAR7iFKFPiZy9fGAJ0lLw'
+    MANDRILL_API_KEY: '9UAR7iFKFPiZy9fGAJ0lLw',
+
+    SMS_OWNER_EMAIL: '',
+    SMS_SUB_ACCOUNT: '',
+    SMS_SUB_ACCOUNT_PASSWORD: '',
+    SMS_SENDER: 'NBA-AGC2015',
+    SMS_MSG_TYPE: 0
 
     /*STORMPATH_API_KEY_ID: '6GVSYRJZ6I4M7XYT8X0UKIJFA',
     STORMPATH_API_KEY_SECRET: 'Yj+BTI3+YGITPI3aoRhBP6kuHOSJY1cVD17yiBbV1xM',
