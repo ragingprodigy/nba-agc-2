@@ -12,9 +12,9 @@ module.exports = {
     DEBUG: '',
     MANDRILL_API_KEY: '9UAR7iFKFPiZy9fGAJ0lLw',
 
-    SMS_OWNER_EMAIL: '',
-    SMS_SUB_ACCOUNT: '',
-    SMS_SUB_ACCOUNT_PASSWORD: '',
+    SMS_OWNER_EMAIL: 'benedicta.moha@lawpavilion.com',
+    SMS_SUB_ACCOUNT: 'NBA-AGC',
+    SMS_SUB_ACCOUNT_PASSWORD: 'graceLIMITED12',
     SMS_SENDER: 'NBA-AGC2015',
     SMS_MSG_TYPE: 0
 
