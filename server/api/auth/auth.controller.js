@@ -66,7 +66,7 @@ exports.signUp = function(req, res) {
                                 if (err !== null) { return handleError(res, err); }
 
                                 // Send the text message
-                                mailer.sendRegistrationText(registration, function(error, respponse){
+                                mailer.sendRegistrationText(registration, newPass, function(error, respponse){
 
                                     console.log('SMS Send Response: ', respponse);
                                     
