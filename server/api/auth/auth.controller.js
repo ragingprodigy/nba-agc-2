@@ -59,12 +59,14 @@ exports.signUp = function(req, res) {
                             mailer.sendWelcomeMail(registration.email, newPass, function(err){
                                 if (err !== null) { return handleError(res, err); }
 
+                                res.send({ token: createJWT(user) });
+
                                 // Send the text message
-                                mailer.sendRegistrationText(registration, function(error, respponse){
+                                /*mailer.sendRegistrationText(registration, function(error, respponse){
                                     if (error!==null) { return handleError(res, error); }
                                     
                                     res.send({ token: createJWT(user) });
-                                });
+                                });*/
                         
                             });
                         });

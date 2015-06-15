@@ -8,13 +8,17 @@ var User = require('../user/user.model');
 
 exports.postPay = function(req, res) {
 
-  request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID =09948&ORDER_ID=' + req.body.orderID + '&CURR_CODE=566&AMOUNT='+ req.body.amount, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-      res.send(body);
-    } else {
-      console.log(error);
-      res.send(error);
-    }
+  Registration.findById(req.body._id, function (err, registration) {
+
+    if(err) { return handleError(res, err); }
+
+    request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID=09948&ORDER_ID=' + registration.regCode+'-'+ registration.conferenceFee + '&CURR_CODE=566&AMOUNT='+ registration.conferenceFee, function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+        res.send(body);
+      } else {
+        handleError(res, error);
+      }
+    });
   });
 };
 
@@ -46,7 +50,7 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
 
   req.body.regCode = Registration.pRef(5);
-  
+
     // Check the
   Registration.create(req.body, function(err, registration) {
     if(err) { return handleError(res, err); }
