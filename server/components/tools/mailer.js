@@ -44,7 +44,8 @@ var sendMessage = function(message, callback) {
 };
 
 exports.sendRegistrationText = function(registration, password, next) {
-    var message = 'Dear '+ registration.firstName +', Registration Successful! Visit http://tinyurl.com/osyyhpu to login. Username: '+ registration.email +', password: '+ password;
+    //var message = 'Dear '+ registration.firstName +', Registration Successful! Visit http://tinyurl.com/osyyhpu to login. Username: '+ registration.email +', password: '+ password;
+    var message = 'Dear '+ registration.firstName +', Registration Successful! Visit https://nba-agc.org/myaccount to login. Username: '+ registration.email +', password: '+ password;
 
     request('http://www.smslive247.com/http/index.aspx?cmd=sendquickmsg&owneremail='+process.env.SMS_OWNER_EMAIL+'&subacct='+process.env.SMS_SUB_ACCOUNT+'&subacctpwd='+process.env.SMS_SUB_ACCOUNT_PASSWORD+'&message='+message+'&sender='+process.env.SMS_SENDER+'&sendto='+registration.mobile+'&msgtype='+process.env.SMS_MSG_TYPE, function(error, resp, body) {
 
