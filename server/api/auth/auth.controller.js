@@ -27,7 +27,7 @@ exports.signUp = function(req, res) {
             console.log('Found User: ', existingUser);
 
             // Allow users to register more than once
-            Registration.findById(req.body._id, function(err, registration){
+            /*Registration.findById(req.body._id, function(err, registration){
                 if (registration) {
 
                     console.log('Found User Registration: ', registration);
@@ -42,9 +42,9 @@ exports.signUp = function(req, res) {
                     res.send({'message':'Registration info not found!'});
 
                 }
-            });
+            });*/
 
-            //return res.status(409).send({ message: 'Email Address is already taken. If you have registered before, please sign in using the Login button at the top of your screen. If not, please go back and put in a different email address.' });
+            return res.status(409).send({ message: 'This Email Address has been used. If you have registered before, please sign in using the Login button at the top of your screen. If not, please go back and put in a different email address.' });
         } else {
 
             var newPass = User.randomString(8);
