@@ -26,10 +26,10 @@ exports.signUp = function(req, res) {
             // Allow users to register more than once
             Registration.findById(req.body._id, function(err, registration){
                 if (registration) {
-                    registration.user = user._id;
+                    registration.user = existingUser._id;
                     registration.save(function () {
 
-                       res.send({ token: createJWT(user) });
+                       res.send({ token: createJWT(existingUser) });
                     });
                 } else {
 
