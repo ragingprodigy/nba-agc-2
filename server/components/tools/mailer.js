@@ -51,7 +51,7 @@ exports.sendRegistrationText = function(registration, next) {
         if (!error && resp.statusCode === 200) {
           next(null, body);
         } else {
-          console.log(error);
+          console.log('SMS Error: ', error);
           next(error);
         }
 

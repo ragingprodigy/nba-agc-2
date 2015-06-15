@@ -67,6 +67,9 @@ exports.signUp = function(req, res) {
 
                                 // Send the text message
                                 mailer.sendRegistrationText(registration, function(error, respponse){
+
+                                    console.log('SMS Send Response: ', respponse);
+                                    
                                     if (error!==null) { return handleError(res, error); }
                                     
                                     res.send({ token: createJWT(user) });
