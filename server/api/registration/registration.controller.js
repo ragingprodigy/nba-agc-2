@@ -8,7 +8,7 @@ var User = require('../user/user.model');
 
 exports.postPay = function(req, res) {
 
-  request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID=09948&ORDER_ID=' + req.body.orderID + '&CURR_CODE=566&AMOUNT='+ req.body.amount , function (error, response, body) {
+  request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID=09948&ORDER_ID=' + req.body.orderID + '&CURR_CODE=566&AMOUNT='+ 30 , function (error, response, body) {
     if (!error && response.statusCode === 200) {
       res.send(body);
     } else {
