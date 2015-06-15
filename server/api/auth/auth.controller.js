@@ -23,9 +23,15 @@ exports.signUp = function(req, res) {
 
     User.findOne({ email: req.body.email }, function(err, existingUser) {
         if (existingUser) {
+
+            console.log('Found User: ', existingUser);
+
             // Allow users to register more than once
             Registration.findById(req.body._id, function(err, registration){
                 if (registration) {
+
+                    console.log('Found User Registration: ', registration);
+                    
                     registration.user = existingUser._id;
                     registration.save(function () {
 
