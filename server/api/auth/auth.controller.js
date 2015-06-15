@@ -62,7 +62,7 @@ exports.signUp = function(req, res) {
                         registration.save(function () {
 
                             // Send Email to the User Here
-                            mailer.sendWelcomeMail(registration.email, newPass, function(err){
+                            mailer.sendWelcomeMail(registration, newPass, function(err){
                                 if (err !== null) { return handleError(res, err); }
 
                                 // Send the text message
