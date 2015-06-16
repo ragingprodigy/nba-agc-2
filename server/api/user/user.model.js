@@ -22,6 +22,7 @@ var userSchema = new Schema({
         type: String,
         default: ''
     },
+    phone: { type: String, default: '' },
     accountType: {
         type: String,
         default: 'single'

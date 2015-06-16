@@ -8,7 +8,7 @@ var pRef = require('../../components/tools/pRef');
 
 var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
-  user: { type:String, default: 0 },
+  user: { type:String, default: "" },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
   middleName:  { type:String, default: "" },
@@ -95,7 +95,7 @@ RegistrationSchema.post('save', function(entry){
     var Registration = entry.constructor;
 
 
-    if (entry.ResponseCode === '00') {
+    if (['00', '0', '001', 'APPROVED'].indexOf(entry.ResponseCode) !== -1) {
         
         Registration.update({ _id: entry._id }, { $set: { statusConfirmed: true } }, function(e){
            console.log(e);

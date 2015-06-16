@@ -12,10 +12,33 @@ function createJWT(user) {
     var payload = {
         sub: user._id,
         email: user.email,
+        accountType: user.accountType,
+        groupName: user.groupName!==undefined?user.groupName:null,
         iat: moment().unix(),
         exp: moment().add(14, 'days').unix()
     };
     return jwt.encode(payload, process.env.SESSION_SECRET);
+}
+
+function createGroupAccount(req, res) {
+    var newPass = req.body.password
+    var user = new User();
+
+    user.email = req.body.email;
+    user.password = user.generateHash(newPass);
+    user.groupName = req.body.groupName;
+    user.phone = req.body.phone;
+
+    user.save(function(err) {
+        // Send Email to the User Here
+        mailer.sendWelcomeMail(user, newPass, function(err){
+
+            if (err !== null) { return handleError(res, err); }
+            return res.status(200).json({ message: 'Account created successfully!' });
+    
+        });
+    });
+
 }
 
 exports.confirmReset = function(req, res){
@@ -109,8 +132,6 @@ exports.signUp = function(req, res) {
     User.findOne({ email: req.body.email }, function(err, existingUser) {
         if (existingUser) {
 
-            console.log('Found User: ', existingUser);
-
             // Allow users to register more than once
             /*Registration.findById(req.body._id, function(err, registration){
                 if (registration) {
@@ -129,8 +150,10 @@ exports.signUp = function(req, res) {
                 }
             });*/
 
-            return res.status(409).send({ message: 'This Email Address has been used. If you have registered before, please sign in using the Login button at the top of your screen. If not, please go back and put in a different email address.' });
+            return res.status(409).send({ message: 'This Email Address has been used. If you have registered before, please sign in using the Login button at the top of your screen. If not, please use a different email address.' });
         } else {
+
+            if (req.body.accountType!==undefined && req.body.accountType === 'group') { return createGroupAccount(req, res); }
 
             var newPass = User.randomString(8);
 
@@ -144,16 +167,16 @@ exports.signUp = function(req, res) {
                 Registration.findById(req.body._id, function(err, registration){
                     if (registration) {
                         registration.user = user._id;
-                        registration.save(function () {
+                        registration.save(function ( err ) {
+
+                            if (err) { return handleError(res, err); }
 
                             // Send Email to the User Here
                             mailer.sendWelcomeMail(registration, newPass, function(err){
                                 if (err !== null) { return handleError(res, err); }
 
                                 // Send the text message
-                                mailer.sendRegistrationText(registration, newPass, function(error, respponse){
-
-                                    console.log('SMS Send Response: ', respponse);
+                                mailer.sendRegistrationText(registration, newPass, function(error){
                                     
                                     if (error!==null) { return handleError(res, error); }
                                     
@@ -214,5 +237,6 @@ exports.view = function(req, res) {
 };
 
 function handleError(res, err) {
+    console.log('Auth Endpoint Error: ',err);
   return res.send(500, err);
 }
