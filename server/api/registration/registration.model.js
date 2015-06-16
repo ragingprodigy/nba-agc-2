@@ -56,6 +56,14 @@ var RegistrationSchema = new Schema({
       type: Boolean,
       default: false
   },
+  webpay: {
+      type: Boolean,
+      default: false
+  },
+  bankpay: {
+      type: Boolean,
+      default: false
+  },
   paymentSuccessful: {
       type: Boolean,
       default: false
@@ -67,7 +75,7 @@ var RegistrationSchema = new Schema({
   
   TransactionRef:  { type:String, default: "" },
   PaymentRef:  { type:String, default: "" },
-  PaymentGate:  { type:String, default: "" },
+  PaymentGateway:  { type:String, default: "" },
   Status:  { type:String, default: "" },
   ResponseCode:  { type:String, default: "" },
   ResponseDescription:  { type:String, default: "" },
@@ -76,15 +84,26 @@ var RegistrationSchema = new Schema({
   AmountDiscrepancyCode:  { type:String, default: "" },
   bankAccount:  { type:String, default: "" },
   bankDeposit:  { type:Number, default: 0 },
-  bankDatePaid:  { type:String, default: "" }
+  bankDatePaid:  { type:String, default: "" },
+  statusConfirmed: { type: Boolean, default: false }
 });
 
 RegistrationSchema.statics.pRef = pRef;
 
 RegistrationSchema.post('save', function(entry){
 
-
     var Registration = entry.constructor;
+
+
+    if (entry.ResponseCode === '00') {
+        
+        Registration.update({ _id: entry._id }, { $set: { statusConfirmed: true } }, function(e){
+           console.log(e);
+         });
+        Registration.update({ _id: entry._id }, { $set: { paymentSuccessful: true } }, function(e){
+           console.log(e);
+         });
+    }
 
    if (entry.registrationType === 'legalPractitioner') {
        // Calculate the cost and save

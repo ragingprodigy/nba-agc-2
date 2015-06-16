@@ -8,6 +8,7 @@ var sessionSec = require('../../components/tools/sessionSec');
 var router = express.Router();
 
 router.get('/me', sessionSec, controller.fetch);
+router.post('/webPayStatus', sessionSec, controller.webPayStatus);
 router.get('/', sessionSec, controller.index);
 
 router.get('/:id', controller.show);

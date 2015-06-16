@@ -9,6 +9,10 @@ var sessionSec = require('../../components/tools/sessionSec');
 
 router.post('/signup', controller.signUp);
 router.post('/login', controller.signIn);
+router.post('/recoverPassword', controller.recovery);
+router.post('/confirmResetRequest', controller.confirmReset);
+router.post('/changePassword', controller.changePassword);
+
 router.get('/me', sessionSec, controller.view);
 router.put('/me', sessionSec, controller.update);
 

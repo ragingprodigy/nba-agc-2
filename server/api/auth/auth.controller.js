@@ -18,6 +18,91 @@ function createJWT(user) {
     return jwt.encode(payload, process.env.SESSION_SECRET);
 }
 
+exports.confirmReset = function(req, res){
+
+    if (req.body.member === undefined || req.body.token === undefined) { return res.status(401).json({message: 'Invalid password reset request. Please go through the password recovery process again.' }); }
+
+    User.findOne({ _id: req.body.member, resetToken: req.body.token }, function(err, theUser) {
+        if (err) { handleError(res, err); }
+
+        if (theUser) {
+
+            if (moment().isBefore(theUser.tokenExpires)) {
+
+                return res.status(200).json(theUser);
+
+            } else {
+
+                return res.status(401).json({message: 'Your password reset request has expired. Please make the request again.!'});
+            }
+
+        } else {
+            return res.status(404).send({ message: 'Invalid request!' });
+        }
+    });
+};
+
+exports.changePassword = function (req, res) {
+    console.log(req.body);
+
+    if (req.body.password === undefined || req.body.user === undefined) { return res.status(400).json({message: 'Invalid password reset request. Please go through the password recovery process again.' }); }
+
+    User.findById( req.body.user._id, '+password', function(err, theUser) {
+        if (err) { handleError(res, err); }
+
+        if (theUser) {
+
+            theUser.password = theUser.generateHash(req.body.password);
+            theUser.tokenExpires = moment().subtract(1, 'days').format();
+            theUser.resetToken = "";
+
+            theUser.save(function(err){
+
+                if (err!==null) { return handleError(res, err); }
+
+                delete theUser.password;
+
+                return res.status(200).json(theUser);
+            });
+
+        } else {
+            return res.status(404).send({ message: 'User not found!' });
+        }
+    });
+};
+
+exports.recovery = function(req, res) {
+
+    User.findOne({ email: req.body.email }, function(err, theUser) {
+        if (err) { return handleError(res, err); }
+
+        if (theUser) { 
+
+            // Send Password Reset Email
+            theUser.tokenExpires = moment().add(1, 'days').format();
+            theUser.resetToken = User.randomString(16);
+
+            theUser.save(function(err){
+
+                if (err!==null) { return handleError(res, err); }
+
+                // Send the Email
+                mailer.sendRecoveryEmail(theUser, function(err) {
+                    if (err) { return handleError(res, err); }
+
+                    return res.status(200).json({message: 'Password reset mail sent!'});
+                });
+
+            });
+
+        }
+        else {
+
+            return res.status(401).send({ message: 'The email address you entered does not exist in our records.' });
+        }
+    });
+};
+
 
 exports.signUp = function(req, res) {
 

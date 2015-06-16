@@ -6,24 +6,49 @@ var Registration = require('./registration.model');
 var User = require('../user/user.model');
 
 
+function postPay (orderID, amount, callback) {
+
+  request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID=09948&ORDER_ID=' + orderID + '&CURR_CODE=566&AMOUNT=' + amount , function (error, response, body) {
+    
+    callback(error, response, body);
+
+  });
+}
+
 exports.postPay = function(req, res) {
 
-  console.log(req.body);
-
-  request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID=09948&ORDER_ID=' + req.body.orderID + '&CURR_CODE=566&AMOUNT=' + req.body.amount , function (error, response, body) {
+  postPay( req.body.orderID, req.body.amount , function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      res.send(body);
+      return res.send(body);
     } else {
-      handleError(res, error);
+      return handleError(res, error);
     }
+  });
+
+};
+
+exports.webPayStatus = function (req, res) {
+
+  Registration.findById( req.body._id, function(err, registration) {
+    if (err) { return handleError(res, err); }
+
+    postPay( registration.regCode+'-'+registration.conferenceFee, registration.conferenceFee , function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+        return res.send(body);
+      } else {
+        return handleError(res, error);
+      }
+    });
   });
 };
 
 exports.fetch = function (req, res) {
-  
-  console.log(req.user);
 
-  res.send([]);
+  Registration.find({user: req.user}, function(err, registrations) {
+      if (err) { return handleError(res, err); }
+
+      return res.status(200).json(registrations);
+  });
 };
 
 // Get list of registrations

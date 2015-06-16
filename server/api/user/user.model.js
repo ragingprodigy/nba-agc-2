@@ -20,7 +20,11 @@ var userSchema = new Schema({
     },
     resetToken: {
         type: String,
-        default: ""
+        default: ''
+    },
+    accountType: {
+        type: String,
+        default: 'single'
     },
     tokenExpires: {
         type: Date,
