@@ -35,8 +35,6 @@ module.exports = function(app) {
   app.use(cookieParser());
 
     app.use(session({ secret: 'keyboard cat' }));
-    app.use(passport.initialize());
-    app.use(passport.session());
   
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
