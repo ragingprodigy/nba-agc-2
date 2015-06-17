@@ -6,8 +6,14 @@ var Invoice = require('./invoice.model'),
 
 // Get list of invoices
 exports.index = function(req, res) {
-  Invoice.find(function (err, invoices) {
+  Invoice.find({_group: req.user})
+  .populate({
+    path: '_group', match: { _id: req.user }
+  })
+  .populate('registrations', '_id firstName middleName surname conferenceFee email mobile suffix prefix branch yearCalled')
+  .exec(function (err, invoices) {
     if(err) { return handleError(res, err); }
+    
     return res.json(200, invoices);
   });
 };
@@ -52,6 +58,7 @@ exports.create = function(req, res) {
           // Update Invoice Amount
           invoice.invoiceAmount = invoiceAmount;
           invoice._group = req.user;
+          invoice.code = Invoice.pRef();
 
           // Update the Invoice
           invoice.save(function(){

@@ -3,7 +3,8 @@
 var _ = require('lodash'),
     request = require('request');
 var Registration = require('./registration.model');
-var User = require('../user/user.model');
+var User = require('../user/user.model'),
+    Invoice = require('../invoice/invoice.model');
 
 
 function postPay (orderID, amount, callback) {
@@ -29,17 +30,35 @@ exports.postPay = function(req, res) {
 
 exports.webPayStatus = function (req, res) {
 
-  Registration.findById( req.body._id, function(err, registration) {
-    if (err) { return handleError(res, err); }
+  if (req.body.which && req.body.which==='invoice') {
+    
+    Invoice.findById( req.body._id, function(err, invoice) {
+      if (err) { return handleError(res, err); }
 
-    postPay( registration.regCode+'-'+registration.conferenceFee, registration.conferenceFee , function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        return res.send(body);
-      } else {
-        return handleError(res, error);
-      }
+      postPay( invoice.code+'-'+invoice.invoiceAmount, invoice.invoiceAmount, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          return res.send(body);
+        } else {
+          return handleError(res, error);
+        }
+      });
     });
-  });
+
+  } else {
+
+    Registration.findById( req.body._id, function(err, registration) {
+      if (err) { return handleError(res, err); }
+
+      postPay( registration.regCode+'-'+registration.conferenceFee, registration.conferenceFee , function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          return res.send(body);
+        } else {
+          return handleError(res, error);
+        }
+      });
+    });
+
+  }
 };
 
 exports.fetch = function (req, res) {
@@ -52,7 +71,7 @@ exports.fetch = function (req, res) {
 
 // Get list of registrations
 exports.index = function(req, res) {
-  Registration.find(function (err, registrations) {
+  Registration.find({user: req.user}, function (err, registrations) {
     if(err) { return handleError(res, err); }
     return res.json(200, registrations);
   });

@@ -31,7 +31,7 @@ var InvoiceSchema = new Schema({
   ResponseCode:  { type:String, default: "" },
   ResponseDescription:  { type:String, default: "" },
   DateTime:  { type:String, default: "" },
-  Amount:  { type:String, default: "" },
+  Amount:  { type:Number, default: 0 },
   AmountDiscrepancyCode:  { type:String, default: "" },
   bankAccount:  { type:String, default: "" },
   bankDeposit:  { type:Number, default: 0 },
@@ -39,6 +39,23 @@ var InvoiceSchema = new Schema({
   statusConfirmed: { type: Boolean, default: false },
   _group : { type: Schema.Types.ObjectId, ref: 'User' },
   registrations : [{ type: Schema.Types.ObjectId, ref: 'Registration' }]
+});
+
+InvoiceSchema.statics.pRef = pRef;
+
+InvoiceSchema.post('save', function(entry){
+
+  var Invoice = entry.constructor;
+
+  if (['00', '0', '001', 'APPROVED'].indexOf(entry.ResponseCode) !== -1) {
+      
+    Invoice.update({ _id: entry._id }, { $set: { statusConfirmed: true } }, function(e){
+       if (e) { console.log(e); }
+     });
+    Invoice.update({ _id: entry._id }, { $set: { paymentSuccessful: true } }, function(e){
+       if (e) { console.log(e); }
+     });
+  }
 });
 
 module.exports = mongoose.model('Invoice', InvoiceSchema);

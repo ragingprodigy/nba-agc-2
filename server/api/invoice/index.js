@@ -6,7 +6,7 @@ var sessionSec = require('../../components/tools/sessionSec');
 
 var router = express.Router();
 
-//router.get('/', controller.index);
+router.get('/', sessionSec, controller.index);
 router.get('/:id', sessionSec, controller.show);
 router.post('/', sessionSec, controller.create);
 router.put('/:id', sessionSec, controller.update);
