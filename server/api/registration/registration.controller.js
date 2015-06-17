@@ -46,7 +46,6 @@ exports.fetch = function (req, res) {
 
   Registration.find({user: req.user}, function(err, registrations) {
       if (err) { return handleError(res, err); }
-
       return res.status(200).json(registrations);
   });
 };
@@ -99,22 +98,17 @@ exports.destroy = function(req, res) {
   Registration.findById(req.params.id, function (err, registration) {
     if(err) { return handleError(res, err); }
     if(!registration) { return res.send(404); }
-      //Remove User for this Registration
-      User.findById(registration.user, function(err, user){
-          if (!registration.completed) {
-              if (user) {
-                  user.remove();
-              }
+      if (registration.completed && registration.statusConfirmed) { return res.status(400).json({message: 'Cannot delete this registration because it has been confirmed'}); }
 
-              registration.remove(function(err) {
-                  if(err) { return handleError(res, err); }
-                  return res.send(204);
-              });
-          } else {
-              return res.send(204);
-          }
+      if (req.user) {
+        // Prevent logged in users from doin nefarious things like deleting other
+        // people's registrations
+        if (registration.user !== req.user) { return res.status(400).json({message: 'You cannot delete this registration!'}); }
+      }
+      registration.remove(function(err) {
+          if(err) { return handleError(res, err); }
+          return res.send(204);
       });
-
   });
 };
 

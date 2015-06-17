@@ -23,6 +23,9 @@ var userSchema = new Schema({
         default: ''
     },
     phone: { type: String, default: '' },
+    groupName: {
+        type: String,
+    },
     accountType: {
         type: String,
         default: 'single'

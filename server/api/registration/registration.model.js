@@ -15,7 +15,7 @@ var RegistrationSchema = new Schema({
   middleName:  { type:String, default: "" },
   surname:  { type:String, default: "" },
   suffix:  { type:String, default: "" },
-  email:  { type:String, default: "" },
+  email:  { type:String, default: "", lowercase: true },
   phone:  { type:String, default: "" },
   mobile:  { type:String, default: "" },
   address:  { type:String, default: "" },
@@ -27,51 +27,51 @@ var RegistrationSchema = new Schema({
   branch:  { type:String, default: "" },
   nbaId:  { type:String, default: "" },
   yearCalled: {
-      type: String,
-      default: 1960
+    type: String,
+    default: 1960
   },
   regCode: {
-      type:String,
-      default: pRef()
+    type:String,
+    default: pRef()
   },
   registrationType: {
-      type:String,
-      default: "legalPractitioner"
+    type:String,
+    default: "legalPractitioner"
   },
   /*emergencyContact:  { type:String, default: "" },
   emergencyPhone:  { type:String, default: "" },*/
   group:  {
-      san: { type: Boolean, default: false },
-      ag: { type: Boolean, default: false },
-      bencher: { type: Boolean, default: false }
+    san: { type: Boolean, default: false },
+    ag: { type: Boolean, default: false },
+    bencher: { type: Boolean, default: false }
   },
   conferenceFee: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0
   },
   formFilled: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   completed: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   webpay: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   bankpay: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   paymentSuccessful: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   lastModified: {
-      type: Date,
-      default: Date.now
+    type: Date,
+    default: Date.now
   },
   
   TransactionRef:  { type:String, default: "" },
@@ -153,7 +153,7 @@ RegistrationSchema.post('save', function(entry){
                feeDue = 50000;
                break;
            case 'others':
-               feeDue = 50000;
+               feeDue = 250000;
                break;
        }
 

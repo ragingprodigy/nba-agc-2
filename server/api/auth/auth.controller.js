@@ -9,6 +9,7 @@ var Registration = require('../registration/registration.model');
 var mailer = require('../../components/tools/mailer');
 
 function createJWT(user) {
+    
     var payload = {
         sub: user._id,
         email: user.email,
