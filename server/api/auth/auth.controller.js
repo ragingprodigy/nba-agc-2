@@ -41,6 +41,27 @@ function createGroupAccount(req, res) {
 
 }
 
+exports.oneTimeTask = function(req, res) {
+    Registration.find({user: '0'}, function(err, registrations){
+        if (err) { return handleError(res, err); }
+
+        return _(registrations).forEach(function(registration) {
+            // Find User with matching email
+            User.findOne({email: registration.email}, function(err, theUser){
+                if (err) { return handleError(res, err); }
+
+                if (theUser) {
+                
+                    registration.user = theUser._id;
+                    registration.save(function(){
+                        console.log('Updated record: ', registration._id);
+                    });
+                }
+            });
+        });
+    });
+};
+
 exports.confirmReset = function(req, res){
 
     if (req.body.member === undefined || req.body.token === undefined) { return res.status(401).json({message: 'Invalid password reset request. Please go through the password recovery process again.' }); }
