@@ -2,13 +2,14 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    Member = require('../member/member.model');
+    Member = require('../member/member.model'),
+    User = require('../user/user.model');
 
 var pRef = require('../../components/tools/pRef');
 
 var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
-  user: { type:String, default: "" },
+  user: { type:String, default: 0 },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
   middleName:  { type:String, default: "" },
@@ -98,11 +99,24 @@ RegistrationSchema.post('save', function(entry){
     if (['00', '0', '001', 'APPROVED'].indexOf(entry.ResponseCode) !== -1) {
         
         Registration.update({ _id: entry._id }, { $set: { statusConfirmed: true } }, function(e){
-           console.log(e);
+           if (e) { console.log(e); }
          });
         Registration.update({ _id: entry._id }, { $set: { paymentSuccessful: true } }, function(e){
-           console.log(e);
+           if (e) { console.log(e); }
          });
+    }
+
+    if (entry.user === '0' || entry.user === '') {
+
+      // find the user with the same email and update the id
+      User.findOne({email: entry.email}, function(err, theUser){
+        if (theUser) {
+          Registration.update({ _id: entry._id }, { $set: { user: theUser._id } }, function(e){
+            if (e) { console.log(e); }
+           });
+        }
+      });
+
     }
 
    if (entry.registrationType === 'legalPractitioner') {
