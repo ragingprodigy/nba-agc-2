@@ -29,6 +29,7 @@ function createGroupAccount(req, res) {
     user.password = user.generateHash(newPass);
     user.groupName = req.body.groupName;
     user.phone = req.body.phone;
+    user.accountType = 'group';
 
     user.save(function(err) {
         // Send Email to the User Here
