@@ -14,6 +14,9 @@ router.get('/', sessionSec, controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
+
+router.post('/:id', sessionSec, controller.clone);
+
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 

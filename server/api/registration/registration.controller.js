@@ -31,7 +31,7 @@ exports.postPay = function(req, res) {
 exports.webPayStatus = function (req, res) {
 
   if (req.body.which && req.body.which==='invoice') {
-    
+
     Invoice.findById( req.body._id, function(err, invoice) {
       if (err) { return handleError(res, err); }
 
@@ -111,6 +111,53 @@ exports.update = function(req, res) {
     });
   });
 };
+
+// Create a Fresh Registrtaion from an old one
+exports.clone = function(req, res) {
+
+  if (String(req.body._id) !== String(req.params.id)) { return res.status(400).json({ message:'Invalid request' }); }
+
+  var r = new Registration();
+
+  // Find the Old Registration
+  Registration.findById(req.body._id, function(err, oldReg) {
+    if (err) { return handleError(res, err); }
+
+    if (oldReg) {
+      r.formFilled = true;
+      r.responseGotten = false;
+      r.group = oldReg.group;
+      r.conferenceFee = oldReg.conferenceFee;
+      r.registrationType = oldReg.registrationType;
+      r.yearCalled = oldReg.yearCalled;
+      r.nbaId = oldReg.nbaId;
+      r.branch = oldReg.branch;
+      r.division = oldReg.division;
+      r.state = oldReg.state;
+      r.court = oldReg.court;
+      r.designation = oldReg.designation;
+      r.company = oldReg.company;
+      r.address = oldReg.address;
+      r.mobile = oldReg.mobile;
+      r.phone = oldReg.phone;
+      r.email = oldReg.email;
+      r.suffix = oldReg.suffix;
+      r.prefix = oldReg.prefix;
+      r.surname = oldReg.surname;
+      r.middleName = oldReg.middleName;
+      r.firstName = oldReg.firstName;
+      r.user = oldReg.user;
+      r.member = oldReg.member;
+
+      r.save(function(err) {
+        if (err) { return handleError(res, err); }
+
+        return res.status(201).json(r);
+      });
+    } else { return res.status(404).json({message:'Registration not found!'}); }
+  });
+
+}
 
 // Deletes a registration from the DB.
 exports.destroy = function(req, res) {
