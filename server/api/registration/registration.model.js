@@ -86,7 +86,8 @@ var RegistrationSchema = new Schema({
   bankAccount:  { type:String, default: "" },
   bankDeposit:  { type:Number, default: 0 },
   bankDatePaid:  { type:String, default: "" },
-  statusConfirmed: { type: Boolean, default: false }
+  statusConfirmed: { type: Boolean, default: false },
+  responseGotten: { type: Boolean, default: false }
 });
 
 RegistrationSchema.statics.pRef = pRef;

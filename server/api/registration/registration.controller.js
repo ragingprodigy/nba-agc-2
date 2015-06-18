@@ -107,6 +107,7 @@ exports.update = function(req, res) {
     var updated = _.merge(registration, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
+      console.log('success: ', updated.responseGotten);
       return res.status(200).json(registration);
     });
   });
