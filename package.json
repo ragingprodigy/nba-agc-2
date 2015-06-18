@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
+    "agenda": "^0.6.28",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.5.0",
     "composable-middleware": "^0.3.0",

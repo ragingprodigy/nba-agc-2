@@ -16,6 +16,9 @@ var path = require('path');
 var cors = require('cors');
 var logger = require('morgan');
 var config = require('./environment');
+var Agenda = require('agenda');
+
+var Registration = require('../api/registration/registration.model');
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -35,6 +38,7 @@ module.exports = function(app) {
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', config.root + '/public');
     app.use(morgan('dev'));
+
   }
 
   if ('development' === env || 'test' === env) {
@@ -45,4 +49,12 @@ module.exports = function(app) {
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }
+
+  var agenda = new Agenda({db: { address: config.mongo.uri }});
+  agenda.define('delete old registrations', function(job, done) {
+    Registration.remove({formFilled: false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, done);
+  });
+
+  agenda.every('30 minutes', 'delete old registrations');
+  agenda.start();
 };
