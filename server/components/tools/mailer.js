@@ -45,7 +45,7 @@ var sendMessage = function(message, callback) {
 
 exports.sendReportEmail = function(theMessage, subject, callback) {
     var newMessage = message;
-    newMessage.text = theMessage;
+    newMessage.html = theMessage;
     newMessage.subject = subject;
     newMessage.to = [
         { email: 'o.omonayajo@gmail.com', type: 'to' }

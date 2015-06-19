@@ -74,7 +74,7 @@ module.exports = function(app) {
       if (err) { done(); }
 
       var theMail = '';
-      var header = '+------|--------------------------------------------|--------------------------------------------------|--------------------+\n|  SN  |                  NAME                      |                  EMAIL ADDRESS                   |        PHONE       |\n|______|____________________________________________|__________________________________________________|____________________|\n';
+      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th></tr>';
 
       if (pending.length) {
 
@@ -82,10 +82,10 @@ module.exports = function(app) {
 
           var record = pending[i];
 
-          theMail += '|' + snPad(zero( i+1 )) + '|' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '|' + emailPad( record.email ) + '|' + phonePad( record.mobile ) + '|\n';
+          theMail += '<tr><td>' + snPad(zero( i+1 )) + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td>' + phonePad( record.mobile ) + '</td></tr>';
         } 
 
-        var footer = '\n|______|____________________________________________|__________________________________________________|____________________|';
+        var footer = '</table>';
 
         if (theMail.length > 0) {
           // Send the mail here.
