@@ -125,7 +125,7 @@ module.exports = function(app) {
 
         if (theMail.length > 0) {
           // Send the mail here.
-          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report :: '+ moment().subtract(1,'d').format('dddd, MMMM Do YYYY'), done );
+          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Report :: Confirmed Payments For '+ moment().subtract(1,'d').format('dddd, MMMM Do YYYY'), done );
         } else {
           done();
         }
@@ -175,7 +175,7 @@ module.exports = function(app) {
 
   // Run at 6:59am every Day
   agenda.every('59 6 * * *', 'Send Web Registration Report');
-  agenda.every('59 6 * * *', 'Send Confirmed Web Registration Report');
+  agenda.every('04 7 * * *', 'Send Confirmed Web Registration Report');
 
   agenda.every('10 minutes', 'delete old registrations');
 
