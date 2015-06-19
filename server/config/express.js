@@ -82,7 +82,7 @@ module.exports = function(app) {
 
           var record = pending[i];
 
-          theMail += '<tr><td>' + snPad(zero( i+1 )) + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td>' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>' + record.webpay?'WEB':'BANK' + '</td></tr>';
+          theMail += '<tr><td>' + snPad(zero( i+1 )) + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td>' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>' + (record.webpay?'WEB':'BANK') + '</td></tr>';
         } 
 
         var footer = '</table>';
