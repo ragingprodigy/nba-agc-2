@@ -48,7 +48,9 @@ exports.sendReportEmail = function(theMessage, subject, callback) {
     newMessage.html = theMessage;
     newMessage.subject = subject;
     newMessage.to = [
-        { email: 'o.omonayajo@gmail.com', type: 'to' }
+        { email: 'dapo.omonayajo@gitlimited.com', type: 'to' },
+        { email: 'benedicta.moha@lawpavilion.com', type: 'to' },
+        { email: 'ope.olugasa@gitlimited.com', type: 'to' },
     ]
 
     sendMessage(newMessage, function(){

@@ -82,45 +82,66 @@ module.exports = function(app) {
 
           var record = pending[i];
 
-          theMail += '<tr><td>' + snPad(zero( i+1 )) + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td>' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+          theMail += '<tr><td>' + (i+1) + '.</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align:center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
         } 
 
         var footer = '</table>';
 
         if (theMail.length > 0) {
           // Send the mail here.
-          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report - Registration Report', done );
+          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report :: '+ moment().subtract(1,'d').format('dddd, MMMM Do YYYY'), done );
         } else {
           done();
         }
         
       } else {
-        console.log('No mail to send');
         done();
       }
 
     });
-
     
   });
 
-  /*agenda.define('send bank registration report', function(job, done) {
-    Registration.find({webpay: false, formFilled: true, completed: true, responseGotten:false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, function(err, pending) {
+  agenda.define('Send First Web Registration Report', function(job, done) {
+    var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0);
+
+    Registration.find({ formFilled: true, completed: true, responseGotten:false, lastModified: { $lt: start } }, function(err, pending) {
       if (err) { done(); }
 
-      _.forEach(pending, function(record) {
+      var theMail = '';
+      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
+
+      if (pending.length) {
+
+        for (var i=0; i<pending.length; i++) {
+
+          var record = pending[i];
+
+          theMail += '<tr><td>' + ( i+1 ) + '.</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align: center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+        } 
+
+        var footer = '</table>';
+
+        if (theMail.length > 0) {
+          // Send the mail here.
+          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report :: 1st JUNE - 18th JUNE', done );
+        } else {
+          done();
+        }
         
+      } else {
+        done();
+      }
 
-
-      });
     });
-  });*/
+    
+  });
 
+  agenda.every('59 6 * * *', 'Send Web Registration Report');
   agenda.every('10 minutes', 'delete old registrations');
   // Run at 6:59am every Day
-  agenda.every('59 6 * * *', 'send Web Registration Report');
 
-  agenda.now('send Web Registration Report');
+  agenda.now('Send First Web Registration Report');
 
   agenda.start();
 };
