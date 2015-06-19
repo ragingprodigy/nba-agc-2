@@ -4,6 +4,7 @@
   "main": "server/app.js",
   "dependencies": {
     "agenda": "^0.6.28",
+    "agenda-ui": "0.0.7",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.5.0",
     "composable-middleware": "^0.3.0",
@@ -40,7 +41,7 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-google-cdn": "~0.4.0",
+    "grunt-google-cdn": "^0.4.3",
     "grunt-newer": "~0.7.0",
     "grunt-ng-annotate": "^0.2.3",
     "grunt-rev": "~0.1.0",

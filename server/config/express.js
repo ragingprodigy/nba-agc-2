@@ -17,6 +17,7 @@ var cors = require('cors');
 var logger = require('morgan');
 var config = require('./environment');
 var Agenda = require('agenda');
+var _ = require('lodash');
 
 var Registration = require('../api/registration/registration.model');
 
@@ -51,9 +52,22 @@ module.exports = function(app) {
   }
 
   var agenda = new Agenda({db: { address: config.mongo.uri }});
+  
   agenda.define('delete old registrations', function(job, done) {
     Registration.remove({formFilled: false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, done);
   });
+
+  /*agenda.define('update Individual Web Transaction Statuses', function(job, done) {
+    Registration.find({webpay: false, formFilled: true, completed: true, responseGotten:false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, function(err, pending) {
+      if (err) { done(); }
+
+      _.forEach(pending, function(record) {
+        
+
+
+      });
+    });
+  });*/
 
   agenda.every('30 minutes', 'delete old registrations');
   agenda.start();

@@ -7,10 +7,17 @@
 var errors = require('./components/errors'),
     jwt = require('jwt-simple');
 
+var Agenda = require('agenda'),
+    agendaUI = require('agenda-ui'),
+    config = require('./config/environment');
+
+var agenda = new Agenda({db: { address: config.mongo.uri }});
 
 module.exports = function(app) {
 
-  app.use('/auth', require('./api/auth'));
+  app.use('/auth', require('./api/auth'));  
+
+  app.use('/__agenda-check__', agendaUI(agenda, {poll: 30000}));
 
   // Insert routes below
   app.use('/api/invoices', require('./api/invoice'));
