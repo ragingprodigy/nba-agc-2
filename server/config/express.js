@@ -69,6 +69,6 @@ module.exports = function(app) {
     });
   });*/
 
-  agenda.every('30 minutes', 'delete old registrations');
+  agenda.every('10 minutes', 'delete old registrations');
   agenda.start();
 };
