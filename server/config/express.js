@@ -18,8 +18,17 @@ var logger = require('morgan');
 var config = require('./environment');
 var Agenda = require('agenda');
 var _ = require('lodash');
+var moment = require('moment');
+var padder = require('../components/tools/pad-tool');
+var mailer = require('../components/tools/mailer');
 
 var Registration = require('../api/registration/registration.model');
+
+function zero(w) { return padder(w, 3, '0', 1); }
+function snPad(sn) { return padder(sn, 6, ' ', 3); }
+function namePad(name) { return padder(name, 44, ' '); }
+function emailPad(email) { return padder(email, 50, ' '); }
+function phonePad(phone) { return padder(phone, 20, ' '); }
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -57,7 +66,45 @@ module.exports = function(app) {
     Registration.remove({formFilled: false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, done);
   });
 
-  /*agenda.define('update Individual Web Transaction Statuses', function(job, done) {
+  agenda.define('send Web Registration Report', function(job, done) {
+    var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
+        end = moment().hours(0).minutes(0).seconds(0);
+    // Get 
+    Registration.find({webpay: true, formFilled: true, completed: true, responseGotten:false, lastModified: { $gte: start, $lt: end } }, function(err, pending) {
+      if (err) { done(); }
+
+      var theMail = '';
+      var header = '+------|--------------------------------------------|--------------------------------------------------|--------------------+\n|  SN  |                  NAME                      |                  EMAIL ADDRESS                   |        PHONE       |\n|______|____________________________________________|__________________________________________________|____________________|\n';
+
+      if (pending.length) {
+
+        for (var i=0; i<pending.length; i++) {
+
+          var record = pending[i];
+
+          theMail += '|' + snPad(zero( i+1 )) + '|' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '|' + emailPad( record.email ) + '|' + phonePad( record.mobile ) + '|\n';
+        } 
+
+        var footer = '\n|______|____________________________________________|__________________________________________________|____________________|';
+
+        if (theMail.length > 0) {
+          // Send the mail here.
+          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report - Registration Report', done );
+        } else {
+          done();
+        }
+        
+      } else {
+        console.log('No mail to send');
+        done();
+      }
+
+    });
+
+    
+  });
+
+  /*agenda.define('send bank registration report', function(job, done) {
     Registration.find({webpay: false, formFilled: true, completed: true, responseGotten:false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, function(err, pending) {
       if (err) { done(); }
 
@@ -70,5 +117,10 @@ module.exports = function(app) {
   });*/
 
   agenda.every('10 minutes', 'delete old registrations');
+  // Run at 6:59am every Day
+  agenda.every('59 6 * * *', 'send Web Registration Report');
+
+  agenda.now('send Web Registration Report');
+
   agenda.start();
 };

@@ -43,6 +43,21 @@ var sendMessage = function(message, callback) {
     });
 };
 
+exports.sendReportEmail = function(theMessage, subject, callback) {
+    var newMessage = message;
+    newMessage.text = theMessage;
+    newMessage.subject = subject;
+    newMessage.to = [
+        { email: 'o.omonayajo@gmail.com', type: 'to' }
+    ]
+
+    sendMessage(newMessage, function(){
+        return callback();
+    }, function(e) {
+        return callback(e);
+    });
+}
+
 exports.sendRecoveryEmail = function(user, next) {
 
     var newMessage = message;
