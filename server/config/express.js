@@ -66,7 +66,7 @@ module.exports = function(app) {
     Registration.remove({formFilled: false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, done);
   });
 
-  agenda.define('send Web Registration Report', function(job, done) {
+  agenda.define('Send Web Registration Report', function(job, done) {
     var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
         end = moment().hours(0).minutes(0).seconds(0);
     // Get 
@@ -74,7 +74,7 @@ module.exports = function(app) {
       if (err) { done(); }
 
       var theMail = '';
-      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
+      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
 
       if (pending.length) {
 
@@ -82,7 +82,7 @@ module.exports = function(app) {
 
           var record = pending[i];
 
-          theMail += '<tr><td>' + (i+1) + '.</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align:center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+          theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align:center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
         } 
 
         var footer = '</table>';
@@ -109,7 +109,7 @@ module.exports = function(app) {
       if (err) { done(); }
 
       var theMail = '';
-      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
+      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
 
       if (pending.length) {
 
@@ -117,7 +117,7 @@ module.exports = function(app) {
 
           var record = pending[i];
 
-          theMail += '<tr><td>' + ( i+1 ) + '.</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align: center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+          theMail += '<tr><td>' + ( i+1 ) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align: center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
         } 
 
         var footer = '</table>';
