@@ -112,7 +112,7 @@ RegistrationSchema.post('save', function(entry){
       // find the user with the same email and update the id
       User.findOne({email: entry.email}, function(err, theUser){
         if (theUser) {
-          Registration.update({ _id: entry._id }, { $set: { user: theUser._id } }, function(e){
+          Registration.update({ _id: entry._id }, { $set: { user: String(theUser._id) } }, function(e){
             if (e) { console.log(e); }
            });
         }
