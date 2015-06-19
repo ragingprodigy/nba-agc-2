@@ -102,6 +102,42 @@ module.exports = function(app) {
     
   });
 
+  agenda.define('Send Confirmed Web Registration Report', function(job, done) {
+    var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
+        end = moment().hours(0).minutes(0).seconds(0);
+    // Get 
+    Registration.find({ formFilled: true, paymentSuccessful: true, completed: true, responseGotten:true, lastModified: { $gte: start, $lt: end } }, function(err, pending) {
+      if (err) { done(); }
+
+      var theMail = '';
+      var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
+
+      if (pending.length) {
+
+        for (var i=0; i<pending.length; i++) {
+
+          var record = pending[i];
+
+          theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + namePad( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + emailPad( record.email ) + '</td><td style="text-align:center;">' + phonePad( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+        } 
+
+        var footer = '</table>';
+
+        if (theMail.length > 0) {
+          // Send the mail here.
+          mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report :: '+ moment().subtract(1,'d').format('dddd, MMMM Do YYYY'), done );
+        } else {
+          done();
+        }
+        
+      } else {
+        done();
+      }
+
+    });
+    
+  });
+
   agenda.define('Send First Web Registration Report', function(job, done) {
     var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0);
 
@@ -137,11 +173,11 @@ module.exports = function(app) {
     
   });
 
-  agenda.every('59 6 * * *', 'Send Web Registration Report');
-  agenda.every('10 minutes', 'delete old registrations');
   // Run at 6:59am every Day
+  agenda.every('59 6 * * *', 'Send Web Registration Report');
+  agenda.every('59 6 * * *', 'Send Confirmed Web Registration Report');
 
-  agenda.now('Send First Web Registration Report');
+  agenda.every('10 minutes', 'delete old registrations');
 
   agenda.start();
 };
