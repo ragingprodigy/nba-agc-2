@@ -8,9 +8,7 @@ var errors = require('./components/errors'),
     jwt = require('jwt-simple');
 
 var Agenda = require('agenda'),
-    agendaUI = require('agenda-ui'),/*
-    moment = require('moment'),
-    Registration = require('./api/registration/registration.model'),*/
+    agendaUI = require('agenda-ui'),
     config = require('./config/environment');
 
 var agenda = new Agenda({db: { address: config.mongo.uri }});
@@ -18,15 +16,6 @@ var agenda = new Agenda({db: { address: config.mongo.uri }});
 module.exports = function(app) {
 
   app.use('/auth', require('./api/auth'));
-
-  app.get('/moment', function(req, res){
-    var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
-        end = moment().hours(0).minutes(0).seconds(0);
-
-    Registration.find({"lastModified": { $gte: start, $lt: end } }, function(err, regs) {
-      res.json({from: start, to: end});
-    });
-  });
 
   app.use('/__agenda-check__', agendaUI(agenda, {poll: 30000}));
 

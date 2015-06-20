@@ -2,10 +2,10 @@
 
 var _ = require('lodash'),
     request = require('request');
-var Registration = require('./registration.model');
-var User = require('../user/user.model'),
-    Invoice = require('../invoice/invoice.model');
-
+var Registration = require('./registration.model'),
+    User = require('../user/user.model'),
+    Invoice = require('../invoice/invoice.model'),
+    parseString = require('xml2js').parseString;
 
 function postPay (orderID, amount, callback) {
 
@@ -15,6 +15,10 @@ function postPay (orderID, amount, callback) {
 
   });
 }
+
+exports.querySwitch = function(a, b, c){
+  return postPay(a, b, c);
+};
 
 exports.postPay = function(req, res) {
 
@@ -107,7 +111,6 @@ exports.update = function(req, res) {
     var updated = _.merge(registration, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      console.log('success: ', updated.responseGotten);
       return res.status(200).json(registration);
     });
   });
