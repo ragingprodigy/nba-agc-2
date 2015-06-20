@@ -81,10 +81,10 @@ var RegistrationSchema = new Schema({
   ResponseCode:  { type:String, default: "" },
   ResponseDescription:  { type:String, default: "" },
   DateTime:  { type:String, default: "" },
-  Amount:  { type:Number, default: 0 },
+  Amount:  { type:String, default: 0 },
   AmountDiscrepancyCode:  { type:String, default: "" },
   bankAccount:  { type:String, default: "" },
-  bankDeposit:  { type:Number, default: 0 },
+  bankDeposit:  { type:String, default: 0 },
   bankDatePaid:  { type:String, default: "" },
   statusConfirmed: { type: Boolean, default: false },
   responseGotten: { type: Boolean, default: false }
