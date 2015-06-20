@@ -156,6 +156,9 @@ RegistrationSchema.post('save', function(entry){
            case 'others':
                feeDue = 250000;
                break;
+            default:
+              feeDue = 100;
+              break;
        }
 
        Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue } }, function(e){
