@@ -157,7 +157,7 @@ RegistrationSchema.post('save', function(entry){
            case 'others':
                feeDue = 250000;
                break;
-            default:
+            case 'access_bank_test':
               feeDue = 100;
               break;
        }

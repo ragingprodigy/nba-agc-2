@@ -92,7 +92,7 @@ agenda.define('Send Confirmed Web Registration Report', function(job, done) {
 
 agenda.define('Update Web Transactions For Individuals', function(job, done) {
 	var cutoff = moment().subtract(1,'h');
-	Registration.find({completed: true, responseGotten: false, webpay: true, lastModified: { $lt: cutoff }}, function(err, toResolve){
+	Registration.find({completed: true, webpay: true, lastModified: { $lt: cutoff }}, function(err, toResolve){
 
 		if (err) { job.fail(err); job.save(); done(); }
 
@@ -134,7 +134,7 @@ agenda.define('Update Web Transactions For Individuals', function(job, done) {
 
 agenda.define('Update Web Transactions For Groups', function(job, done) {
 	var cutoff = moment().subtract(1,'h');
-	Invoice.find({finalized: true, responseGotten: false, webpay: true, lastModified: { $lt: cutoff }}, function(err, toResolve){
+	Invoice.find({finalized: true, webpay: true, lastModified: { $lt: cutoff }}, function(err, toResolve){
 
 		if (err) { job.fail(err); job.save(); done(); }
 
