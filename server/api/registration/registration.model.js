@@ -32,6 +32,7 @@ var RegistrationSchema = new Schema({
   },
   regCode: {
     type:String,
+    unique: true,
     default: pRef()
   },
   registrationType: {
