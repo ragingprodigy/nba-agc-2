@@ -152,6 +152,7 @@ exports.clone = function(req, res) {
       r.firstName = oldReg.firstName;
       r.user = oldReg.user;
       r.member = oldReg.member;
+      r.regCode = Registration.pRef();
 
       r.save(function(err) {
         if (err) { return handleError(res, err); }
