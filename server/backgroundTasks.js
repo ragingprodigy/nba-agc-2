@@ -178,8 +178,7 @@ agenda.define('Update Web Transactions For Groups', function(job, done) {
 agenda.every('59 6 * * *', 'Send Web Registration Report');
 agenda.every('04 7 * * *', 'Send Confirmed Web Registration Report');
 
-agenda.every('20 minutes', 'Update Web Transactions For Individuals');
-agenda.every('30 minutes', 'Update Web Transactions For Groups');
+agenda.every('10 minutes', ['Update Web Transactions For Individuals', 'Update Web Transactions For Groups']);
 
 agenda.every('10 minutes', 'delete old registrations');
 
