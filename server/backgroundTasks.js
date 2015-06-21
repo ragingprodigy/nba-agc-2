@@ -15,7 +15,7 @@ var RegistrationController = require('./api/registration/registration.controller
 var agenda = new Agenda({db: { address: config.mongo.uri }});
   
 agenda.define('delete old registrations', function(job, done) {
-	Registration.remove({formFilled: false, lastModified: { $lt: new Date(new Date().getTime() - (1000 * 3600) ) } }, done);
+	Registration.remove({formFilled: false, lastModified: { $lt: moment().subtract(2,'h') } }, done);
 });
 
 agenda.define('Send Web Registration Report', function(job, done) {
@@ -26,7 +26,7 @@ agenda.define('Send Web Registration Report', function(job, done) {
 	  if (err) { done(); }
 
 	  var theMail = '';
-	  var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
+	  var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>CODE</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
 
 	  if (pending.length) {
 
@@ -34,7 +34,7 @@ agenda.define('Send Web Registration Report', function(job, done) {
 
 	      var record = pending[i];
 
-	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td> ' + ( record.regCode + '-' + record.conferenceFee ) + ' </td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
 	    } 
 
 	    var footer = '</table>';
@@ -42,6 +42,42 @@ agenda.define('Send Web Registration Report', function(job, done) {
 	    if (theMail.length > 0) {
 	      // Send the mail here.
 	      mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Registrations Report :: '+ moment().subtract(1,'d').format('dddd, MMMM Do YYYY'), done );
+	    } else {
+	      done();
+	    }
+	    
+	  } else {
+	    done();
+	  }
+
+	});
+
+});
+
+agenda.define('Send Unsuccessful Web Registration Payments Report', function(job, done) {
+	var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
+	    end = moment().hours(0).minutes(0).seconds(0);
+	// Get 
+	Registration.find({ formFilled: true, paymentSuccessful: false, completed: true, webpay: true, responseGotten:true, lastModified: { $gte: start, $lt: end } }, function(err, pending) {
+	  if (err) { done(); }
+
+	  var theMail = '';
+	  var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>CODE</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>SWITCH</th><th>TRANS. REF.</th><th>STATUS</th><th>DESCRIPTION</th></tr>';
+
+	  if (pending.length) {
+
+	    for (var i=0; i<pending.length; i++) {
+
+	      var record = pending[i];
+
+	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td> ' + ( record.regCode + '-' + record.conferenceFee ) + ' </td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>' + record.PaymentGateway  + '</td><td>' + record.TransactionRef  + '</td><td style="text-align:center;">' + record.Status  + '</td><td style="text-align:center;">' + record.ResponseDescription + '</td></tr>';
+	    } 
+
+	    var footer = '</table>';
+
+	    if (theMail.length > 0) {
+	      // Send the mail here.
+	      mailer.sendReportEmail( header + theMail + footer, 'NBA AGC Report :: Failed Card Payments For '+ moment().subtract(1,'d').format('dddd, MMMM Do YYYY'), done );
 	    } else {
 	      done();
 	    }
@@ -62,7 +98,7 @@ agenda.define('Send Confirmed Web Registration Report', function(job, done) {
 	  if (err) { done(); }
 
 	  var theMail = '';
-	  var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>CHANNEL</th></tr>';
+	  var header = '<table style="width: 100%;" border="1"><tr><th>S/N.</th><th>DATE</th><th>NAME</th><th>CODE</th><th>EMAIL ADDRESS</th><th>PHONE</th><th>FEE</th><th>PAID</th><th>CHANNEL</th><th>TRANS. REF.</th><th>PMT. REF.</th></tr>';
 
 	  if (pending.length) {
 
@@ -70,7 +106,7 @@ agenda.define('Send Confirmed Web Registration Report', function(job, done) {
 
 	      var record = pending[i];
 
-	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td></tr>';
+	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td> ' + ( record.regCode + '-' + record.conferenceFee ) + ' </td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>NGN ' + record.Amount  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td><td>' + record.TransactionRef + '</td><td>' + record.PaymentRef + '</td></tr>';
 	    } 
 
 	    var footer = '</table>';
@@ -91,7 +127,7 @@ agenda.define('Send Confirmed Web Registration Report', function(job, done) {
 });
 
 agenda.define('Update Web Transactions For Individuals', function(job, done) {
-	var cutoff = moment().subtract(1,'h');
+	var cutoff = moment().subtract(2,'h');
 	Registration.find({completed: true, webpay: true, lastModified: { $lt: cutoff }}, function(err, toResolve){
 
 		if (err) { job.fail(err); job.save(); done(); }
@@ -133,7 +169,7 @@ agenda.define('Update Web Transactions For Individuals', function(job, done) {
 });
 
 agenda.define('Update Web Transactions For Groups', function(job, done) {
-	var cutoff = moment().subtract(1,'h');
+	var cutoff = moment().subtract(2,'h');
 	Invoice.find({finalized: true, webpay: true, lastModified: { $lt: cutoff }}, function(err, toResolve){
 
 		if (err) { job.fail(err); job.save(); done(); }
@@ -176,7 +212,7 @@ agenda.define('Update Web Transactions For Groups', function(job, done) {
 
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
-agenda.every('04 7 * * *', 'Send Confirmed Web Registration Report');
+agenda.every('04 7 * * *', ['Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report']);
 
 agenda.every('10 minutes', ['Update Web Transactions For Individuals', 'Update Web Transactions For Groups']);
 
