@@ -9,7 +9,7 @@ var pRef = require('../../components/tools/pRef');
 
 var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
-  user: { type:String, default: 0 },
+  user : { type: Schema.Types.ObjectId, ref: 'User' },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
   middleName:  { type:String, default: "" },
@@ -108,18 +108,19 @@ RegistrationSchema.post('save', function(entry){
          });
     }
 
-    if (entry.user === '0' || entry.user === '') {
+    /*if (entry.user === '0' || entry.user === '') {
 
       // find the user with the same email and update the id
       User.findOne({email: entry.email}, function(err, theUser){
         if (theUser) {
-          Registration.update({ _id: entry._id }, { $set: { user: theUser._id.toString() } }, function(e){
+          //Registration.update({ _id: entry._id }, { $set: { user: theUser._id.toString() } }, function(e){
+          Registration.update({ _id: entry._id }, { $set: { user: theUser } }, function(e){
             if (e) { console.log(e); }
            });
         }
       });
 
-    }
+    }*/
 
    if (entry.registrationType === 'legalPractitioner') {
        // Calculate the cost and save

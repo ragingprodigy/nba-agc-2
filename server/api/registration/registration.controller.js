@@ -7,6 +7,8 @@ var Registration = require('./registration.model'),
     Invoice = require('../invoice/invoice.model'),
     parseString = require('xml2js').parseString;
 
+var ObjectId = require('mongoose').Types.ObjectId; 
+
 function postPay (orderID, amount, callback) {
 
   request('https://cipg.accessbankplc.com/MerchantServices/TransactionStatusCheck.ashx?MERCHANT_ID=09948&ORDER_ID=' + orderID + '&CURR_CODE=566&AMOUNT=' + amount , function (error, response, body) {
@@ -67,7 +69,7 @@ exports.webPayStatus = function (req, res) {
 
 exports.fetch = function (req, res) {
 
-  Registration.find({user: req.user}, function(err, registrations) {
+  Registration.find({user: new ObjectId(req.user) }, function(err, registrations) {
       if (err) { return handleError(res, err); }
       return res.status(200).json(registrations);
   });
@@ -171,7 +173,7 @@ exports.destroy = function(req, res) {
     if(!registration) { return res.send(404); }
       if (registration.completed && registration.statusConfirmed) { return res.status(400).json({message: 'Cannot delete this registration because it has been confirmed'}); }
 
-      if (req.user) {
+      if (req.user || (registration.webpay || registration.bankpay)) {
         // Prevent logged in users from doin nefarious things like deleting other
         // people's registrations
         if (registration.user !== req.user) { return res.status(400).json({message: 'You cannot delete this registration!'}); }

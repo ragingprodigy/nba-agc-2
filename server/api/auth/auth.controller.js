@@ -191,24 +191,46 @@ exports.signUp = function(req, res) {
 
                 Registration.findById(req.body._id, function(err, registration){
                     if (registration) {
-                        registration.user = user._id;
+                        //registration.user = user._id;
+                        registration.user = user;
                         registration.save(function ( err ) {
 
                             if (err) { return handleError(res, err); }
 
-                            // Send Email to the User Here
-                            mailer.sendWelcomeMail(registration, newPass, function(err){
-                                if (err !== null) { return handleError(res, err); }
+                            if (registration.webmail) {
 
-                                // Send the text message
-                                mailer.sendRegistrationText(registration, newPass, function(error){
-                                    
-                                    if (error!==null) { return handleError(res, error); }
-                                    
-                                    res.send({ token: createJWT(user) });
+                                // Send Email to the User Here
+                                mailer.sendWelcomeMail(registration, newPass, function(err){
+                                    if (err !== null) { return handleError(res, err); }
+
+                                    // Send the text message
+                                    mailer.sendRegistrationText(registration, newPass, function(error){
+                                        
+                                        if (error!==null) { return handleError(res, error); }
+                                        
+                                        res.send({ token: createJWT(user) });
+                                    });
+                            
                                 });
-                        
-                            });
+
+                            } else {
+
+                                // Send Email to the User Here
+                                mailer.sendBankWelcomeMail(registration, newPass, function(err){
+                                    if (err !== null) { return handleError(res, err); }
+
+                                    // Send the text message
+                                    mailer.sendBankRegistrationText(registration, newPass, function(error){
+                                        
+                                        if (error!==null) { return handleError(res, error); }
+                                        
+                                        res.send({ token: createJWT(user) });
+                                    });
+                            
+                                });
+
+                            }
+
                         });
                     } else {
 
@@ -226,8 +248,6 @@ exports.signUp = function(req, res) {
 };
 
 exports.signIn = function(req, res) {
-    console.log(req.body);
-
     User.findOne({ email: req.body.email }, '+password', function(err, user) {
         if (!user) {
             return res.status(401).send({ message: 'Wrong email and/or password' });
