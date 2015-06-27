@@ -70,6 +70,10 @@ var RegistrationSchema = new Schema({
     type: Boolean,
     default: false
   },
+  isGroup: {
+    type: Boolean,
+    default: false
+  },
   lastModified: {
     type: Date,
     default: Date.now
@@ -87,6 +91,8 @@ var RegistrationSchema = new Schema({
   bankAccount:  { type:String, default: "" },
   bankDeposit:  { type:String, default: 0 },
   bankDatePaid:  { type:String, default: "" },
+  bankBranch:  { type:String, default: "" },
+  bankTeller:  { type:String, default: "" },
   statusConfirmed: { type: Boolean, default: false },
   responseGotten: { type: Boolean, default: false }
 });
