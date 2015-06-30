@@ -36,6 +36,8 @@ var InvoiceSchema = new Schema({
   bankAccount:  { type:String, default: "" },
   bankDeposit:  { type:String, default: 0 },
   bankDatePaid:  { type:String, default: "" },
+  bankBranch:  { type:String, default: "" },
+  bankTeller:  { type:String, default: "" },
   statusConfirmed: { type: Boolean, default: false },
   _group : { type: Schema.Types.ObjectId, ref: 'User' },
   registrations : [{ type: Schema.Types.ObjectId, ref: 'Registration' }]

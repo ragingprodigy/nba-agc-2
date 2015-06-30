@@ -17,6 +17,13 @@ var cors = require('cors');
 var logger = require('morgan');
 var config = require('./environment');
 
+var forceSsl = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
+
 module.exports = function(app) {
   var env = app.get('env');
 
@@ -36,6 +43,7 @@ module.exports = function(app) {
     app.set('appPath', config.root + '/public');
     app.use(morgan('dev'));
 
+    app.use(forceSsl);
   }
 
   if ('development' === env || 'test' === env) {
