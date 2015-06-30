@@ -43,7 +43,7 @@ module.exports = function(app) {
     app.set('appPath', config.root + '/public');
     app.use(morgan('dev'));
 
-    app.use(forceSsl);
+    //app.use(forceSsl);
   }
 
   if ('development' === env || 'test' === env) {
