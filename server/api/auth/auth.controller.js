@@ -180,7 +180,7 @@ exports.signUp = function(req, res) {
 
             if (req.body.accountType!==undefined && req.body.accountType === 'group') { return createGroupAccount(req, res); }
 
-            var newPass = User.randomString(8);
+            var newPass = User.randomString(4).toLowerCase();
 
             var user = new User();
 
