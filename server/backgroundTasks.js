@@ -229,14 +229,29 @@ agenda.define('Send Direct Registration Success SMS for Individuals', function(j
 	});
 });
 
+agenda.define('Send Direct Registration Success Email for Individuals', function(job, done) {
+	Registration.find({isDirect: true, successMailSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true }, function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(registration) {
+
+				mailer.sendBankRegistrationSuccessMail(registration);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
 agenda.every('04 7 * * *', ['Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report']);
 
-agenda.every('10 minutes', ['Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals']);
-
-agenda.every('10 minutes', 'delete old registrations');
-
-agenda.now('Send Direct Registration Success SMS for Individuals');
+agenda.every('10 minutes', ['Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations']);
 
 exports.start = function() { agenda.start(); } 
