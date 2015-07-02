@@ -197,7 +197,7 @@ exports.signUp = function(req, res) {
 
                             if (err) { return handleError(res, err); }
 
-                            if (registration.webmail) {
+                            if (req.body.webmail) {
 
                                 // Send Email to the User Here
                                 mailer.sendWelcomeMail(registration, newPass, function(err){
