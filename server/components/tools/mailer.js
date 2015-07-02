@@ -43,6 +43,26 @@ var sendMessage = function(message, callback) {
     });
 };
 
+exports.sendBankRegistrationSuccessText = function(registration, next) {
+    var message = 'Dear '+ registration.firstName +', your NBA AGC 2015 registration has been confirmed! Your registration code is: '+registration.regCode+'-'+registration.conferenceFee;
+
+    request('http://www.smslive247.com/http/index.aspx?cmd=sendquickmsg&owneremail='+process.env.SMS_OWNER_EMAIL+'&subacct='+process.env.SMS_SUB_ACCOUNT+'&subacctpwd='+process.env.SMS_SUB_ACCOUNT_PASSWORD+'&message='+message+'&sender='+process.env.SMS_SENDER+'&sendto='+registration.mobile+'&msgtype='+process.env.SMS_MSG_TYPE, function(error, resp, body) {
+
+        if (!error && resp.statusCode === 200) {
+            var Registration = registration.constructor;
+            // Update the Registration to show that the Success Text Has been sent
+            Registration.update({_id: registration._id}, { $set: { successTextSent: true} }, function(){
+                if (next) { return next(null, body); }
+            });
+
+        } else {
+            console.log('SMS Error: ', error);
+            if (next) { next(error); }
+        }
+
+    });
+};
+
 exports.sendReportEmail = function(theMessage, subject, callback) {
     var newMessage = message;
     newMessage.html = theMessage;
