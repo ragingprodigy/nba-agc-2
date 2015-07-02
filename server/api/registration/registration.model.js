@@ -74,9 +74,21 @@ var RegistrationSchema = new Schema({
     type: Boolean,
     default: false
   },
+  isDirect: {
+    type: Boolean,
+    default: false
+  },
   lastModified: {
     type: Date,
     default: Date.now
+  },
+  successMailSent: {
+    type: Boolean,
+    default: false
+  },
+  successTextSent: {
+    type: Boolean,
+    default: false
   },
   
   TransactionRef:  { type:String, default: "" },

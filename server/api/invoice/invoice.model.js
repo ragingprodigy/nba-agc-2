@@ -20,6 +20,7 @@ var InvoiceSchema = new Schema({
   finalized: { type: Boolean, default: false },
   paymentSuccessful: { type: Boolean, default: false },
   responseGotten: { type: Boolean, default: false },
+  isDirect: { type: Boolean, default: false },
   lastModified: {
     type: Date,
     default: Date.now
