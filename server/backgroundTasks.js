@@ -17,6 +17,10 @@ var agenda = new Agenda({db: { address: config.mongo.uri }});
 agenda.define('delete old registrations', function(job, done) {
 	Registration.remove({formFilled: false, lastModified: { $lt: moment().subtract(2,'h') } }, done);
 });
+  
+agenda.define('Delete Incomplete Invoices', function(job, done) {
+	Invoice.remove({finalized: false, bankpay: false, webpay: false, lastModified: { $lt: moment().subtract(2,'h') } }, done);
+});
 
 agenda.define('Send Web Registration Report', function(job, done) {
 	var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
@@ -324,12 +328,105 @@ agenda.define('Send Bank Payment Success SMS for Individuals', function(job, don
 	});
 });
 
+agenda.define('Send Bank Payment Success Email for Groups', function(job, done) {
+	Invoice.find({ bankpay: true, successMailSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true })
+	.populate('_group')
+	.populate('registrations', '_id firstName middleName surname suffix prefix regCode conferenceFee')
+	.exec(function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(invoice) {
+
+				mailer.sendGroupBankPaySuccessMail(invoice);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
+agenda.define('Send Bank Payment Success SMS for Groups', function(job, done) {
+	Invoice.find({ bankpay: true, successTextSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true })
+	.populate('_group')
+	.exec(function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(invoice) {
+
+				mailer.sendGroupBankPaySuccessText(invoice);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
+agenda.define('Send Web Payment Success Email for Groups', function(job, done) {
+	Invoice.find({ webpay: true, successMailSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true })
+	.populate('_group')
+	.populate('registrations', '_id firstName middleName surname suffix prefix regCode conferenceFee')
+	.exec(function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(invoice) {
+
+				mailer.sendGroupWebPaySuccessMail(invoice);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
+agenda.define('Send Web Payment Success SMS for Groups', function(job, done) {
+	Invoice.find({ webpay: true, successTextSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true })
+	.populate('_group')
+	.exec(function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(invoice) {
+
+				mailer.sendGroupWebPaySuccessText(invoice);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
+// TODO:  Create Accounts for Paid Invoices
+
+// TODO: Create Accounts for Direct Bank Registrations
+
+
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
 agenda.every('04 7 * * *', [ 'Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report' ]);
 
+agenda.every('30 minutes', 'Delete Incomplete Invoices');
+
 agenda.every('10 minutes', [ 'Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations' ]);
 
-agenda.every('5 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals', 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals' ]);
+agenda.every('5 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals', 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals', 'Send Bank Payment Success SMS for Groups', 'Send Bank Payment Success Email for Groups', 'Send Web Payment Success SMS for Groups', 'Send Web Payment Success Email for Groups' ]);
 
 exports.start = function() { agenda.start(); }
