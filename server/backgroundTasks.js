@@ -268,7 +268,45 @@ agenda.define('Send Web Payment Success Email for Individuals', function(job, do
 });
 
 agenda.define('Send Web Payment Success SMS for Individuals', function(job, done) {
-	Registration.find({webpay: true, successMailSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true }, function(err, toResolve){
+	Registration.find({webpay: true, successTextSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true }, function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(registration) {
+
+				mailer.sendWebPaySuccessText(registration);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
+agenda.define('Send Bank Payment Success Email for Individuals', function(job, done) {
+	Registration.find({ isDirect: false, bankpay: true, successMailSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true }, function(err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function(registration) {
+
+				mailer.sendBankPaySuccessMail(registration);
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
+
+agenda.define('Send Bank Payment Success SMS for Individuals', function(job, done) {
+	Registration.find({ isDirect: false, bankpay: true, successTextSent: false, responseGotten: true, paymentSuccessful: true, statusConfirmed: true }, function(err, toResolve) {
 
 		if (err) { job.fail(err); job.save(); done(); }
 
@@ -288,10 +326,10 @@ agenda.define('Send Web Payment Success SMS for Individuals', function(job, done
 
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
-agenda.every('04 7 * * *', ['Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report']);
+agenda.every('04 7 * * *', [ 'Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report' ]);
 
-agenda.every('10 minutes', ['Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations']);
+agenda.every('10 minutes', [ 'Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations' ]);
 
-agenda.every('5 minutes', ['Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals']);
+agenda.every('5 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals', 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals' ]);
 
-exports.start = function() { agenda.start(); } 
+exports.start = function() { agenda.start(); }
