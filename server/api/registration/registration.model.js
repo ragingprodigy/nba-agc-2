@@ -91,6 +91,10 @@ var RegistrationSchema = new Schema({
     type: Boolean,
     default: false
   },
+  accountCreated: {
+    type: Boolean,
+    default: false
+  },
   
   TransactionRef:  { type:String, default: "" },
   PaymentRef:  { type:String, default: "" },

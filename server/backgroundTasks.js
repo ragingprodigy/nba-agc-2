@@ -10,6 +10,7 @@ var parseString = require('xml2js').parseString;
 
 var Registration = require('./api/registration/registration.model');
 var Invoice = require('./api/invoice/invoice.model');
+var User = require('./api/user/user.model');
 var RegistrationController = require('./api/registration/registration.controller');
 
 var agenda = new Agenda({db: { address: config.mongo.uri }});
@@ -110,7 +111,7 @@ agenda.define('Send Confirmed Web Registration Report', function(job, done) {
 
 	      var record = pending[i];
 
-	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td> ' + ( record.regCode + '-' + record.conferenceFee ) + ' </td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>NGN ' + record.Amount  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td><td>' + record.TransactionRef + '</td><td>' + record.PaymentRef + '</td></tr>';
+	      theMail += '<tr><td>' + (i+1) + '.</td><td>' + moment(record.lastModified).format('ddd, Do MMM YYYY') + '</td><td>' + ( record.prefix+'. '+record.firstName+' '+record.surname ) + '</td><td> ' + ( record.regCode + '-' + record.conferenceFee ) + ' </td><td>' + ( record.email ) + '</td><td style="text-align:center;">' + ( record.mobile ) + '</td><td>NGN ' + record.conferenceFee  + '</td><td>NGN ' + (record.webpay?record.Amount:record.bankDeposit)  + '</td><td style="text-align:center;">' + (record.webpay?'WEB':'BANK') + '</td><td>' + record.TransactionRef + '</td><td>' + record.PaymentRef + '</td></tr>';
 	    } 
 
 	    var footer = '</table>';
@@ -415,18 +416,180 @@ agenda.define('Send Web Payment Success SMS for Groups', function(job, done) {
 });
 
 // TODO:  Create Accounts for Paid Invoices
+agenda.define('Create Accounts for Paid Invoices', function (job, done) {
+	Invoice.find({ statusConfirmed: true, paymentSuccessful: true, responseGotten: true, accountsCreated: false })
+	.populate('registrations')
+	.exec(function (err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+			_(toResolve).forEach(function (invoice) {
+
+				// Iterate through the registrations in this Invoice and Create Accounts for Each
+				_(invoice.registrations).forEach(function (registration){
+
+					// Create User Account Using First Name and Last Name as Username
+					var username = (registration.firstName + registration.surname).split(' ').join('').toLowerCase();
+
+					// Find Existing User
+					User.find({email: username}, function (err, existingUsers) {
+
+						if (existingUsers.length) {
+							username += '_'+existingUsers.length;
+						}
+
+						var newPass = User.randomString(4).toLowerCase();
+
+						var user = new User();
+						user.email = username;
+						user.password = user.generateHash(newPass);
+
+						user.save(function() {
+
+							Invoice.update({ _id: invoice._id }, { $set: { accountsCreated: true } }, function(){ });
+
+			                Registration.findById(registration._id, function ( err, theReg ){
+			                    if (theReg) {
+
+			                        theReg.user = user;
+			                        theReg.statusConfirmed = true;
+			                        theReg.responseGotten = true;
+			                        theReg.paymentSuccessful = true;
+			                        theReg.webpay = invoice.webpay;
+			                        theReg.bankpay = invoice.bankpay;
+
+			                        theReg.PaymentRef = invoice.PaymentRef;
+			                        theReg.TransactionRef = invoice.TransactionRef;
+			                        theReg.ResponseDescription = invoice.ResponseDescription;
+			                        theReg.ResponseCode = invoice.ResponseCode;
+			                        theReg.PaymentGateway = invoice.PaymentGateway;
+			                        theReg.Status = invoice.Status;
+
+			                        theReg.bankDatePaid = invoice.bankDatePaid;
+			                        theReg.bankTeller = invoice.bankTeller;
+			                        theReg.bankBranch = invoice.bankBranch;
+
+			                        theReg.save(function ( err ) {
+
+			                            if (err) { job.fail(err); job.save(); done(); }
+
+			                            // Send Email to the User Here
+		                                mailer.sendWelcomeMailWithUsername(theReg, newPass, username, function (err){
+		                                    if (err !== null) { job.fail(err); job.save(); done(); }
+
+		                                    // Send the text message
+		                                    mailer.sendRegistrationTextWithUsername(theReg, newPass, username, function (err){
+		                                        
+		                                        if (err!==null) { job.fail(err); job.save(); done(); }
+		                                        
+		                                        done();
+		                                    });
+		                            
+		                                });
+
+			                        });
+			                    }
+			                });
+
+			            });
+					});
+
+				});
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
 
 // TODO: Create Accounts for Direct Bank Registrations
+agenda.define('Create Accounts for Direct Bank Registrations', function (job, done) {
+	Registration.find({ bankpay: true, statusConfirmed: true, paymentSuccessful: true, responseGotten: true, isDirect: true, accountCreated: false }, function (err, toResolve){
+
+		if (err) { job.fail(err); job.save(); done(); }
+
+		if (toResolve.length) {
+
+			// Iterate through the registrations and Create Accounts for Each
+			_(toResolve).forEach(function (registration) {
+
+				// Create User Account Using First Name and Last Name as Username
+				var username = (registration.firstName + registration.surname).split(' ').join('').toLowerCase();
+
+				// Find Existing User
+				User.find({email: username}, function (err, existingUsers) {
+
+					if (existingUsers.length) {
+						username += '_'+existingUsers.length;
+					}
+
+					var newPass = User.randomString(4).toLowerCase();
+
+					var user = new User();
+					user.email = username;
+					user.password = user.generateHash(newPass);
+
+					user.save(function() {
+
+		                Registration.findById(registration._id, function ( err, theReg ){
+		                    if (theReg) {
+
+		                        theReg.user = user;
+		                        theReg.accountCreated = true;
+
+		                        theReg.save(function ( err ) {
+
+		                            if (err) { job.fail(err); job.save(); done(); }
+
+		                            // Send Email to the User Here
+	                                mailer.sendWelcomeMailWithUsername(theReg, newPass, username, function (err){
+	                                    if (err !== null) { job.fail(err); job.save(); done(); }
+
+	                                    // Send the text message
+	                                    mailer.sendRegistrationTextWithUsername(theReg, newPass, username, function (err){
+	                                        
+	                                        if (err!==null) { job.fail(err); job.save(); done(); }
+	                                        
+	                                        done();
+	                                    });
+	                            
+	                                });
+
+		                        });
+		                    }
+		                });
+
+		            });
+				});
+
+			});
+
+			done();
+		} else {
+			done();
+		}
+	});
+});
 
 
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
 agenda.every('04 7 * * *', [ 'Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report' ]);
 
-agenda.every('30 minutes', 'Delete Incomplete Invoices');
+agenda.every('30 minutes', [ 'Delete Incomplete Invoices' ]);
+
+agenda.every('2.65 hours', [ 'Create Accounts for Paid Invoices', 'Create Accounts for Direct Bank Registrations' ]);
 
 agenda.every('10 minutes', [ 'Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations' ]);
 
-agenda.every('5 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals', 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals', 'Send Bank Payment Success SMS for Groups', 'Send Bank Payment Success Email for Groups', 'Send Web Payment Success SMS for Groups', 'Send Web Payment Success Email for Groups' ]);
+agenda.every('5 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals' ]);
+
+agenda.every('7 minutes', [ 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals' ]);
+
+agenda.every('11 minutes', [ 'Send Bank Payment Success SMS for Groups', 'Send Bank Payment Success Email for Groups', 'Send Web Payment Success SMS for Groups', 'Send Web Payment Success Email for Groups' ]);
 
 exports.start = function() { agenda.start(); }

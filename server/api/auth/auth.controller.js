@@ -43,29 +43,6 @@ function createGroupAccount(req, res) {
 
 }
 
-/*exports.oneTimeTask = function(req, res) {
-    Registration.find({user: '0'}, function(err, registrations){
-        if (err) { return handleError(res, err); }
-
-        console.log('Found ', registrations.length, ' registrations.');
-
-        return _(registrations).forEach(function(registration) {
-            // Find User with matching email
-            User.findOne({email: registration.email}, function(err, theUser){
-                if (err) { return; }
-
-                if (theUser) {
-
-                    registration.user = theUser._id;
-                    registration.save(function(){
-                        console.log('Updated record: ', registration._id);
-                    });
-                }
-            });
-        });
-    });
-};*/
-
 exports.confirmReset = function(req, res){
 
     if (req.body.member === undefined || req.body.token === undefined) { return res.status(401).json({message: 'Invalid password reset request. Please go through the password recovery process again.' }); }
@@ -193,6 +170,7 @@ exports.signUp = function(req, res) {
                     if (registration) {
                         //registration.user = user._id;
                         registration.user = user;
+                        registration.accountCreated = true;
                         registration.save(function ( err ) {
 
                             if (err) { return handleError(res, err); }
@@ -250,12 +228,12 @@ exports.signUp = function(req, res) {
 exports.signIn = function(req, res) {
     User.findOne({ email: req.body.email }, '+password', function(err, user) {
         if (!user) {
-            return res.status(401).send({ message: 'Wrong email and/or password' });
+            return res.status(401).send({ message: 'Wrong email/username and/or password' });
         }
 
         user.validPassword(req.body.password, function(err, isMatch) {
             if (!isMatch) {
-                return res.status(401).send({ message: 'Wrong email and/or password' });
+                return res.status(401).send({ message: 'Wrong email/username and/or password' });
             }
             res.send({ token: createJWT(user) });
         });
