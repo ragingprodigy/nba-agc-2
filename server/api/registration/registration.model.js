@@ -140,7 +140,8 @@ RegistrationSchema.post('save', function(entry){
 
     }*/
 
-   if (entry.registrationType === 'legalPractitioner') {
+    // Only Calculat the Conference Fee if the Registration is a new one
+   if (entry.registrationType === 'legalPractitioner' && entry.conferenceFee < 10) {
        // Calculate the cost and save
        Member.findById(entry.member, function(err, member){
            if (!!err) return;
