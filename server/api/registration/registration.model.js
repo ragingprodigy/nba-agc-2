@@ -10,6 +10,7 @@ var pRef = require('../../components/tools/pRef');
 var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
   user : { type: Schema.Types.ObjectId, ref: 'User' },
+  owner : { type: Schema.Types.ObjectId, ref: 'User' },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
   middleName:  { type:String, default: "" },
