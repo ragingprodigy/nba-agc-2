@@ -580,16 +580,16 @@ agenda.define('Create Accounts for Direct Bank Registrations', function (job, do
 agenda.every('59 6 * * *', 'Send Web Registration Report');
 agenda.every('04 7 * * *', [ 'Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report' ]);
 
-agenda.every('30 minutes', [ 'Delete Incomplete Invoices' ]);
+agenda.every('23 minutes', [ 'Delete Incomplete Invoices' ]);
 
 agenda.every('2.65 hours', [ 'Create Accounts for Paid Invoices', 'Create Accounts for Direct Bank Registrations' ]);
 
-agenda.every('10 minutes', [ 'Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations' ]);
+agenda.every('11 minutes', [ 'Update Web Transactions For Individuals', 'Update Web Transactions For Groups', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals', 'delete old registrations' ]);
 
-agenda.every('5 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals' ]);
+agenda.every('13 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals' ]);
 
-agenda.every('7 minutes', [ 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals' ]);
+agenda.every('19 minutes', [ 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals' ]);
 
-agenda.every('11 minutes', [ 'Send Bank Payment Success SMS for Groups', 'Send Bank Payment Success Email for Groups', 'Send Web Payment Success SMS for Groups', 'Send Web Payment Success Email for Groups' ]);
+agenda.every('17 minutes', [ 'Send Bank Payment Success SMS for Groups', 'Send Bank Payment Success Email for Groups', 'Send Web Payment Success SMS for Groups', 'Send Web Payment Success Email for Groups' ]);
 
 exports.start = function() { agenda.start(); }
