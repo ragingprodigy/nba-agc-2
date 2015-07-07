@@ -149,25 +149,24 @@ RegistrationSchema.post('save', function(entry){
     // Only Calculat the Conference Fee if the Registration is a new one
    if (entry.registrationType === 'legalPractitioner') {
        // Calculate the cost and save
-       /*Member.findById(entry.member, function(err, member){
+       Member.findById(entry.member, function(err, member){
            if (!!err) return;
 
            if (member) {
+             var currentYear = new Date().getFullYear();
+             var atTheBar = currentYear - member.yearCalled;
+             feeDue = 50000;
 
+             if (atTheBar <= 5) { feeDue = 8000; }
+             else if (atTheBar <= 10) { feeDue = 15000; }
+             else if (atTheBar <= 14) { feeDue = 20000; }
+             else if (atTheBar <= 20) { feeDue = 30000; }
+
+             Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue} }, function(e){
+              return;
+             });
            }
-       });*/
-     var currentYear = new Date().getFullYear();
-     var atTheBar = currentYear - entry.yearCalled;
-     feeDue = 50000;
-
-     if (atTheBar <= 5) { feeDue = 8000; }
-     else if (atTheBar <= 10) { feeDue = 15000; }
-     else if (atTheBar <= 14) { feeDue = 20000; }
-     else if (atTheBar <= 20) { feeDue = 30000; }
-
-     Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue} }, function(e){
-      return;
-     });
+       });
    } else {
 
        switch (entry.registrationType) {
