@@ -78,7 +78,7 @@ exports.fetch = function (req, res) {
 
 // Get list of registrations
 exports.index = function(req, res) {
-  Registration.find({user: req.user}, function (err, registrations) {
+  Registration.find({ $or:[ { 'user': new ObjectId(req.user) }, { 'owner': new ObjectId(req.user) } ]}, function (err, registrations) {
     if(err) { return handleError(res, err); }
     return res.json(200, registrations);
   });
