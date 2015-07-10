@@ -69,7 +69,8 @@ exports.webPayStatus = function (req, res) {
 
 exports.fetch = function (req, res) {
 
-  Registration.find({user: new ObjectId(req.user) }, function(err, registrations) {
+  //Registration.find({user: new ObjectId(req.user) }, function(err, registrations) {
+  Registration.find({ $or:[ { 'user': new ObjectId(req.user) }, { 'owner': new ObjectId(req.user) } ]}, function(err, registrations) {
       if (err) { return handleError(res, err); }
       return res.status(200).json(registrations);
   });
