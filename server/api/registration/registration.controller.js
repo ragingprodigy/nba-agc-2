@@ -69,17 +69,32 @@ exports.webPayStatus = function (req, res) {
 
 exports.fetch = function (req, res) {
 
-  //Registration.find({user: new ObjectId(req.user) }, function(err, registrations) {
-  Registration.find({ $or:[ { 'user': new ObjectId(req.user) }, { 'owner': new ObjectId(req.user) } ]}, function(err, registrations) {
-      if (err) { return handleError(res, err); }
-      return res.status(200).json(registrations);
-  });
+    var params = {};
+    if (req.query.isGroup) {
+        params = { owner: new ObjectId(req.user) };
+    } else {
+        params = { user: new ObjectId(req.user) };
+    }
+
+    Registration.find(params, function (err, registrations) {
+        if(err) { return handleError(res, err); }
+
+        return res.json(200, registrations);
+    });
 };
 
 // Get list of registrations
 exports.index = function(req, res) {
-  Registration.find({ $or:[ { 'user': new ObjectId(req.user) }, { 'owner': new ObjectId(req.user) } ]}, function (err, registrations) {
+    var params = {};
+    if (req.query.isGroup) {
+        params = { owner: new ObjectId(req.user) };
+    } else {
+        params = { user: new ObjectId(req.user) };
+    }
+
+  Registration.find(params, function (err, registrations) {
     if(err) { return handleError(res, err); }
+
     return res.json(200, registrations);
   });
 };
