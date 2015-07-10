@@ -175,9 +175,9 @@ exports.destroy = function(req, res) {
       if (registration.completed && registration.statusConfirmed) { return res.status(400).json({message: 'Cannot delete this registration because it has been confirmed'}); }
 
       if (req.user || (registration.webpay || registration.bankpay)) {
-        // Prevent logged in users from doin nefarious things like deleting other
+        // Prevent logged in users from doing nefarious things like deleting other
         // people's registrations
-        if (registration.user !== req.user) { return res.status(400).json({message: 'You cannot delete this registration!'}); }
+        if ((registration.user !== req.user) && (registration.owner !== req.user)) { return res.status(400).json({message: 'You cannot delete this registration!'}); }
       }
       registration.remove(function(err) {
           if(err) { return handleError(res, err); }
