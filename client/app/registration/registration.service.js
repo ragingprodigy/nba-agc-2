@@ -5,6 +5,7 @@ angular.module('nbaAgc2App')
     // AngularJS will instantiate a singleton by calling "new" on this function
         return $resource('/api/registrations/:id', null,
             {
-                'update': { method:'PUT' }
+                'update': { method:'PUT' },
+                'clone': { method:'POST' },
             });
   });

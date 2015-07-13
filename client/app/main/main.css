@@ -1,11 +1,7 @@
-.thing-form {
-    margin: 20px 0;
-}
-
 #banner {
     border-bottom: none;
     margin-top: -20px;
-    min-height: 300px;
+    min-height: 200px;
     margin-bottom: 15px;
 }
 
@@ -15,13 +11,17 @@
     letter-spacing: -1px;
 }
 
+.navbar {
+    margin-bottom: 0;
+}
+
 .hero-unit {
     position: relative;
-    padding: 30px 15px;
+    /*padding: 30px 15px;*/
     color: #F5F5F5;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    background: url('../../assets/images/nba-banner.jpg') no-repeat;
+    background: url('../../assets/images/nba-header.jpg') no-repeat;
 }
 
 .footer {
@@ -34,6 +34,7 @@
     background-color: #0A0A0A;
     color: #FFFFFF;
     border-top: 1px solid #E5E5E5;
+    z-index: 999999;
 }
 
 .footer p {

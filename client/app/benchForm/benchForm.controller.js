@@ -1,17 +1,21 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('BenchFormCtrl', function ($scope, $state, Registration, $sessionStorage) {
+  .controller('BenchFormCtrl', function ($scope, $state, Registration, $sessionStorage, blocker, $anchorScroll, $rootScope) {
 
-        console.log($sessionStorage.lpRegistrant);
+        $anchorScroll();
 
-        // If any other type of Registration is on-going, cancel it
+        // If any other type of Registration is on-going, re-direct to it
         if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined){
+            blocker.block();
+
             if ($sessionStorage.lpRegistrant.registrationType==='sanAndBench') {
 
                 Registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
                     $scope.data = d;
                     $scope.nextForm = true;
+
+                    blocker.clear();
                 });
             } else {
                 $state.go($sessionStorage.lpRegistrant.registrationType);
@@ -37,6 +41,10 @@ angular.module('nbaAgc2App')
 
             if (cnf) {
 
+                blocker.block();
+
+                if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
+
                 var reg = new Registration($scope.data);
                 reg.$save().then(function(registrationData) {
 
@@ -44,22 +52,36 @@ angular.module('nbaAgc2App')
                     $scope.data = registrationData;
 
                     $scope.nextForm = true;
+
+                    blocker.clear();
+                    window.alert('Registration started successfully. Now, please complete the rest of the form and submit.');
                 });
             }
         };
 
-        $scope.reviewForm = function() {
+        $scope.reviewForm = function(form1, form2) {
 
-            var cnf = window.confirm('Are you sure?');
-            if (cnf) {
+            if (form1.$valid && form2.$valid) {
 
-                $scope.data.formFilled = true;
+                var cnf = window.confirm('Are you sure you want to submit this form?');
+                if (cnf) {
 
-                // Update the Registration Information
-                Registration.update({id: $scope.data._id}, $scope.data);
+                    blocker.block();
 
-                // User wants to Pay now!
-                $state.go('invoice');
+                    $scope.data.formFilled = true;
+
+                    // Update the Registration Information
+                    Registration.update({id: $scope.data._id}, $scope.data, function(){
+                        if ($rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
+                        $state.go('invoice');
+                    });
+                }
+            } else {
+
+                window.alert('All fields marked * are required. Please fill all fields before submitting.');
+
+                $anchorScroll();
+
             }
         };
   });

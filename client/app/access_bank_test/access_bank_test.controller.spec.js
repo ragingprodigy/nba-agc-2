@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: JudgeCtrl', function () {
+describe('Controller: AccessBankTestCtrl', function () {
 
   // load the controller's module
   beforeEach(module('nbaAgc2App'));
 
-  var JudgeCtrl, scope;
+  var AccessBankTestCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    JudgeCtrl = $controller('JudgeCtrl', {
+    AccessBankTestCtrl = $controller('AccessBankTestCtrl', {
       $scope: scope
     });
   }));

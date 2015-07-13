@@ -30,7 +30,7 @@ Thing.find({}).remove(function() {
     info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
   });
 });
-
+/*
 Member.find({}).remove(function(){
    Member.create({
        firstName: 'James', middleName: 'Frederick', surname:'Patterson', yearCalled: 1991, branch: 'Lagos'
@@ -43,4 +43,4 @@ Member.find({}).remove(function(){
    },{
        firstName: 'Felicia', middleName: 'Agnes', surname:'Matlock', yearCalled: 2009, branch: 'Ogun'
    });
-});
+});*/

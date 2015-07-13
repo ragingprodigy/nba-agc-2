@@ -1,22 +1,22 @@
-#group-list {
+.group-list {
     list-style: none;
     padding: 0;
 }
 
-#group-list li {
+.group-list li {
     padding: 10px;
-    background: url("../../assets/images/group-bg.png") repeat-x;
     margin: 20px 0;
     border-radius: 5px;
+    background: url('../../assets/images/group-bg.png')  repeat-x;
     cursor: pointer;
 }
 
-#group-list li a {
-    color: #008000;
+.group-list li a {
+    color: #000;
     font-weight: bold;
-    font-size: large;
+    display: block;
 }
 
-#group-list li a:hover {
+.group-list li a:hover {
     text-decoration: none;
 }

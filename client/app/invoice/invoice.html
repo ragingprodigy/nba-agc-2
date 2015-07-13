@@ -2,16 +2,15 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12 col-sm-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">PAYMENT INVOICE <button class="hidden-print btn btn-xs btn-info pull-right"
+                    <div class="panel-title">PAYMENT INVOICE <!--<button class="hidden-print btn btn-xs btn-info pull-right"
                                                                      ng-click="pInfo=!pInfo"> <i
                             class="fa fa-info-circle"></i> How
-                    To Pay</button> </div>
+                    To Pay</button>--> </div>
                 </div>
                 <div class="panel-body">
-                    <form method="POST" id="upay_form" name="upay_form" action="https://cipg.accessbankplc.com/MerchantServices/MakePayment.aspx" target="_top">
                     <table class="table table-bordered table-striped">
                         <tr class="space">
                             <td style="width: 25%"></td>
@@ -24,7 +23,7 @@
                         </tr>
                         <tr>
                             <th colspan="2"><i class="fa fa-bullhorn"></i> {{ data.yearCalled }} - Year of CALL </th>
-                            <td colspan="2"><i class="fa fa-building"></i> {{data.branch}} BRANCH </td>
+                            <td colspan="2"><i class="fa fa-building"></i> {{data.branch}} {{data.state}} </td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-phone-square"></i> {{data.phone}}</td>
@@ -33,18 +32,10 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <i class="fa fa-map-marker"></i> {{data.company}}
+                                <i class="fa fa-map-marker"></i> {{data.company}} {{data.court}} {{data.division}}
                             </td>
                             <td colspan="2">
                                 <i class="fa fa-map-marker"></i> {{data.address}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <i class="fa fa-user"></i> {{data.emergencyContact}}
-                            </td>
-                            <td colspan="2">
-                                <i class="fa fa-phone"></i> {{data.emergencyPhone}}
                             </td>
                         </tr>
                         <tr>
@@ -52,7 +43,7 @@
                                 <h4>Order ID:</h4>
                             </th>
                             <th colspan="2">
-                                <h4>{{data.regCode}}/{{data.conferenceFee}}</h4>
+                                <h4>{{data.regCode}}-{{data.conferenceFee}}</h4>
                             </th>
                         </tr>
                         <tr>
@@ -60,34 +51,26 @@
                                 <h4>Conference Fees:</h4>
                             </th>
                             <th colspan="2">
-                                <h4>NGN {{ data.conferenceFee }}</h4>
+                                <h4>NGN {{ data.conferenceFee.formatMoney(2) }}</h4>
                             </th>
                         </tr>
                         <tr class="hidden-print">
                             <td colspan="4" class="text-center">
-                                <button type="button" class="btn btn-danger pull-left" ng-click="back()"><i
+                                <button type="button" class="btn btn-danger" ng-click="back()" ng-hide="data.webpay || data.bankpay"><i
                                         class="fa fa-arrow-left"></i> GO BACK</button>
-                                <button ng-hide="data.completed" ng-click="payOnline()" class="btn btn-success"
-                                        type="button"><i
+                                <button ng-click="payOnline()" class="btn btn-success" ng-hide="data.bankpay"
+                                        type="button" ng-class="{'btn-block': data.webpay}"><i
                                         class="fa fa-play"></i> PAY ONLINE </button>
-                                <button ng-hide="data.completed" ng-click="manualPay()" class="btn btn-primary"
+                                <button ng-click="payBank()" class="btn btn-primary" ng-class="{'btn-block': data.bankpay}" ng-hide="data.webpay"
                                         type="button"><i
                                         class="fa fa-anchor"></i> PAY TO THE BANK </button>
-                                <button type="button" class="btn pull-right" onclick="window.print()"><i
+                                <!--<button type="button" class="btn pull-right" onclick="window.print()"><i
                                         class="fa fa-print"></i>
                                     PRINT
-                                </button>
+                                </button>-->
                             </td>
                         </tr>
                     </table>
-                        <input type="hidden" name="mercId" value="09948">
-                        <input type="hidden" name="currCode" value="566">
-                        <input type="hidden" name="amt" value="{{ data.conferenceFee }}">
-                        <input type="hidden" name="orderId" value="{{data.regCode}}/{{data.conferenceFee}}">
-                        <input type="hidden" name="prod" value="NBA AGC 2015 Registration for {{userName}}">
-                        <input type="hidden" name="email" value="{{data.email}}">
-                        <input type="hidden" name="submit" value="Pay">
-                    </form>
                 </div>
             </div>
 
@@ -105,6 +88,6 @@
             </div>
         </div>
 
-        <div class="col-sm-4 hidden-print" ng-include="'components/rightInfo/rightInfo.html'"></div>
+        <!--<div class="col-sm-5 hidden-print" ng-include="'components/rightInfo/rightInfo.html'"></div>-->
     </div>
 </div>

@@ -13,7 +13,16 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var path = require('path');
+var cors = require('cors');
+var logger = require('morgan');
 var config = require('./environment');
+
+var forceSsl = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -21,6 +30,7 @@ module.exports = function(app) {
   app.set('views', config.root + '/server/views');
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
+  app.use(cors());
   app.use(compression());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,7 +41,9 @@ module.exports = function(app) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', config.root + '/public');
-    app.use(morgan('dev'));
+    //app.use(morgan('dev'));
+
+    //app.use(forceSsl);
   }
 
   if ('development' === env || 'test' === env) {

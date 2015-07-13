@@ -2,10 +2,65 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
-            <h3>Registration</h3>
-            <hr>
+        <div class="col-md-6 col-md-offset-3"><br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title text-center"><b>CREATE ACCOUNT FOR GROUP REGISTRATION</b></div>
+                </div>
+                <div class="panel-body" id="theForm">
+                    <div class="alert alert-danger" ng-show="error.length">{{error}}</div>
+                    <div class="alert alert-{{status.type}}" ng-show="status.message.length">
+                    	<button class="btn btn-danger btn-xs" ng-click="status.message=''"><i class="fa fa-times-circle"></i></button>
+		                {{status.message}}
+		            </div>
+
+                    <form ng-submit="signUpForm.$valid && doSignUp(signUpForm)" name="signUpForm">
+                        <div class="form-group">
+                            <label for="groupName">Group Name <span class="required">*</span> </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Enter the Name of your Group"
+                                       ng-model="user.groupName" id="groupName" name="groupName" required>
+                                <span class="input-group-addon"><i class="fa fa-users"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span> </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Your Phone Number"
+                                       ng-model="user.phone" id="phone" name="phone" required>
+                                <span class="input-group-addon"><i class="fa fa-mobile"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span> </label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="Your Email Address"
+                                       ng-model="user.email" id="email" name="email" required>
+                                <span class="input-group-addon"><i class="fa fa-envelope-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password <span class="required">*</span> </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="Your NBA Conference Password"
+                                       ng-model="user.password" id="password" required>
+                                <span class="input-group-addon"><i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <button class="btn btn-block btn-success" ng-disabled="signUpForm.$invalid" type="submit"><i
+                                class="fa fa-key"></i> CREATE ACCOUNT
+                        </button>
+
+                    </form>
+                </div>
+            </div>
         </div>
+
     </div>
-    <div sp-registration-form post-login-state="main"></div>
 </div>

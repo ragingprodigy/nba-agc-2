@@ -1,0 +1,94 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container" ng-mask>
+    <div class="row">
+        <div class="col-sm-12 col-sm-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE</div>
+                </div>
+                <div class="panel-body">
+
+                	<table ng-show="showGroup" class="table table-striped table-bordered">
+                		<tr><th class="text-center text-uppercase" colspan="4">GROUP MEMBERS</th></tr>
+                		<tr class="space"><td colspan="4"></td></tr>
+                		<tr ng-repeat="m in invoice.registrations">
+                			<td>{{$index+1}}.</td>
+                			<td>{{getName(m)}}</td>
+                			<td>{{m.mobile}}</td>
+                			<td>NGN {{m.conferenceFee.formatMoney(2)}}</td>
+                		</tr>
+                		<tr class="hidden-print hidden">
+                			<td colspan="4">
+                				<button class="btn btn-block btn-danger" ng-click="showGroup=false"> <i class="fa fa-arrow-up"></i> Hide</button>
+                			</td>
+                		</tr>
+                	</table>
+
+                    <table class="table table-bordered table-striped">
+                        <tr class="space"><td colspan="4"></td></tr>
+                        <tr class="space"><td colspan="4"></td></tr>
+                        <tr>
+                            <th colspan="4" class="text-uppercase text-center"><h4>{{invoice._group.groupName}}</h4></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Members in Group:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>{{invoice.registrations.length}} <button class="hidden-print btn btn-xs" ng-class="{'btn-success':!showGroup, 'btn-warning':showGroup}" ng-click="showGroup=!showGroup"><i class="fa fa-info-circle"></i> {{showGroup?'Hide':'Show'}} Group Members</button></h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Order ID:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>{{invoice.code+'-'+invoice.invoiceAmount}}</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Conference Fees:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>NGN {{ invoice.invoiceAmount.formatMoney(2) }}</h4>
+                            </th>
+                        </tr>
+                        <tr class="hidden-print">
+                            <td colspan="4" class="text-center">
+                                <button type="button" class="btn btn-danger" ng-hide="invoice.finalized" ng-click="deleteInvoice()"><i
+                                        class="fa fa-times-circle"></i> CANCEL INVOICE</button>
+                                <button ng-click="markFinal('webpay')" class="btn btn-success"
+                                        type="button"><i
+                                        class="fa fa-play"></i> PAY ONLINE </button>
+                                <button ng-click="markFinal('bankpay')" class="btn btn-primary"
+                                        type="button"><i
+                                        class="fa fa-anchor"></i> PAY TO THE BANK </button>
+                                <button type="button" class="btn btn-info" onclick="window.print()"><i
+                                        class="fa fa-print"></i>
+                                    PRINT
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-info hidden-print" ng-show="pInfo">
+                <h3>Payment Instructions</h3>
+                <p>
+                    Where does the template get inserted?
+
+                    When a state is activated, its templates are automatically inserted into the ui-view of its parent state's template. If it's a top-level state—which 'contacts' is because it has no parent state–then its parent template is index.html.
+
+                    Right now, the 'contacts' state won't ever be activated. So let's see how we can activate a state.
+
+                    Activating a state
+                </p>
+            </div>
+        </div>
+
+        <!--<div class="col-sm-5 hidden-print" ng-include="'components/rightInfo/rightInfo.html'"></div>-->
+    </div>
+</div>

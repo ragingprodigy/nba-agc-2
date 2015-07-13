@@ -2,26 +2,33 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-7">
-            <ul id="group-list">
-                <li>
-                    <a ui-sref="legalPractitioner">LEGAL PRACTITIONER</a>
-                </li>
-                <li>
-                    <a ui-sref="benchForm">SAN, AGS, BENCHERS</a>
-                </li>
-                <li>
-                    <a ui-sref="judgeForm">HONOURABLE JUDGES</a>
-                </li>
-                <li>
-                    <a ui-sref="magistrateForm">MAGISTRATES</a>
-                </li>
-                <li>
-                    <a ui-sref="othersForm">GOVERNORS, LEGISLATORS, POLITICAL APPOINTEES</a>
-                </li>
-            </ul>
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PLEASE SELECT YOUR CATEGORY</div>
+                </div>
+                <div class="panel-body">
+                    <ul class="group-list">
+                        <li>
+                            <a ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
+                        </li>
+                        <li>
+                            <a ui-sref="sanAndBench">SANs, HONOURABLE AGS &amp; BENCHERS</a>
+                        </li>
+                        <li>
+                            <a ui-sref="magistrate">MAGISTRATES &amp; OTHER JUDICIAL OFFICERS</a>
+                        </li>
+                        <li>
+                            <a ui-sref="judge">HONOURABLE JUSTICES, JUDGES, GRAND KHADIS &amp; KHADIS</a>
+                        </li>
+                        <li>
+                            <a ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL APPOINTEES</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-5" ng-include="'components/rightInfo/rightInfo.html'"></div>
+        <!--<div class="col-md-5" ng-include="'components/rightInfo/rightInfo.html'"></div>-->
     </div>
 </div>
