@@ -10,6 +10,7 @@ module.exports = {
     SESSION_SECRET: "nbaagc2-se78683*&^*hg3j5cret",
     // Control debug level for modules using visionmedia/debug
     DEBUG: '',
+    WEB_CONCURRENCY: 1,
     MANDRILL_API_KEY: '9UAR7iFKFPiZy9fGAJ0lLw',
 
     SMS_OWNER_EMAIL: 'benedicta.moha@lawpavilion.com',
