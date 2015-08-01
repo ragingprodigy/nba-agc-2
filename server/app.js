@@ -74,7 +74,7 @@ function start() {
 	var server = require('http').createServer(app);
 	require('./config/express')(app);
 	require('./routes')(app);
-	require('./backgroundTasks').start();
+	//require('./backgroundTasks').start();
 
 	// Use the rollbar error handler to send exceptions to your rollbar account
 	app.use(rollbar.errorHandler('fd9dcb150036419292ea7ae4bd8b4e0e'));
