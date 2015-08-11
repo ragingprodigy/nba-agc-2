@@ -20,7 +20,7 @@ angular.module('nbaAgc2App')
         if (cnf) {
             $auth.logout();
             $sessionStorage.$reset();
-            $state.go('main');
+            window.location.href='/';
         }
     };
   });

@@ -132,7 +132,7 @@ RegistrationSchema.post('save', function(entry){
 
        var feeDue = 0;
 
-    // Only Calculat the Conference Fee if the Registration is a new one
+    // Only Calculate the Conference Fee if the Registration is a new one
    if (entry.registrationType === 'legalPractitioner') {
        // Calculate the cost and save
        Member.findById(entry.member, function(err, member){
@@ -167,6 +167,9 @@ RegistrationSchema.post('save', function(entry){
                break;
            case 'others':
                feeDue = 250000;
+               break;
+           case 'non_lawyer':
+               feeDue = 25000;
                break;
            case 'international':
                feeDue = 200;
