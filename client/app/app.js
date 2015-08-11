@@ -31,23 +31,66 @@ angular.module('nbaAgc2App', [
     $locationProvider.html5Mode(true);
   })
 
-    .run(function($rootScope, $sessionStorage, Registration, $state, $auth, deviceDetector){
+    .run(function($rootScope, $sessionStorage, Registration, $state, $auth, deviceDetector, MyRegistration, User, $window){
 
-        $rootScope.$user = $auth.getPayload();
-
-        $rootScope.deviceDetector = deviceDetector;
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=654331671254470';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
 
         $rootScope.isGroup = function() {
             return $rootScope.isAuthenticated() && $rootScope.$user && $rootScope.$user.accountType === 'group';
+        };
+
+        //$rootScope.$user = $auth.getPayload();
+
+        $rootScope.confirmedUser = false;
+
+        $rootScope.deviceDetector = deviceDetector;
+
+        $rootScope.cUser = {};
+
+        $rootScope.$on('$stateChangeStart', function(event, next) {
+            if (!$auth.isAuthenticated() && next.requireLogin) {
+                $window.location.href = '/';
+            }
+        });
+
+        $rootScope.formatDate = function(date, type) {
+            switch(type) {
+                case 'cal':
+                    return moment(date).calendar();
+                case 'weekday':
+                    return moment(date).format('dddd');
+                case 'time':
+                    return moment(date).format('h:mm a');
+                case 'fromNow':
+                    return moment(date).fromNow();
+                default:
+                    return moment(date).format('dddd Do MMM, YYYY');
+            }
         };
 
         $rootScope.isAuthenticated = function() {
             return $auth.isAuthenticated();
         };
 
+        if ($rootScope.isAuthenticated()) {
+            MyRegistration.get({}, function(data){
+                $rootScope.cUser = data;
+                $rootScope.confirmedUser = true;
+            });
+
+            User.get({}, function(me) {
+                $rootScope.$user = me;
+            });
+        }
+
         $rootScope.noneInProgress = function() {
             return $sessionStorage.lpRegistrant!==undefined;
-            //return !($sessionStorage.lpRegistrant.webpay || $sessionStorage.lpRegistrant.bankpay);
         };
 
         $rootScope.channelChosen = function() {
@@ -56,11 +99,6 @@ angular.module('nbaAgc2App', [
 
         $rootScope.completeReg = function() {
             if ($rootScope.channelChosen()) {
-                // Remove incomplete registrations from the db
-                if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant!== undefined){
-                    Registration.delete({id: $sessionStorage.lpRegistrant._id });
-                }
-
                 $sessionStorage.$reset();
                 $state.go('main');
             }

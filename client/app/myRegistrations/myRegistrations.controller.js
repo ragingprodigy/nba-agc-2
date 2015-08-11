@@ -1,7 +1,51 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('MyRegistrationsCtrl', function ($scope, $http, Registration, blocker, $auth, $rootScope, Invoice, $sessionStorage, $state) {
+    .controller('ModalInstanceCtrl', function ($scope, $modalInstance, slides) {
+
+    $scope.slides = slides;
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.selectBag = function(index) {
+        $modalInstance.close($scope.slides[index]);
+    };
+})
+  .controller('MyRegistrationsCtrl', function ($scope, $http, Registration, blocker, $auth, $rootScope, Invoice, $sessionStorage, $state, $modal, Bags) {
+
+        Bags.query({}, function(data) {
+            $scope.slides = data;
+            var selection = _.find($scope.slides, function(bag){
+                return bag.name === $rootScope.$user.bag;
+            });
+            $scope.imageUrl = selection?selection.image : '';
+        });
+
+        $scope.pickBag = function () {
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'components/modal/modal.html',
+                controller: 'ModalInstanceCtrl',
+                size: 'lg',
+                resolve: {
+                    slides: function () {
+                        return $scope.slides;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                var selection = new Bags();
+                selection.details = selectedItem;
+                selection.$choose().then(function(data) {
+                    $rootScope.$user = data;
+                    $scope.imageUrl = selectedItem.image;
+                });
+            });
+        };
 
       $scope.status = {};
 
@@ -58,6 +102,9 @@ angular.module('nbaAgc2App')
 
           if ($scope.paidRegistrations.length) {
             $scope.showPayStatus($scope.paidRegistrations[0]);
+              if (!$scope.isGroup()) {
+                  $rootScope.confirmedUser = true;
+              }
           }
 
           blocker.clear();
@@ -68,16 +115,15 @@ angular.module('nbaAgc2App')
           Invoice.query(function(invoices) {
 
             if ($rootScope.isGroup()) {
-            
+
               $scope.invoices = invoices;
               $scope.paidInvoices = _.filter(invoices, function(i) { return i.paymentSuccessful; });
               $scope.paidRegistrations = _.flatten(_.map($scope.paidInvoices, function(i) { return i.registrations; }));
               $scope.paidRegIds = _.map($scope.paidRegistrations, function(r){ return r._id; });
               var myIds = _.difference($scope.regIds, $scope.paidRegIds);
-              
+
               $scope.unpaidRegistrations = _.filter($scope.registrations, function(reg){ return myIds.indexOf(reg._id) > -1; });
 
-                console.log($scope.registrations);
             }
 
           });
@@ -127,7 +173,7 @@ angular.module('nbaAgc2App')
         return _.reduce(group, function(result, reg) { return result + reg.conferenceFee; }, 0);
       };
 
-    	$scope.showPayStatus = function (selected) {
+      $scope.showPayStatus = function (selected) {
     		$scope.selectedReg = selected;
     		$scope.showPay = true;
     	};

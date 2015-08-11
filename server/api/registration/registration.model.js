@@ -40,8 +40,6 @@ var RegistrationSchema = new Schema({
     type:String,
     default: "legalPractitioner"
   },
-  /*emergencyContact:  { type:String, default: "" },
-  emergencyPhone:  { type:String, default: "" },*/
   group:  {
     san: { type: Boolean, default: false },
     ag: { type: Boolean, default: false },
@@ -95,7 +93,7 @@ var RegistrationSchema = new Schema({
     type: Boolean,
     default: false
   },
-  
+  country:  { type:String, default: "" },
   TransactionRef:  { type:String, default: "" },
   PaymentRef:  { type:String, default: "" },
   PaymentGateway:  { type:String, default: "" },
@@ -111,6 +109,7 @@ var RegistrationSchema = new Schema({
   bankBranch:  { type:String, default: "" },
   bankTeller:  { type:String, default: "" },
   statusConfirmed: { type: Boolean, default: false },
+  international: { type: Boolean, default: false },
   responseGotten: { type: Boolean, default: false }
 });
 
@@ -131,19 +130,6 @@ RegistrationSchema.post('save', function(entry){
          });
     }
 
-    /*if (entry.user === '0' || entry.user === '') {
-
-      // find the user with the same email and update the id
-      User.findOne({email: entry.email}, function(err, theUser){
-        if (theUser) {
-          //Registration.update({ _id: entry._id }, { $set: { user: theUser._id.toString() } }, function(e){
-          Registration.update({ _id: entry._id }, { $set: { user: theUser } }, function(e){
-            if (e) { console.log(e); }
-           });
-        }
-      });
-
-    }*/
        var feeDue = 0;
 
     // Only Calculat the Conference Fee if the Registration is a new one
@@ -182,7 +168,10 @@ RegistrationSchema.post('save', function(entry){
            case 'others':
                feeDue = 250000;
                break;
-            case 'access_bank_test':
+           case 'international':
+               feeDue = 200;
+               break;
+           case 'access_bank_test':
               feeDue = 100;
               break;
        }

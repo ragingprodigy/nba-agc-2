@@ -12,6 +12,8 @@ var mongoose = require('mongoose');
 var config = require('./config/environment');
 var rollbar = require('rollbar');
 
+var throng = require('throng');
+
 /*var cluster = require('cluster');
 
 if (cluster.isMaster) {
@@ -58,26 +60,37 @@ if (cluster.isMaster) {
 	// Expose app
 	exports = module.exports = app;
 }*/
-// Connect to database
-mongoose.connect(config.mongo.uri, config.mongo.options);
+var WORKERS = process.env.WEB_CONCURRENCY || 1;
 
-// Populate DB with sample data
-if(config.seedDB) { require('./config/seed'); }
+function start() {
+	// Connect to database
+	mongoose.connect(config.mongo.uri, config.mongo.options);
 
-// Setup server
-var app = express();
-var server = require('http').createServer(app);
-require('./config/express')(app);
-require('./routes')(app);
-require('./backgroundTasks').start();
+	// Populate DB with sample data
+	if(config.seedDB) { require('./config/seed'); }
 
-// Use the rollbar error handler to send exceptions to your rollbar account
-app.use(rollbar.errorHandler('fd9dcb150036419292ea7ae4bd8b4e0e'));
+	// Setup server
+	var app = express();
+	var server = require('http').createServer(app);
+	require('./config/express')(app);
+	require('./routes')(app);
+	//require('./backgroundTasks').start();
 
-// Start server
-server.listen(config.port, config.ip, function () {
-  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+	// Use the rollbar error handler to send exceptions to your rollbar account
+	app.use(rollbar.errorHandler('fd9dcb150036419292ea7ae4bd8b4e0e'));
+
+	// Start server
+	server.listen(config.port, config.ip, function () {
+	  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+	});
+
+	// Expose app
+	exports = module.exports = app;
+}
+
+throng(start, {
+  workers: WORKERS,
+  lifetime: Infinity
 });
 
-// Expose app
-exports = module.exports = app;
+console.log('Number of Workers..', WORKERS);

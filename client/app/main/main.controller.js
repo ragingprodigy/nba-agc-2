@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('MainCtrl', function ($scope, $sessionStorage, $state) {
+  .controller('MainCtrl', function ($scope, $sessionStorage, $state, $rootScope) {
+
+    if ($rootScope.isAuthenticated()) {
+        $state.go('myRegistrations');
+    }
     
     $scope.startReg = function() {
         if ($sessionStorage.lpRegistrant!==null && $sessionStorage.lpRegistrant!== undefined) {

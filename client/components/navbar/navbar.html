@@ -7,13 +7,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand"><img ng-src="assets/images/logo.png"> AGC REGISTRATION PORTAL - <small>ABUJA 2015</small></a>
+      <a href="/" class="navbar-brand"><img ng-src="assets/images/logo.png"> <span ng-hide="confirmedUser">AGC REGISTRATION
+          PORTAL -
+          <small>ABUJA
+          2015</small></span> <span ng-show="confirmedUser">myNBA</span></a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse pull-right" id="navbar-main">
         <ul class="nav navbar-nav">
-            <li ng-show="isAuthenticated()" ng-class="{active: isActive('/')}">
+            <!--<li ng-show="isAuthenticated()" ng-class="{active: isActive('/')}">
                 <a ui-sref="main">HOME</a>
-            </li>
+            </li>-->
             <li ng-show="!isAuthenticated() && !noneInProgress()" ng-class="{active: isActive('/register')}">
                 <a ui-sref="registerAs">START REGISTRATION</a>
             </li>
@@ -35,11 +38,24 @@
                 </li>
               </ul>
             </li>
-            <!--<li ng-show="isAuthenticated()">
-                <a ui-sref="changePassword">CHANGE PASSWORD</a>
-            </li>-->
+            <li ng-show="isAuthenticated()" ng-class="{active: isActive('/my_sessions')}">
+                <a ui-sref="my_sessions">MY SESSIONS</a>
+            </li>
+            <li ng-class="{active: isActive('/conference_sessions')}">
+                <a ui-sref="conference_sessions">PROGRAMME</a>
+            </li>
+            <li ng-class="{active: isActive('/conference_speakers')}">
+                <a ui-sref="conference_speakers">SPEAKERS</a>
+            </li>
+            <li ng-show="isAuthenticated()" ng-class="{active: isActive('/papers')}">
+                <a ui-sref="papers">PAPERS</a>
+            </li>
+            <li ng-show="isAuthenticated()" ng-class="{active: isActive('/attendees')}">
+                <a ui-sref="attendees">ATTENDEES</a>
+            </li>
+            <li><a class="text-danger">{{cUser.firstName}} {{cUser.surname}}</a></li>
             <li ng-show="isAuthenticated()">
-                <button ng-click="logout()" class="btn btn-danger">LOGOUT</button>
+                <button ng-click="logout()" class="btn btn-danger" id="logout">LOGOUT</button>
             </li>
             <li ng-show="noneInProgress() && !isAuthenticated()" class="topCancelBtn">
                 <button class="btn btn-danger" ng-click="doReset()">CANCEL REGISTRATION</button>
@@ -61,11 +77,15 @@
         <div class="row">
             <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
                 <h4>
-                    <span class="label label-info pull-left" ng-show="isGroup()">{{$user.groupName}}</span>
-                    <span ng-show="!isGroup()" class="text-uppercase">Welcome to the Nigerian Bar Association Annual General Conference Portal</span>
-                    <span class="label label-success pull-right" ng-show="isGroup()">{{$user.email}}</span>
+                    <span class="label label-info pull-left acct-name" ng-show="isGroup()">{{$user.groupName}}</span>
+                    <span class="label label-info pull-left acct-name"
+                          ng-hide="isGroup() || !isAuthenticated()">{{cUser.surname+'
+                        '+cUser.firstName+' '+cUser.suffix}}</span>
+                    <span ng-show="!isGroup()" class="text-uppercase text-ellipsis">Welcome to the Nigerian Bar Association Annual General Conference Portal</span>
+                    <span class="label label-success pull-right" ng-show="isGroup()" id="group-login-email">{{$user
+                        .email}}</span>
                 </h4>
             </div>
-        </button>
+        </div>
     </div>
 </div>

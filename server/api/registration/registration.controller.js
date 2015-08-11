@@ -67,19 +67,14 @@ exports.webPayStatus = function (req, res) {
   }
 };
 
+// Get the Confirmed payment for the Current User
 exports.fetch = function (req, res) {
 
-    var params = {};
-    if (req.query.isGroup) {
-        params = { owner: new ObjectId(req.user) };
-    } else {
-        params = { user: new ObjectId(req.user) };
-    }
+    var params = { user: new ObjectId(req.user), paymentSuccessful: true, statusConfirmed: true };
 
-    Registration.find(params, function (err, registrations) {
+    Registration.findOne(params, function (err, registration) {
         if(err) { return handleError(res, err); }
-
-        return res.json(200, registrations);
+        return res.status(200).json(registration);
     });
 };
 
@@ -95,7 +90,7 @@ exports.index = function(req, res) {
   Registration.find(params, function (err, registrations) {
     if(err) { return handleError(res, err); }
 
-    return res.json(200, registrations);
+    return res.status(200).json(registrations);
   });
 };
 
@@ -170,6 +165,8 @@ exports.clone = function(req, res) {
       r.firstName = oldReg.firstName;
       r.user = oldReg.user;
       r.member = oldReg.member;
+      r.country = oldReg.country;
+      r.international = oldReg.international;
       r.regCode = Registration.pRef();
 
       r.save(function(err) {
@@ -180,7 +177,7 @@ exports.clone = function(req, res) {
     } else { return res.status(404).json({message:'Registration not found!'}); }
   });
 
-}
+};
 
 // Deletes a registration from the DB.
 exports.destroy = function(req, res) {

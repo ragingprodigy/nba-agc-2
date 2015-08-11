@@ -3,10 +3,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <panel-header title="PLEASE SELECT YOUR CATEGORY" class="success"></panel-header>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">PLEASE SELECT YOUR CATEGORY</div>
-                </div>
                 <div class="panel-body">
                     <ul class="group-list">
                         <li>
@@ -23,6 +21,9 @@
                         </li>
                         <li>
                             <a ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL APPOINTEES</a>
+                        </li>
+                        <li ng-hide="isGroup()">
+                            <a ui-sref="international">INTERNATIONAL ATTENDEES</a>
                         </li>
                     </ul>
                 </div>

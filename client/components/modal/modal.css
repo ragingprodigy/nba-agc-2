@@ -21,3 +21,14 @@
 .modal-danger .modal-header {
   background: #d9534f;
 }
+
+.bag-selector .single-bag {
+    max-width: 33.33%;
+    float: left;
+    cursor: pointer;
+    text-align: center;
+}
+
+.single-bag img {
+    max-width: 100%;
+}

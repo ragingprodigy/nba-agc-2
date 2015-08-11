@@ -1,11 +1,23 @@
-<div class="modal-header">
-  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
-  <h4 ng-if="modal.title" ng-bind="modal.title" class="modal-title"></h4>
-</div>
 <div class="modal-body">
-  <p ng-if="modal.text" ng-bind="modal.text"></p>
-  <div ng-if="modal.html" ng-bind-html="modal.html"></div>
+    <panel-header title="select a bag type" class="success"></panel-header>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="bag-selector">
+                <div class="single-bag" ng-click="selectBag($index)" ng-repeat="slide in slides">
+                    <img ng-src="{{slide.image}}">
+                    <h4>{{slide.name}} - <span class="label label-success">{{slide.quantity}} Units</span> </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="alert alert-info">
+        <p>Click on an image to select a bag!</p>
+    </div>
 </div>
 <div class="modal-footer">
-  <button ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event)" ng-bind="button.text" class="btn"></button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()">CLOSE</button>
 </div>

@@ -78,7 +78,8 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.spec.js',
           '<%= yeoman.client %>/{app,components}/**/*.mock.js'
         ],
-        tasks: ['newer:jshint:all', 'karma']
+        //tasks: ['newer:jshint:all', 'karma']
+        tasks: ['newer:jshint:all']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -563,7 +564,7 @@ module.exports = function (grunt) {
         'concurrent:test',
         'injector',
         'autoprefixer',
-        'karma'
+        //'karma'
       ]);
     }
 

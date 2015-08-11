@@ -1,0 +1,52 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container session-container">
+    <div class="row">
+        <div class="col-md-9">
+            <h2>CONFERENCE PROGRAMME</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success">
+                        <h4>COMING SOON</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-include="'components/sidebar/sidebar.html'" class="col-md-3"></div>
+    </div>
+</div>
+
+<div ng-hide="true" class="container session-container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12" ng-repeat="s in sessions">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h4 class="text-ellipsis" title="{{s.session.title}}">{{s.title}}<button
+                                    class="pull-right btn-xs btn btn-info">{{formatDate(s.start_time, 'weekday')
+                                }}</button></h4>
+                            <div class="btn-group btn-group-justified" role="group">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-primary">{{formatDate(s.start_time, 'time')}}</button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-primary">{{formatDate(s.end_time,'time')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <a class="btn btn-success btn-block" ui-sref="conference_session_detail({id: s._id})">View
+                                Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-include="'components/sidebar/sidebar.html'" class="col-md-3"></div>
+    </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

@@ -54,7 +54,8 @@
                             <tr>
                                 <th colspan="2" class="text-right">Conference Fees:</th>
                                 <th colspan="2">
-                                    <strong>NGN {{ data.conferenceFee.formatMoney(2) }}</strong>
+                                    <strong>{{data.international?'USD':'NGN'}} {{ data.conferenceFee.formatMoney(2)
+                                        }}</strong>
                                 </th>
                             </tr>
                             <tr>
@@ -89,10 +90,6 @@
                             information.
                         </div>
 
-                        <!--<div class="alert alert-danger">
-                            <h2>APPLICATION UPDATE IN PROGRESS. PLEASE DO NOT PROCEED WITH WEB PAYMENT!!!</h2>
-                        </div>-->
-
                         <div class="hidden-print">
                             <button ng-hide="data.completed" ng-click="markComplete(data)"
                                             class="btn-block btn btn-primary"
@@ -105,7 +102,7 @@
                         </div>
 
                         <input type="hidden" name="mercId" value="09948">
-                        <input type="hidden" name="currCode" value="566">
+                        <input type="hidden" name="currCode" value="{{data.international?840:566}}">
                         <input type="hidden" name="amt" value="{{ toPay(data.conferenceFee) }}">
                         <input type="hidden" name="orderId" value="{{data.regCode}}-{{data.conferenceFee}}">
                         <input type="hidden" name="prod" value="NBA AGC 2015 Registration for {{getName()}}">

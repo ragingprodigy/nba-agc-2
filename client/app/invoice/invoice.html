@@ -5,10 +5,7 @@
         <div class="col-sm-12 col-sm-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">PAYMENT INVOICE <!--<button class="hidden-print btn btn-xs btn-info pull-right"
-                                                                     ng-click="pInfo=!pInfo"> <i
-                            class="fa fa-info-circle"></i> How
-                    To Pay</button>--> </div>
+                    <div class="panel-title">PAYMENT INVOICE</div>
                 </div>
                 <div class="panel-body">
                     <table class="table table-bordered table-striped">
@@ -51,7 +48,7 @@
                                 <h4>Conference Fees:</h4>
                             </th>
                             <th colspan="2">
-                                <h4>NGN {{ data.conferenceFee.formatMoney(2) }}</h4>
+                                <h4>{{data.international?'USD':'NGN'}} {{ data.conferenceFee.formatMoney(2) }}</h4>
                             </th>
                         </tr>
                         <tr class="hidden-print">
@@ -61,13 +58,9 @@
                                 <button ng-click="payOnline()" class="btn btn-success" ng-hide="data.bankpay"
                                         type="button" ng-class="{'btn-block': data.webpay}"><i
                                         class="fa fa-play"></i> PAY ONLINE </button>
-                                <button ng-click="payBank()" class="btn btn-primary" ng-class="{'btn-block': data.bankpay}" ng-hide="data.webpay"
+                                <button ng-click="payBank()" class="btn btn-primary" ng-class="{'btn-block': data.bankpay}" ng-hide="data.webpay || data.international"
                                         type="button"><i
                                         class="fa fa-anchor"></i> PAY TO THE BANK </button>
-                                <!--<button type="button" class="btn pull-right" onclick="window.print()"><i
-                                        class="fa fa-print"></i>
-                                    PRINT
-                                </button>-->
                             </td>
                         </tr>
                     </table>
@@ -87,7 +80,5 @@
                 </p>
             </div>
         </div>
-
-        <!--<div class="col-sm-5 hidden-print" ng-include="'components/rightInfo/rightInfo.html'"></div>-->
     </div>
 </div>

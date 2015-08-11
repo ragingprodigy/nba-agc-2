@@ -127,3 +127,28 @@ table tr.space td {
 .topCancelBtn {
     margin-left: 10px;
 }
+
+.text-ellipsis {
+    text-overflow: ellipsis;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.no-padding {
+    padding: 0!important;
+}
+
+.no-border {
+    border-width: 0!important;
+}
+
+.carousel-caption {
+    background: rgba(0,0,0,0.6);
+    border-radius: 10px;
+}
+
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    display: block;
+    margin: 0 auto;
+}
