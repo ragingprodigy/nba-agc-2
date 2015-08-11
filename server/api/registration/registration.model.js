@@ -172,7 +172,7 @@ RegistrationSchema.post('save', function(entry){
                feeDue = 25000;
                break;
            case 'international':
-               feeDue = 200;
+               feeDue = 2;
                break;
            case 'access_bank_test':
               feeDue = 100;
