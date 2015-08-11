@@ -14,6 +14,7 @@ function createJWT(user) {
         sub: user._id,
         email: user.email,
         accountType: user.accountType,
+        bag: user.bag,
         groupName: user.groupName!==undefined?user.groupName:null,
         iat: moment().unix(),
         exp: moment().add(14, 'days').unix()
@@ -22,7 +23,7 @@ function createJWT(user) {
 }
 
 function createGroupAccount(req, res) {
-    var newPass = req.body.password
+    var newPass = req.body.password;
     var user = new User();
 
     user.email = req.body.email;
@@ -68,7 +69,6 @@ exports.confirmReset = function(req, res){
 };
 
 exports.changePassword = function (req, res) {
-    console.log(req.body);
 
     if (req.body.password === undefined || req.body.user === undefined) { return res.status(400).json({message: 'Invalid password reset request. Please go through the password recovery process again.' }); }
 
@@ -134,25 +134,8 @@ exports.signUp = function(req, res) {
     User.findOne({ email: req.body.email }, function(err, existingUser) {
         if (existingUser) {
 
-            // Allow users to register more than once
-            /*Registration.findById(req.body._id, function(err, registration){
-                if (registration) {
-
-                    console.log('Found User Registration: ', registration);
-                    
-                    registration.user = existingUser._id;
-                    registration.save(function () {
-
-                       res.send({ token: createJWT(existingUser) });
-                    });
-                } else {
-
-                    res.send({'message':'Registration info not found!'});
-
-                }
-            });*/
-
             return res.status(409).send({ message: 'This Email Address has been used. If you have registered before, please sign in using the Login button at the top of your screen. If not, please use a different email address.' });
+
         } else {
 
             if (req.body.accountType!==undefined && req.body.accountType === 'group') { return createGroupAccount(req, res); }

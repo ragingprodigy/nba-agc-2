@@ -15,7 +15,7 @@ router.post('/recoverPassword', controller.recovery);
 router.post('/confirmResetRequest', controller.confirmReset);
 router.post('/changePassword', controller.changePassword);
 
-router.get('/me', sessionSec, controller.view);
-router.put('/me', sessionSec, controller.update);
+router.get('/', sessionSec, controller.view);
+router.put('/', sessionSec, controller.update);
 
 module.exports = router;

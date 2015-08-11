@@ -8,7 +8,6 @@ var pRef = require('../../components/tools/pRef');
 
 // define the schema for our user model
 var userSchema = new Schema({
-
     email : {
         type: String,
         unique: true,
@@ -23,8 +22,9 @@ var userSchema = new Schema({
         default: ''
     },
     phone: { type: String, default: '' },
+    bag: { type: String, default: '' },
     groupName: {
-        type: String,
+        type: String
     },
     accountType: {
         type: String,
@@ -38,7 +38,6 @@ var userSchema = new Schema({
         type: Date,
         default: Date.now
     }
-
 });
 
 // methods ======================

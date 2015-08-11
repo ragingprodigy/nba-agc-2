@@ -14,7 +14,7 @@ exports.index = function(req, res) {
   .exec(function (err, invoices) {
     if(err) { return handleError(res, err); }
     
-    return res.json(200, invoices);
+    return res.status(200).json(invoices);
   });
 };
 
