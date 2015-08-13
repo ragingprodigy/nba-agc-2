@@ -39,6 +39,43 @@ exports.show = function(req, res) {
   });
 };
 
+// Ask a Question
+exports.question = function(req, res) {
+    Session.findById(req.params.id, function(err, session){
+        if(err) { return handleError(res, err); }
+        if(!session) { return res.send(404); }
+
+        var duplicateQuestion = _.filter(session.questions, {question: req.body.question});
+
+        if (duplicateQuestion.length) {
+            return res.status(201).json({message:'This question has already been asked before!'});
+        } else {
+            session.questions.push(_.pick(req.body, ['question','name']));
+            session.save(function(err) {
+                if(err) { return handleError(res, err); }
+
+                return res.json(session);
+            });
+        }
+    });
+};
+
+exports.removeQuestion = function(req, res) {
+
+    Session.findById(req.params.id, function(err, session){
+        if(err) { return handleError(res, err); }
+        if(!session) { return res.send(404); }
+
+        session.questions = _.filter(session.questions, function(q){ return q._id.toString() !== req.params.question_id; });
+
+        session.save(function(err) {
+            if(err) { return handleError(res, err); }
+
+            return res.status(204).json(session);
+        });
+    });
+};
+
 // Add a rating for a conference session
 exports.castVote = function(req, res) {
     // Find the Session

@@ -10,7 +10,14 @@ var SessionSchema = new Schema({
   start_time: Date,
   end_time: Date,
   rating_start: Date,
-  speakers : [{ type: Schema.Types.ObjectId, ref: 'Speaker' }]
+  speakers : [{ type: Schema.Types.ObjectId, ref: 'Speaker' }],
+  questions : [{
+      question: {
+          type: String,
+          unique: true
+      },
+      name: String
+  }]
 });
 
 // generating a hash
