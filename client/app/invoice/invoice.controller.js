@@ -76,13 +76,13 @@ angular.module('nbaAgc2App')
 
             blocker.block();
 
+            if (what==='webpay') { $scope.data.webpay = true; }
+            else { $scope.data.bankpay = true; }
+            $scope.data.completed = true;
+
             // Prevent Account signup for people trying to Pay after signing in
             if ($auth.isAuthenticated()) {
 
-                if (what==='webpay') { $scope.data.webpay = true; }
-                else { $scope.data.bankpay = true; }
-
-                $scope.data.completed = true;
 
                 Registration.update({id: $scope.data._id}, $scope.data, function(){
 
@@ -93,11 +93,6 @@ angular.module('nbaAgc2App')
             } else {
 
                 $auth.signup($scope.data).then(function() {
-
-                    if (what==='webpay') { $scope.data.webpay = true; }
-                    else { $scope.data.bankpay = true; }
-
-                    $scope.data.completed = true;
 
                     Registration.update({id: $scope.data._id}, $scope.data, function(){
 

@@ -45,7 +45,7 @@ angular.module('nbaAgc2App', [
             return $rootScope.isAuthenticated() && $rootScope.$user && $rootScope.$user.accountType === 'group';
         };
 
-        //$rootScope.$user = $auth.getPayload();
+        $rootScope.$user = $auth.getPayload();
 
         $rootScope.confirmedUser = false;
 
@@ -85,7 +85,7 @@ angular.module('nbaAgc2App', [
             });
 
             User.get({}, function(me) {
-                $rootScope.$user = me;
+                if (!$rootScope.isGroup()) { $rootScope.$user = me; }
             });
         }
 

@@ -38,7 +38,7 @@
                 </li>
               </ul>
             </li>
-            <li ng-show="isAuthenticated()" ng-class="{active: isActive('/my_sessions')}">
+            <li ng-show="isAuthenticated() && !isGroup()" ng-class="{active: isActive('/my_sessions')}">
                 <a ui-sref="my_sessions">MY SESSIONS</a>
             </li>
             <li ng-class="{active: isActive('/conference_sessions')}">
