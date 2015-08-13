@@ -50,7 +50,10 @@ exports.question = function(req, res) {
         if (duplicateQuestion.length) {
             return res.status(201).json({message:'This question has already been asked before!'});
         } else {
-            session.questions.push(_.pick(req.body, ['question','name']));
+            var newQuestion = _.pick(req.body, ['question','name']);
+            newQuestion.owner = req.user;
+
+            session.questions.push(newQuestion);
             session.save(function(err) {
                 if(err) { return handleError(res, err); }
 
@@ -66,13 +69,18 @@ exports.removeQuestion = function(req, res) {
         if(err) { return handleError(res, err); }
         if(!session) { return res.send(404); }
 
-        session.questions = _.filter(session.questions, function(q){ return q._id.toString() !== req.params.question_id; });
+        // Check if the question is mine
+        var isMine = _.find(session.questions, function(q){ return q._id.toString() == req.params.questionId && q.owner==req.user; });
 
-        session.save(function(err) {
-            if(err) { return handleError(res, err); }
-
-            return res.status(204).json(session);
-        });
+        if (isMine) {
+            session.questions = _.filter(session.questions, function(q){ return q._id.toString() !== req.params.questionId; });
+            session.save(function(err) {
+                if(err) { return handleError(res, err); }
+                return res.status(204).json(session);
+            });
+        } else {
+            return res.status(403).json({message:'Access denied. You do not own this question.'});
+        }
     });
 };
 

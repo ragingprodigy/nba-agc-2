@@ -16,7 +16,8 @@ var SessionSchema = new Schema({
           type: String,
           unique: true
       },
-      name: String
+      name: String,
+      owner: String
   }]
 });
 
