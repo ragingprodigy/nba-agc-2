@@ -9,7 +9,8 @@ var router = express.Router();
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 
-//router.post('/', controller.create);
+router.post('/:id/question', sessionSec, controller.question);
+router.delete('/:id/question/:questionId', sessionSec, controller.removeQuestion);
 //router.put('/:id', controller.update);
 //router.patch('/:id', controller.update);
 //router.delete('/:id', controller.destroy);

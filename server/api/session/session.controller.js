@@ -39,6 +39,51 @@ exports.show = function(req, res) {
   });
 };
 
+// Ask a Question
+exports.question = function(req, res) {
+    Session.findById(req.params.id, function(err, session){
+        if(err) { return handleError(res, err); }
+        if(!session) { return res.send(404); }
+
+        var duplicateQuestion = _.filter(session.questions, {question: req.body.question});
+
+        if (duplicateQuestion.length) {
+            return res.status(201).json({message:'This question has already been asked before!'});
+        } else {
+            var newQuestion = _.pick(req.body, ['question','name']);
+            newQuestion.owner = req.user;
+
+            session.questions.push(newQuestion);
+            session.save(function(err) {
+                if(err) { return handleError(res, err); }
+
+                return res.json(session);
+            });
+        }
+    });
+};
+
+exports.removeQuestion = function(req, res) {
+
+    Session.findById(req.params.id, function(err, session){
+        if(err) { return handleError(res, err); }
+        if(!session) { return res.send(404); }
+
+        // Check if the question is mine
+        var isMine = _.find(session.questions, function(q){ return q._id.toString() == req.params.questionId && q.owner==req.user; });
+
+        if (isMine) {
+            session.questions = _.filter(session.questions, function(q){ return q._id.toString() !== req.params.questionId; });
+            session.save(function(err) {
+                if(err) { return handleError(res, err); }
+                return res.status(204).json(session);
+            });
+        } else {
+            return res.status(403).json({message:'Access denied. You do not own this question.'});
+        }
+    });
+};
+
 // Add a rating for a conference session
 exports.castVote = function(req, res) {
     // Find the Session
