@@ -23,12 +23,16 @@
 }
 
 .bag-selector .single-bag {
-    max-width: 33.33%;
+    max-width: 45%;
     float: left;
     cursor: pointer;
     text-align: center;
+    margin-right: 4.8%;
+    margin-bottom: 20px;
 }
 
 .single-bag img {
     max-width: 100%;
+    padding: 30px;
+    height: 208px;
 }

@@ -7,13 +7,11 @@ var sessionSec = require('../../components/tools/sessionSec');
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/papers', controller.papers);
 router.get('/:id', controller.show);
 
 router.post('/:id/question', sessionSec, controller.question);
 router.delete('/:id/question/:questionId', sessionSec, controller.removeQuestion);
-//router.put('/:id', controller.update);
-//router.patch('/:id', controller.update);
-//router.delete('/:id', controller.destroy);
 
 router.post('/:id/attend', sessionSec, controller.attendSession);
 router.post('/:id/unAttend', sessionSec, controller.unAttendSession);

@@ -2,11 +2,16 @@
 <div class="container session-container">
     <div class="row">
         <div class="col-md-9">
-            <h2>CONFERENCE SPEAKERS</h2>
+            <panel-header title="Conference Speakers" class="success"></panel-header>
+
             <div class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-success">
-                        <h4>COMING SOON</h4>
+                <div class="col-md-3 speaker-panel" ng-repeat="speaker in speakers">
+                    <div class="panel panel-success" ng-click="showSpeakerDetail(speaker._id, speaker.name)">
+                        <div class="panel-body bg-success text-center">
+                            <img src="{{speaker.photo_base64}}" class="speaker-avatar">
+                            <h4>{{speaker.title+' '+speaker.name}} <small>{{speaker.suffix}}</small></h4>
+                            <p class="text-ellipsis">{{speaker.bio}}</p>
+                        </div>
                     </div>
                 </div>
             </div>

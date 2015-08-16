@@ -8,6 +8,7 @@ angular.module('nbaAgc2App', [
   'ui.router',
   'ui.bootstrap',
   'satellizer',
+    'datatables',
   'ng.deviceDetector'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
@@ -31,6 +32,26 @@ angular.module('nbaAgc2App', [
     $locationProvider.html5Mode(true);
   })
 
+.factory('Utils', function($rootScope){
+    return {
+        slug: function(text) {
+            return text.toLowerCase()
+                .replace(/[^\w ]+/g,'')
+                .replace(/ +/g,'-')
+            ;
+        },
+        sessionAttended: function(sessions, session) {
+            if ($rootScope.isAuthenticated() && session !== undefined) {
+                return _.find(sessions, function(s){
+                    return s.session._id == session._id;
+                });
+            } else {
+                return false;
+            }
+        }
+    };
+})
+
     .run(function($rootScope, $sessionStorage, Registration, $state, $auth, deviceDetector, MyRegistration, User, $window){
 
         (function(d, s, id) {
@@ -48,7 +69,6 @@ angular.module('nbaAgc2App', [
         $rootScope.$user = $auth.getPayload();
 
         $rootScope.confirmedUser = false;
-
         $rootScope.deviceDetector = deviceDetector;
 
         $rootScope.cUser = {};

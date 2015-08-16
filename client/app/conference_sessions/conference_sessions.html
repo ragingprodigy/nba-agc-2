@@ -1,48 +1,36 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container session-container">
+
+    <panel-header title="CONFERENCE Programme" class="success"></panel-header>
+
     <div class="row">
         <div class="col-md-9">
-            <h2>CONFERENCE PROGRAMME</h2>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-success">
-                        <h4>COMING SOON</h4>
-                    </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body bg-info">
+                    <button data-ng-repeat="day in days" class="btn btn-info btn-sm conference-days"
+                            ng-click="jumpToDay(day)">{{day
+                        }}</button>
                 </div>
             </div>
-        </div>
 
-        <div ng-include="'components/sidebar/sidebar.html'" class="col-md-3"></div>
-    </div>
-</div>
-
-<div ng-hide="true" class="container session-container">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-12" ng-repeat="s in sessions">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h4 class="text-ellipsis" title="{{s.session.title}}">{{s.title}}<button
-                                    class="pull-right btn-xs btn btn-info">{{formatDate(s.start_time, 'weekday')
-                                }}</button></h4>
-                            <div class="btn-group btn-group-justified" role="group">
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-primary">{{formatDate(s.start_time, 'time')}}</button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-primary">{{formatDate(s.end_time,'time')}}</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <a class="btn btn-success btn-block" ui-sref="conference_session_detail({id: s._id})">View
-                                Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <table class="table">
+                <tr data-ng-repeat="day in days">
+                    <td class="no-padding" id="{{day}}">
+                        <panel-header title="{{day}}" class="default"></panel-header>
+                        <table class="table table-bordered table-striped">
+                            <tr data-ng-repeat="s in buffer[day]">
+                                <td class="col-md-7">{{s.title}}</td>
+                                <td class="col-md-3 text-center">{{formatDate(s.start_time, 'time')}} -
+                                    {{formatDate(s.end_time,'time')}}</td>
+                                <td class="col-md-2"><a class="btn btn-primary btn-xs btn-block" ui-sref="conference_session_detail({id: s._id})">DETAILS</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div ng-include="'components/sidebar/sidebar.html'" class="col-md-3"></div>

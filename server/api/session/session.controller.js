@@ -8,11 +8,20 @@ var Session = require('./session.model'),
 
 var ObjectId = require('mongoose').Types.ObjectId;
 
+function renderSession(session, res) {
+    session.getRatings(function(err, ratings){
+        session = session.toObject();
+        session.ratings = ratings;
+        return res.json(session);
+    });
+}
+
 // Get list of sessions
 exports.index = function(req, res) {
     if (req.query.me) {
-        Attendee.find({ user: new ObjectId(req.user) })
-        .populate('session')
+        var fields = (req.query.lean?'title':'');
+        Attendee.find({ user: new ObjectId(req.query.me) })
+        .populate('session', fields)
         .exec(function(err, records){
             res.json(records);
         });
@@ -24,18 +33,30 @@ exports.index = function(req, res) {
     }
 };
 
+// Get a list of Conference Papers
+exports.papers = function(req, res) {
+    Session.find({})
+    .populate({
+        'path':'papers.speaker',
+        'select':'name email title suffix _id'
+    }).exec(function(err, sessions){
+        var papers = _.flatten(_.pluck(_.filter(sessions, function(s){ return s.papers.length; }), 'papers'));
+        res.json(papers);
+    });
+};
+
 // Get a single session
 exports.show = function(req, res) {
   Session.findById(req.params.id)
   .populate('speakers')
+  .populate({
+      'path':'papers.speaker',
+      'select':'name email title suffix _id'
+  })
   .exec(function (err, session) {
     if(err) { return handleError(res, err); }
     if(!session) { return res.send(404); }
-    session.getRatings(function(err, ratings){
-        session = session.toObject();
-        session.ratings = ratings;
-        return res.json(session);
-    });
+    return renderSession(session, res);
   });
 };
 
@@ -48,7 +69,7 @@ exports.question = function(req, res) {
         var duplicateQuestion = _.filter(session.questions, {question: req.body.question});
 
         if (duplicateQuestion.length) {
-            return res.status(201).json({message:'This question has already been asked before!'});
+            return res.status(409).json({message:'This question has already been asked before!'});
         } else {
             var newQuestion = _.pick(req.body, ['question','name']);
             newQuestion.owner = req.user;
@@ -65,7 +86,7 @@ exports.question = function(req, res) {
 
 exports.removeQuestion = function(req, res) {
 
-    Session.findById(req.params.id, function(err, session){
+    Session.findById(req.params.id).populate('speakers').exec(function(err, session){
         if(err) { return handleError(res, err); }
         if(!session) { return res.send(404); }
 
@@ -76,7 +97,7 @@ exports.removeQuestion = function(req, res) {
             session.questions = _.filter(session.questions, function(q){ return q._id.toString() !== req.params.questionId; });
             session.save(function(err) {
                 if(err) { return handleError(res, err); }
-                return res.status(204).json(session);
+                return renderSession(session, res);
             });
         } else {
             return res.status(403).json({message:'Access denied. You do not own this question.'});
@@ -123,7 +144,9 @@ exports.attendSession = function(req, res) {
 
     // Make sure the Session has not ended
     // Users can only register for Sessions whose Rating Period has not started
-    Session.findById(req.params.id, function(err, session) {
+    Session.findById(req.params.id)
+    .populate('speakers')
+    .exec(function(err, session){
         if (err) {
             return handleError(res, err);
         }
@@ -131,24 +154,40 @@ exports.attendSession = function(req, res) {
             res.status(404).json({message: 'Session not found.'});
         }
 
-        if (moment(session.rating_start).isAfter(new Date())) {
-            Attendee.findOrCreate({
-                user: new ObjectId(req.user),
-                session: new ObjectId(req.params.id)
-            }, function (err, record, created) {
-                if (err) {
-                    return handleError(res, err);
-                }
+        if (moment(session.end_time).isAfter(new Date())) {
+            // Ensure a user cannot attend two sessions that start at the same time
+            Attendee.find({user: new ObjectId(req.user)})
+            .populate({
+                path: 'session',
+                select: 'title venue start_time'
+            }).exec(function(err, sameTime){
+                if (err) {return handleError(res, err); }
 
-                if (!created) {
-                    return res.status(409).json({message: 'You can only register to attend once'});
-                }
-                else {
-                    return res.status(201).json(record);
+                var sameTimeSession = _.find(sameTime, function(a) { console.log(a.session.start_time,' == ', session.start_time); return moment(a.session.start_time).isSame(session.start_time); });
+
+                if (sameTimeSession) {
+                    return res.status(409).json({message: 'You\'ve registered for another session '+ sameTimeSession.session.title +' that starts at the same time as this one.' });
+                } else {
+
+                    Attendee.findOrCreate({
+                        user: new ObjectId(req.user),
+                        session: new ObjectId(req.params.id)
+                    }, function (err, record, created) {
+                        if (err) {
+                            return handleError(res, err);
+                        }
+
+                        if (!created) {
+                            return res.status(409).json({message: 'You can only register to attend once'});
+                        }
+                        else {
+                            return renderSession(session, res);
+                        }
+                    });
                 }
             });
         } else {
-            res.status(401).json({message: 'This Session ends: '+ moment(session.end_time).calendar() });
+            res.status(401).json({message: ' This Session ended: '+ moment(session.end_time).calendar() });
         }
     });
 };
@@ -157,22 +196,24 @@ exports.attendSession = function(req, res) {
 exports.unAttendSession = function(req, res) {
     // Make sure the Session has not ended
     // Users can only un-register from Sessions whose Rating Period has not started
-    Session.findById(req.params.id, function(err, session){
+    Session.findById(req.params.id)
+    .populate('speakers')
+    .exec(function(err, session){
         if (err) { return handleError(res, err); }
         if (!session) { res.status(404).json({message: 'Session not found.'}); }
 
-        if (moment(session.rating_start).isAfter(new Date())) {
+        if (moment(session.end_time).isAfter(new Date())) {
             Attendee.findOne({ user: new ObjectId(req.user), session: new ObjectId(req.params.id) }, function(err, record) {
                 if (err) { return handleError(res, err); }
                 if (!record) { return res.status(401).json({message: 'You have not registered to attend this session.' }); }
 
                 record.remove(function(err){
                     if (err) { return handleError(res, err); }
-                    return res.status(204).json({message:'Operation Successful.'});
+                    return renderSession(session, res);
                 });
             });
         } else {
-            return res.status(400).json({message:'You can no longer un-register from this session'});
+            return res.status(400).json({message:'You can no longer un-register from this session because the session has ended.'});
         }
     });
 };

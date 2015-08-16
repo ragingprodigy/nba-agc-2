@@ -92,5 +92,3 @@ throng(start, {
   workers: WORKERS,
   lifetime: Infinity
 });
-
-console.log('Number of Workers..', WORKERS);

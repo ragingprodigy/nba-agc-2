@@ -10,7 +10,7 @@ angular.module('nbaAgc2App')
     $scope.isCollapsed = true;
 
     $scope.isActive = function(route) {
-      return route === $location.path();
+      return $location.path().indexOf(route) > -1;
     };
 
     $scope.u = $auth.getPayload();

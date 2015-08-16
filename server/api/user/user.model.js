@@ -34,6 +34,15 @@ var userSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    prefix: String,
+    name: String,
+    suffix: String,
+    firm: String,
+    hasTag: Boolean,
+    avatar: {
+        type: String,
+        default: 'https://s3-eu-west-1.amazonaws.com/nba-agc/user.png'
+    },
     lastModified: {
         type: Date,
         default: Date.now

@@ -70,49 +70,96 @@
                 </div>
             </div>
 
-        </div>
-        <div class="col-md-6 col-sm-12">
 
             <panel-header title="Here's what your name tag looks like" class="success"></panel-header>
 
             <div class="panel panel-default">
                 <div class="panel-body name-tag">
-                    <h5 class="text-center" ng-bind="selectedReg.prefix" ng-hide="selectedReg.prefix.toLowerCase().indexOf('mr')>=0||selectedReg.prefix.toLowerCase().indexOf('mis')>=0"></h5>
-                    <h3 class="text-center">{{selectedReg.firstName}} {{selectedReg.middleName}} {{selectedReg.surname}} <small ng-bind="selectedReg.suffix"></small></h3>
-                    <hr>
-                    <div ng-show="selectedReg.registrationType!='judge'&&selectedReg.registrationType!='magistrate'">
-                        <p class="text-center"><strong>{{selectedReg.company}}</strong></p>
+                    <div ng-hide="editingTag">
+                        <h5 class="text-center" ng-bind="tag.prefix" ng-hide="tag.prefix.toLowerCase().indexOf('mr')>=0||tag.prefix.toLowerCase().indexOf('mis')>=0"></h5>
+                        <h3 class="text-center">{{tag.name}} <small ng-bind="tag.suffix"></small></h3>
+                        <hr>
+                        <div>
+                            <p class="text-center"><strong>{{tag.firm}}</strong></p>
+                        </div>
                     </div>
-                    <div ng-show="selectedReg.registrationType=='judge'||selectedReg.registrationType=='magistrate'">
-                        <p class="text-center"><strong>{{selectedReg.court}} {{selectedReg.state}} {{selectedReg.division}}</strong></p>
+
+                    <div ng-show="editingTag">
+                        <form ng-submit="tagForm.$valid && confirmEdit(tagForm)" name="tagForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="tag_prefix" class="col-md-3 control-label">Prefix</label>
+                                <div class="col-md-9">
+                                    <input id="tag_prefix" ng-model="tag.prefix" class="form-control"
+                                           placeholder="Chief, Dr., Engr., Prof., Justice etc">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tag_name">Name</label>
+                                <div class="col-md-9">
+                                    <input id="tag_name" ng-model="tag.name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tag_suffix">Suffix</label>
+                                <div class="col-md-9">
+                                    <input id="tag_suffix" ng-model="tag.suffix" class="form-control"
+                                           placeholder="MON, JSC, JCA, MON, CON, etc">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tag_firm">Firm/Organization</label>
+                                <div class="col-md-9">
+                                    <input id="tag_firm" ng-model="tag.firm" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="mt-20 bg-white pad-20 mb-10">
+                                <h5 class="text-center" ng-bind="tag.prefix" ng-hide="tag.prefix.toLowerCase().indexOf('mr')>=0||tag.prefix.toLowerCase().indexOf('mis')>=0"></h5>
+                                <h3 class="text-center">{{tag.name}} <small ng-bind="tag.suffix"></small></h3>
+                                <hr>
+                                <div>
+                                    <p class="text-center"><strong>{{tag.firm}}</strong></p>
+                                </div>
+                            </div>
+
+                            <br><br>
+
+                            <button type="submit" class="btn-block btn btn-success">Save Changes</button>
+
+                        </form>
                     </div>
+
+                    <button class="btn btn-block btn-primary mt-20" ng-click="editTag()" ng-hide="editingTag">Edit Name
+                        Tag</button>
                 </div>
             </div>
         </div>
 
-        <!--<div class="col-md-6">
-            <panel-header title="Choose your bag" class="info"></panel-header>
+        <div class="col-md-6">
+            <panel-header ng-show="imageUrl.length" title="Here is the bag you've selected" class="info"></panel-header>
+            <panel-header ng-hide="imageUrl.length" title="You've not chosen a bag yet! choose your bag"
+                          class="danger"></panel-header>
 
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                    <img ng-src="{{imageUrl}}" width="50%" ng-show="imageUrl.length">
-                    <div class="alert alert-danger" ng-hide="imageUrl.length">
-                        <h5>You have not chosen a bag yet!</h5>
-                    </div>
+                    <img ng-src="{{imageUrl}}" width="100%" style="padding: 70px 0;" ng-show="imageUrl.length">
                     <carousel interval="3000" ng-hide="imageUrl.length">
                         <slide ng-repeat="slide in slides" active="slide.active">
-                            <img ng-src="assets/images/option-{{$index+1}}.jpg" style="max-width:40%">
+                            <img src="{{slide.image}}" style="width:90%; padding: 70px 0;">
                             <div class="carousel-caption">
                                 <h4>OPTION {{$index+1}} - <span class="label label-success">{{slide.quantity}} units available</span></h4>
                             </div>
                         </slide>
                     </carousel>
                     <br><br>
-                    <button class="btn btn-block btn-large btn-success" ng-click="pickBag()">CLICK HERE TO PICK A
-                        BAG</button>
+                    <button class="btn btn-block btn-large"
+                            ng-class="{'btn-primary':imageUrl.length, 'btn-success':!imageUrl.length}"
+                            ng-click="pickBag()">{{imageUrl
+                        .length?'CLICK HERE TO CHANGE YOUR BAG':'CLICK HERE TO PICK A
+                        BAG'}}</button>
                 </div>
             </div>
-        </div>-->
+        </div>
     </div>
 
     <div ng-hide="paidRegistrations.length">

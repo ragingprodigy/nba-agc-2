@@ -29,6 +29,7 @@
 
 body {
     background-color: #FFFFFF;
+    padding-bottom: 100px;
 }
 
 html {
@@ -151,4 +152,25 @@ table tr.space td {
 .carousel-inner > .item > img, .carousel-inner > .item > a > img {
     display: block;
     margin: 0 auto;
+}
+
+.bg-grey{
+    color:#fff;
+    background-color:#CCC;
+}
+
+.bg-white {
+    background-color: #FFF!important;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px!important;
+}
+
+.pad-20 {
+    padding: 20px;
 }

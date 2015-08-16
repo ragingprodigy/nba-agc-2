@@ -224,14 +224,14 @@ exports.signIn = function(req, res) {
 };
 
 exports.update = function(req, res) {
-    User.findById(req.user, function(err, user) {
-        if (!user) {
-            return res.status(400).send({ message: 'User not found' });
-        }
-
-        user.email = req.body.email || user.email;
-        user.save(function(err) {
-            res.status(200).end();
+    User.findById(req.user, function (err, user) {
+        if (err) { return handleError(res, err); }
+        if(!user) { return res.send(404); }
+        var updated = _.merge(user, _.pick(req.body, ['prefix','suffix','name','firm']));
+        updated.hasTag = true;
+        updated.save(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.json(200, user);
         });
     });
 };

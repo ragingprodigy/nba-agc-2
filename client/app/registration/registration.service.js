@@ -7,5 +7,6 @@ angular.module('nbaAgc2App')
             {
                 'update': { method:'PUT' },
                 'clone': { method:'POST' },
+                'attendees': { method:'GET', url: '/api/registrations/attendees', isArray:true }
             });
   });

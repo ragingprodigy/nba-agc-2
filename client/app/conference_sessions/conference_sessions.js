@@ -10,7 +10,7 @@ angular.module('nbaAgc2App')
       })
         .state('conference_session_detail', {
             url: '/conference_sessions/:id',
-            templateUrl: 'app/conference_sessions/conference_sessions.html',
-            controller: 'ConferenceSessionsCtrl'
+            templateUrl: 'app/conference_sessions/detail.html',
+            controller: 'ConferenceSessionCtrl'
         });
   });

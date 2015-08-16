@@ -13,7 +13,24 @@ angular.module('nbaAgc2App')
         $modalInstance.close($scope.slides[index]);
     };
 })
-  .controller('MyRegistrationsCtrl', function ($scope, $http, Registration, blocker, $auth, $rootScope, Invoice, $sessionStorage, $state, $modal, Bags) {
+  .controller('MyRegistrationsCtrl', function ($scope, $http, Registration, blocker, $auth, $rootScope, Invoice, $sessionStorage, $state, $modal, Bags, User) {
+
+        $scope.editingTag = false;
+
+        $scope.editTag = function() {
+            $scope.editingTag = true;
+        };
+
+        $scope.confirmEdit = function(tagForm) {
+            if (tagForm.$valid && window.confirm('Are you sure?')) {
+                // Do Update
+                User.update({}, $scope.tag, function(resp){
+                    $rootScope.$user = resp;
+                    tagForm.$setPristine();
+                    $scope.editingTag = false;
+                });
+            }
+        };
 
         Bags.query({}, function(data) {
             $scope.slides = data;
@@ -21,6 +38,7 @@ angular.module('nbaAgc2App')
                 return bag.name === $rootScope.$user.bag;
             });
             $scope.imageUrl = selection?selection.image : '';
+            $scope.pickerTitle = $scope.imageUrl.length?'Here\'s the bag you\'ve selected':'Pick your bag';
         });
 
         $scope.pickBag = function () {
@@ -88,8 +106,6 @@ angular.module('nbaAgc2App')
 
         Registration.query(params, function(data) {
 
-            console.log(data);
-
           $scope.paidRegistrations = _.flatten(_.filter(data, function(r) { return r.statusConfirmed && r.paymentSuccessful; }));
           $scope.pendingRegistrations = _.flatten(_.filter(data, function(r) { return !r.responseGotten && (r.webpay || r.bankpay); }));
           $scope.failedRegistrations = _.filter(data, function(r) { return r.responseGotten && !r.paymentSuccessful; });
@@ -104,6 +120,17 @@ angular.module('nbaAgc2App')
 
           if ($scope.paidRegistrations.length) {
             $scope.showPayStatus($scope.paidRegistrations[0]);
+              if (!$rootScope.$user.hasTag) {
+                  $scope.tag = {
+                      prefix: $scope.selectedReg.prefix,
+                      suffix: $scope.selectedReg.suffix,
+                      name: $scope.selectedReg.firstName+' '+$scope.selectedReg.middleName.substring(0,1)+' '+$scope.selectedReg.surname,
+                      firm: ($scope.selectedReg.registrationType!='judge'&&$scope.selectedReg.registrationType!='magistrate'?$scope.selectedReg.company:($scope.selectedReg.court+' '+$scope.selectedReg.state+' '+$scope.selectedReg.division))
+                  };
+              } else {
+                  $scope.tag = _.pick($rootScope.$user, ['prefix','suffix','name','firm']);
+              }
+
               if (!$scope.isGroup()) {
                   $rootScope.confirmedUser = true;
               }
