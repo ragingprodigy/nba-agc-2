@@ -16,6 +16,7 @@ router.post('/confirmResetRequest', controller.confirmReset);
 router.post('/changePassword', controller.changePassword);
 
 router.get('/', sessionSec, controller.view);
+router.get('/qrCode', controller.qrCode);
 router.put('/', sessionSec, controller.update);
 
 module.exports = router;

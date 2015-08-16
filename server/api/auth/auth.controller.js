@@ -2,11 +2,13 @@
 
 var _ = require('lodash'),
     jwt = require('jwt-simple'),
-    moment = require('moment');
+    moment = require('moment'),
+    qr = require('qr-image');
 
 var User = require('../user/user.model');
 var Registration = require('../registration/registration.model');
 var mailer = require('../../components/tools/mailer');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 function createJWT(user) {
     
@@ -43,6 +45,18 @@ function createGroupAccount(req, res) {
     });
 
 }
+
+exports.qrCode = function(req, res) {
+    var params = { user: new ObjectId(req.query.me), paymentSuccessful: true, statusConfirmed: true };
+    Registration.findOne(params, function (err, reg) {
+        if(err) { return handleError(res, err); }
+        var theData = reg.surname+','+reg.firstName+';ADR:'+reg.address+';TEL:'+reg.mobile+';EMAIL:'+reg.email+';',
+            code = qr.image(theData, { type: 'svg' });
+
+        res.type('svg');
+        code.pipe(res);
+    });
+};
 
 exports.confirmReset = function(req, res){
 
@@ -127,7 +141,6 @@ exports.recovery = function(req, res) {
         }
     });
 };
-
 
 exports.signUp = function(req, res) {
 
