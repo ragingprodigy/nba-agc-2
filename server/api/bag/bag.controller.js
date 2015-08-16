@@ -6,7 +6,7 @@ var _ = require('lodash'),
 
 // Get list of bags
 exports.index = function(req, res) {
-    Bag.find({ quantity: { "$gt": 0 }}, function(err, bags){
+    Bag.find({ quantity: { "$gt": 0 }}).sort('_id').exec(function(err, bags){
         if (err) { return handleError(res, err); }
         return res.json(bags);
     });

@@ -81,6 +81,7 @@ exports.fetch = function (req, res) {
 // Get list of registrations
 exports.index = function(req, res) {
     var params = {};
+
     if (req.query.isGroup) {
         params = { owner: new ObjectId(req.user) };
     } else {
@@ -92,6 +93,15 @@ exports.index = function(req, res) {
 
     return res.status(200).json(registrations);
   });
+};
+
+// Get list of confirmed Registrations
+exports.attendees = function(req, res) {
+    Registration.find({paymentSuccessful:true, statusConfirmed:true, completed:true}, function (err, registrations) {
+        if(err) { return handleError(res, err); }
+
+        return res.status(200).json(registrations);
+    });
 };
 
 // Get a single registration

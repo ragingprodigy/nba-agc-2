@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 var SessionSchema = new Schema({
   title: String,
   description: String,
+  venue: String,
   start_time: Date,
   end_time: Date,
   rating_start: Date,
@@ -18,13 +19,18 @@ var SessionSchema = new Schema({
       },
       name: String,
       owner: String
+  }],
+  papers : [{
+      speaker: { type: Schema.Types.ObjectId, ref: 'Speaker' },
+      title: String,
+      document: String
   }]
 });
 
 // generating a hash
 SessionSchema.methods.getRatings = function(done) {
     Rating.find({ session: this._id }, 'comment score user')
-    .populate('user', 'email')
+    .populate('user', 'email name')
     .exec(function(err, ratings){
         return done(err, ratings);
     });

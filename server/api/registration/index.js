@@ -12,6 +12,7 @@ router.post('/postPay', controller.postPay);
 router.post('/webPayStatus', sessionSec, controller.webPayStatus);
 
 router.get('/', sessionSec, controller.index);
+router.get('/attendees', controller.attendees);
 
 router.get('/:id', controller.show);
 router.post('/', controller.create);
