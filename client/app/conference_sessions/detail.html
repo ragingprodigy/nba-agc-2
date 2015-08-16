@@ -8,17 +8,17 @@
             <panel-header title="{{session.title}}" class="success"></panel-header>
 
             <div class="alert alert-info text-center">
-                From {{formatDate(session.start_time)}} - {{formatDate(session.end_time)}}
+                {{session.venue}} - From {{formatDate(session.start_time)}} - {{formatDate(session.end_time)}}
             </div>
 
             <tabset>
                 <tab heading="Session Details">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p>{{session.description}}</p>
+                            <p>{{session.description.replace('\n','<br>')}}</p>
 
                             <img src="{{speaker.photo_base64}}" class="session-speaker img-circle img-thumbnail"
-                                 popover="{{speaker.bio}}"
+                                 popover="{{speaker.bio}}" title="{{speaker.name}}"
                                  popover-title="{{speaker.title+' '+speaker.name+' '+speaker.suffix}}"
                                  popover-trigger="mouseenter" ng-click="showSpeaker(speaker)"
                                  ng-repeat="speaker in session.speakers">
