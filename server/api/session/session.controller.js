@@ -26,7 +26,7 @@ exports.index = function(req, res) {
             res.json(records);
         });
     } else {
-        Session.find(req.query, 'title start_time end_time rating_start speakers', function (err, sessions) {
+        Session.find(req.query, 'title venue start_time end_time rating_start speakers', function (err, sessions) {
             if(err) { return handleError(res, err); }
             return res.json(200, sessions);
         });
