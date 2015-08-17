@@ -75,6 +75,7 @@ angular.module('nbaAgc2App')
     $scope.loadMine = function() {
         Sessions.query({me:$scope.me, lean:true}, function(sessions){
             $scope.userSessions = sessions;
+            console.log(sessions);
         });
     };
 
@@ -170,6 +171,6 @@ angular.module('nbaAgc2App')
 
     $timeout(function() {
         return $scope.loadMine();
-    }, 500);
+    }, 1000);
 
 });

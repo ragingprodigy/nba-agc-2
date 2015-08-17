@@ -8,14 +8,21 @@
             <panel-header title="{{session.title}}" class="success"></panel-header>
 
             <div class="alert alert-info text-center">
-                {{session.venue}} - From {{formatDate(session.start_time)}} - {{formatDate(session.end_time)}}
+                At <b>{{session.venue}}</b> - On {{formatDate(session.start_time)}}, From
+                <b>{{formatDate(session.start_time,
+                'time')}} to {{formatDate(session.end_time, 'time')}}</b>
+
+                <a class="btn btn-xs btn-danger pull-right" ui-sref="conference_sessions"><i
+                        class="glyphicon glyphicon-backward"></i> Back </a>
             </div>
 
             <tabset>
                 <tab heading="Session Details">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p>{{session.description.replace('\n','<br>')}}</p>
+                            <p ng-bind-html="session.description.replace('\n','<br>')"></p>
+
+                            <br><br>
 
                             <img src="{{speaker.photo_base64}}" class="session-speaker img-circle img-thumbnail"
                                  popover="{{speaker.bio}}" title="{{speaker.name}}"
@@ -50,7 +57,7 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Questions">
+                <tab heading="Questions" ng-show="session.canRegister">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="alert alert-success mb-10" ng-repeat="question in session.questions">
@@ -131,12 +138,14 @@
                 </div>
             </div>
 
-            <button ng-hide="!isAuthenticated() || sessionAttended() || ratingStarted() || !sessionOpen()"
+            <button
+                    ng-hide="!session.canRegister || !isAuthenticated() || sessionAttended() || ratingStarted() || !sessionOpen()"
                     class="btn btn-large btn-success btn-block"
                     ng-click="attendSession()" ng-disabled="submitting">Attend
                 Session</button>
 
-            <button ng-show="isAuthenticated() && sessionAttended() && sessionOpen() && !ratingStarted()"
+            <button
+                    ng-show="session.canRegister && isAuthenticated() && sessionAttended() && sessionOpen() && !ratingStarted()"
                     class="btn btn-large btn-danger btn-block"
                     ng-click="unAttendSession()" ng-disabled="submitting">UN-Attend
                 Session</button>

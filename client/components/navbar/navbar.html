@@ -82,8 +82,8 @@
                 <h4>
                     <span class="label label-info pull-left acct-name" ng-show="isGroup()">{{$user.groupName}}</span>
                     <span class="label label-info pull-left acct-name"
-                          ng-hide="isGroup() || !isAuthenticated()">{{cUser.surname+'
-                        '+cUser.firstName+' '+cUser.suffix}}</span>
+                          ng-hide="isGroup() || !isAuthenticated()">{{cUser.firstName+'
+                        '+cUser.surname+' '+cUser.suffix}}</span>
                     <span ng-show="!isGroup()" class="text-uppercase text-ellipsis">Welcome to the Nigerian Bar Association Annual General Conference Portal</span>
                     <span class="label label-success pull-right" ng-show="isGroup()" id="group-login-email">{{$user
                         .email}}</span>

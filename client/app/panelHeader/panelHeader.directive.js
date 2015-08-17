@@ -10,4 +10,16 @@ angular.module('nbaAgc2App')
         'class': '@'
       }
     };
-  });
+  })
+
+    .directive('backBtn', function(){
+        return {
+            template: '<button class="btn btn-xs btn-danger pull-right" ng-click="back()"><i class="glyphicon glyphicon-backward"></i> Back </button>',
+            restrict: 'E',
+            controller: function($scope, $window) {
+                $scope.back = function() {
+                    $window.history.back();
+                };
+            },
+        }
+    });

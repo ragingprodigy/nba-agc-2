@@ -50,9 +50,13 @@ exports.qrCode = function(req, res) {
     var params = { user: new ObjectId(req.query.me), paymentSuccessful: true, statusConfirmed: true };
     Registration.findOne(params, function (err, reg) {
         if(err) { return handleError(res, err); }
-        var theData = reg.surname+','+reg.firstName+';ADR:'+reg.address+';TEL:'+reg.mobile+';EMAIL:'+reg.email+';',
-            code = qr.image(theData, { type: 'svg' });
+        if (!reg) { return res.send(404); }
 
+        var company = reg.registrationType!='judge'&&reg.registrationType!='magistrate'?reg.company:(reg.court+' '+reg.state+' '+reg.division);
+
+        var theData = 'BEGIN:VCARD\nVERSION:3.0\nN:'+reg.surname+';'+reg.firstName+';'+reg.middleName+';;\nFN:'+(reg.firstName+' '+reg.surname+' '+reg.suffix)+'\nORG:'+company+'\nTITLE:'+reg.suffix+'\nEMAIL;type=INTERNET;type=WORK;type=pref:'+reg.email+'\nTEL;type=MOBILE;type=pref:'+reg.mobile+'\nEND:VCARD',
+        //var theData = reg.surname+','+reg.firstName+';ADR:'+reg.address+';TEL:'+reg.mobile+';EMAIL:'+reg.email+';',
+            code = qr.image(theData, { type: 'svg' });
         res.type('svg');
         code.pipe(res);
     });

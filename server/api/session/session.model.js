@@ -10,6 +10,7 @@ var SessionSchema = new Schema({
   venue: String,
   start_time: Date,
   end_time: Date,
+  canRegister: Boolean,
   rating_start: Date,
   speakers : [{ type: Schema.Types.ObjectId, ref: 'Speaker' }],
   questions : [{
