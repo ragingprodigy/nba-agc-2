@@ -9,7 +9,7 @@
                     <!--<div class="panel panel-success" ng-click="showSpeakerDetail(speaker._id, speaker.name)">-->
                     <div class="panel panel-success">
                         <div class="panel-body bg-success text-center">
-                            <img src="{{speaker.photo_base64}}" class="speaker-avatar">
+                            <img ng-src="{{speaker.photo}}" class="speaker-avatar">
                             <h4>{{speaker.title+' '+speaker.name}} <small>{{speaker.suffix}}</small></h4>
                             <p class="text-ellipsis">{{speaker.bio}}</p>
                         </div>
