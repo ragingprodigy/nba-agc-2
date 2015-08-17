@@ -19,7 +19,7 @@ function renderSession(session, res) {
 // Get list of sessions
 exports.index = function(req, res) {
     if (req.query.me) {
-        var fields = (req.query.lean?'title':'');
+        var fields = (req.query.lean?'title start_time end_time':'');
         Attendee.find({ user: new ObjectId(req.query.me) })
         .populate('session', fields)
         .exec(function(err, records){

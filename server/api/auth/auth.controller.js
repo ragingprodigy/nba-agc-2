@@ -116,6 +116,15 @@ exports.changePassword = function (req, res) {
 
 exports.recovery = function(req, res) {
 
+    function sendEmail(theUser) {
+        // Send the Email
+        mailer.sendRecoveryEmail(theUser, function(err) {
+            if (err) { return handleError(res, err); }
+
+            return res.status(200).json({message: 'Password reset mail sent!'});
+        });
+    }
+
     User.findOne({ email: req.body.email }, function(err, theUser) {
         if (err) { return handleError(res, err); }
 
@@ -125,16 +134,23 @@ exports.recovery = function(req, res) {
             theUser.tokenExpires = moment().add(1, 'days').format();
             theUser.resetToken = User.randomString(16);
 
-            theUser.save(function(err){
+            theUser.save(function(err) {
 
                 if (err!==null) { return handleError(res, err); }
 
-                // Send the Email
-                mailer.sendRecoveryEmail(theUser, function(err) {
-                    if (err) { return handleError(res, err); }
+                if (theUser.email.indexOf('@')<0) {
+                    // Retrieve the Confirmed Email of the User from the Registrations Collection
+                    Registration.findOne({ user: new ObjectId(theUser._id), statusConfirmed:true }, 'email', function(err, reg){
+                        if (err) { return handleError(res, err); }
+                        if (!reg) { return res.send(404); }
 
-                    return res.status(200).json({message: 'Password reset mail sent!'});
-                });
+                        theUser.email = reg.email;
+
+                        return sendEmail(theUser);
+                    });
+                } else {
+                    return sendEmail(theUser);
+                }
 
             });
 
