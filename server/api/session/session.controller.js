@@ -19,7 +19,7 @@ function renderSession(session, res) {
 // Get list of sessions
 exports.index = function(req, res) {
     if (req.query.me) {
-        var fields = (req.query.lean?'title':'');
+        var fields = (req.query.lean?'title start_time end_time':'');
         Attendee.find({ user: new ObjectId(req.query.me) })
         .populate('session', fields)
         .exec(function(err, records){
@@ -28,7 +28,7 @@ exports.index = function(req, res) {
     } else {
         Session.find(req.query, 'title venue start_time end_time rating_start speakers', function (err, sessions) {
             if(err) { return handleError(res, err); }
-            return res.json(200, sessions);
+            return res.json(sessions);
         });
     }
 };
@@ -47,8 +47,10 @@ exports.papers = function(req, res) {
 
 // Get a single session
 exports.show = function(req, res) {
+  var fields = (req.query.lean?'-photo_base64':'');
+
   Session.findById(req.params.id)
-  .populate('speakers')
+  .populate('speakers', fields)
   .populate({
       'path':'papers.speaker',
       'select':'name email title suffix _id'

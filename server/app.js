@@ -88,6 +88,8 @@ function start() {
 	exports = module.exports = app;
 }
 
+console.log('Server currently using: ', WORKERS, ' WEB Workers!!!');
+
 throng(start, {
   workers: WORKERS,
   lifetime: Infinity

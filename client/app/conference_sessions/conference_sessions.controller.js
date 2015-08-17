@@ -25,7 +25,7 @@ angular.module('nbaAgc2App')
 })
 
 .controller('ConferenceSessionCtrl', function($scope,$state,Sessions,$stateParams, Utils, $rootScope, $timeout){
-    Sessions.get({id:$stateParams.id}, function(session){
+    Sessions.get({id:$stateParams.id, lean:true}, function(session){
         $scope.session = session;
         if ($scope.session.ratings.length) {
             var mR = $scope.session.ratings;

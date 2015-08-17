@@ -24,7 +24,7 @@
 
                             <br><br>
 
-                            <img src="{{speaker.photo_base64}}" class="session-speaker img-circle img-thumbnail"
+                            <img ng-src="{{speaker.photo}}" class="session-speaker img-circle img-thumbnail"
                                  popover="{{speaker.bio}}" title="{{speaker.name}}"
                                  popover-title="{{speaker.title+' '+speaker.name+' '+speaker.suffix}}"
                                  popover-trigger="mouseenter" ng-click="showSpeaker(speaker)"
