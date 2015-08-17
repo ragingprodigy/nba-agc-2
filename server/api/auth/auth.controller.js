@@ -50,6 +50,7 @@ exports.qrCode = function(req, res) {
     var params = { user: new ObjectId(req.query.me), paymentSuccessful: true, statusConfirmed: true };
     Registration.findOne(params, function (err, reg) {
         if(err) { return handleError(res, err); }
+        if (!reg) { return res.send(404); }
 
         var company = reg.registrationType!='judge'&&reg.registrationType!='magistrate'?reg.company:(reg.court+' '+reg.state+' '+reg.division);
 
