@@ -32,9 +32,11 @@ angular.module('nbaAgc2App')
     			$http.post('/auth/changePassword', { user: $scope.user, password: $scope.password })
     			.success(function() {
 
-    				$scope.info = 'Password reset successful!';
+    				$scope.info = 'Password reset successful! Proceed to Login.';
     				$scope.password = '';
     				$scope.confirmPassword = '';
+
+                    theForm.$setPristine();
 
     				blocker.clear();
     			})
