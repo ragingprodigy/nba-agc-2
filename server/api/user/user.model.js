@@ -46,6 +46,10 @@ var userSchema = new Schema({
     lastModified: {
         type: Date,
         default: Date.now
+    },
+    tagPrinted: {
+        type: Boolean,
+        default: false
     }
 });
 
