@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var AttendeeSchema = new Schema({
+    messageId: String,
+    smsId: String,
     user : { type: Schema.Types.ObjectId, ref: 'User' },
     session : { type: Schema.Types.ObjectId, ref: 'Session' }
 });

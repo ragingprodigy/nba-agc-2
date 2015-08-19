@@ -30,7 +30,7 @@ angular.module('nbaAgc2App')
         if ($scope.session.ratings.length) {
             var mR = $scope.session.ratings;
             $scope.comments = _.filter(mR, function(r){ return r.comment && r.comment!==''; });
-            $scope.rate = _.reduce(mR, function(sum, r){ return sum + r.score; }, 0);
+            $scope.rate = Math.ceil(_.reduce(mR, function(sum, r){ return sum + r.score; }, 0)/mR.length);
         } else {
             $scope.rate = 0;
         }
@@ -75,7 +75,6 @@ angular.module('nbaAgc2App')
     $scope.loadMine = function() {
         Sessions.query({me:$scope.me, lean:true}, function(sessions){
             $scope.userSessions = sessions;
-            console.log(sessions);
         });
     };
 
@@ -153,7 +152,7 @@ angular.module('nbaAgc2App')
     };
 
     $scope.unAttendSession = function() {
-        if ($scope.sessionAttended()) {
+        if ($scope.sessionAttended() && window.confirm('Are you sure?')) {
             $scope.submitting = true;
 
             Sessions.unAttend({_id:$scope.session._id}, function(){
