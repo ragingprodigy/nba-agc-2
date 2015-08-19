@@ -6,7 +6,7 @@ var Session = require('./session.model'),
     Attendee = require('./attendee.model'),
     Registration = require('../registration/registration.model'),
     moment = require('moment'),
-    config = require('./config/environment'),
+    config = require('../../config/environment'),
     Agenda = require('agenda'),
     mailer = require('../../components/tools/mailer');
 
