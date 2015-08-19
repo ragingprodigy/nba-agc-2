@@ -6,6 +6,7 @@
 var mandrill = require('mandrill-api');
 var RegistrationMailError = require('../../api/registration/registration.mail.error.model');
 var RegistrationMail = require('../../api/registration/registration.mail.model');
+var Attendee = require('../../api/session/attendee.model');
 
 var request = require('request');
 var moment = require('moment');
@@ -41,6 +42,66 @@ var sendMessage = function(message, callback) {
 
         callback(result);
 
+    });
+};
+
+exports.cancelMail = function(id, callback) {
+    mandrill_client.messages.cancelScheduled({"id": id}, function() {
+        return callback();
+    }, function() {
+        return callback();
+    });
+};
+
+var sendScheduledMessage = function(message, time, callback) {
+    mandrill_client.messages.send({"message": message, "send_at": time}, function(result) {
+
+        callback(result);
+
+    });
+};
+
+function loginSMS(callback) {
+    // http://www.smslive247.com/http/index.aspx?cmd=login&owneremail=xxx&subacct=xxx &subacctpwd=xxx
+    request('http://www.smslive247.com/http/index.aspx?cmd=login&owneremail='+process.env.SMS_OWNER_EMAIL+'&subacct='+process.env.SMS_SUB_ACCOUNT+'&subacctpwd='+process.env.SMS_SUB_ACCOUNT_PASSWORD, function(error, resp, body) {
+        return callback(body.split(': ')[1]);
+    });
+}
+
+exports.loginSMS = loginSMS;
+
+exports.cancelSMS = function(id, callback) {
+    loginSMS(function(sessionId) {
+        request('http://www.smslive247.com/http/index.aspx?cmd=stopmsg&sessionid='+sessionId+'&messageid='+id, function() {
+            return callback();
+        });
+    });
+};
+
+exports.sendReminderSMS = function(phone, session, next) {
+    var message = 'The NBA AGC 2015 Session, '+session.title+' starts in less than two hours. It\'s taking place at '+session.venue+' by '+moment(session.start_time).format('HH:mm a');
+    // 22 Dec 2009 22:31
+    var sendTime = moment(session.start_time).subtract(2,'h').format('D MMM YYYY H:mm');
+
+    request('http://www.smslive247.com/http/index.aspx?cmd=sendquickmsg&owneremail='+process.env.SMS_OWNER_EMAIL+'&subacct='+process.env.SMS_SUB_ACCOUNT+'&subacctpwd='+process.env.SMS_SUB_ACCOUNT_PASSWORD+'&message='+message+'&sender='+process.env.SMS_SENDER+'&sendto='+phone+'&msgtype='+process.env.SMS_MSG_TYPE+'&SendTime='+sendTime, function(error, resp, body) {
+        return next(body);
+    });
+};
+
+exports.sendReminderMail = function(email, session, attendanceId, next){
+
+    var emailData = '<div style="margin:0; padding:0; font-family:Segoe UI,Segoe UI,Arial,Sans-Serif;"><div style="margin:0; padding:0;"><div style="max-width:600px; margin: 10px auto 0; background-color: green;"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:block; max-width:600px"><tbody><tr><td colspan="3" height="15"></td></tr><tr><td width="20"></td><td style="text-align: center;"><a href="http://nigerianbar.org.ng"><img src="http://www.nigerianbar.org.ng/images/logo12.png"></a></td></tr><tr><td colspan="3"><h3 align="left" valign="top" style="line-height:41px;font-size: 28px;font-family:Segoe UI Light,Segoe UI,Arial,Sans-Serif;color: #FFFFFF; text-align:center; margin: 10px auto 0;">NBA Annual General Conference 2015</h3></td></tr><tr><td colspan="3" height="15"></td></tr></tbody></table></div><div style="max-width:600px; margin:0 auto; border-left: 1px solid #CCC; border-right: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-bottom: 20px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:block; max-width:600px;"><tbody><tr><td colspan="3" height="20"></td></tr><tr><td width="40"></td><td align="left" valign="top"><table width="520" border="0" cellspacing="0" cellpadding="0" style="display:block"><tbody><tr><td align="left" valign="top" style="line-height:36px;font-size:23px;font-family:Segoe UI Light,Segoe UI,Arial,Sans-Serif;color: green;padding-right:15px;padding-left:0px"> </td></tr></tbody></table></td><td width="40"></td></tr><tr><td colspan="3" height="20"></td></tr><tr><td width="40"></td><td align="left" valign="top"><table width="520" border="0" cellspacing="0" cellpadding="0" style="display:block"><tbody><tr><td align="left" valign="top" style="line-height:19px;font-size:15px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;text-align: justify;color:#000000;padding-right:10px">You have registered to attend the session <b>'+session.title+'</b> and it starts in less than two (2) hours.<br><br><p>Start Time: '+moment(session.start_time).format('HH:mm a')+'.</p><br></td></tr><tr><td height="50"></td></tr><tr><td height="50"></td></tr><tr><td height="30"></td></tr><tr><td align="left" valign="top" style="line-height:19px;font-size:15px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;color:#000000;padding-right:10px">For support and enquiries, please call any of the following - Ayodeji Oni - <b>0803 345 2825</b>; Oti Edah, <b>0806 590 1348</b>. </td></tr><tr><td height="50" style="border-bottom:1px solid #CCC;"></td></tr><tr><td align="center" valign="top" style="padding-top:10px"><table><tbody><tr><td width="30%"><img style="max-width:100%" src="http://lawpavilion.com/img/official-logo.png"></td><td style="line-height:19px;font-size:12px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;color:#4b4b4b;padding-right:10px; text-align:center;"><span style="color: #00CC39; font-weight:bold;">For Enquiries and Conference Information </span>  Send emails to: support@nba-agc.org and registration@nba-agc.org</td></tr></tbody></table></td></tr></tbody></table></td><td width="40"></td></tr></tbody></table></div></div></div>';
+
+    var newMessage = message;
+    newMessage.html = emailData;
+    newMessage.subject = 'Your AGC 2015 Session Starts Soon!';
+    newMessage.to[0].email = email;
+
+    sendScheduledMessage(newMessage, moment(session.start_time).subtract(2,'h'), function(result) {
+        // Save the ID on the
+        Attendee.update({_id:attendanceId}, {$set:{messageId:result[0]._id}}, function(){
+            return next();
+        });
     });
 };
 

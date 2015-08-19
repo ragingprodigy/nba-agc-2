@@ -171,7 +171,7 @@ exports.attendSession = function(req, res) {
             }).exec(function(err, sameTime){
                 if (err) {return handleError(res, err); }
 
-                var sameTimeSession = _.find(sameTime, function(a) { console.log(a.session.start_time,' == ', session.start_time); return moment(a.session.start_time).isSame(session.start_time); });
+                var sameTimeSession = _.find(sameTime, function(a) { return moment(a.session.start_time).isSame(session.start_time); });
 
                 if (sameTimeSession) {
                     return res.status(409).json({message: 'You\'ve registered for another session '+ sameTimeSession.session.title +' that starts at the same time as this one.' });
@@ -189,10 +189,18 @@ exports.attendSession = function(req, res) {
                             return res.status(409).json({message: 'You can only register to attend once'});
                         }
                         else {
-                            var alertDate = moment(session.start_time).subtract(2,'h');
-                            agenda.schedule(alertDate, 'Send Mail and SMS Reminder', {session:session, userId:req.user});
-
-                            return renderSession(session, res);
+                            //var alertDate = moment(session.start_time).subtract(2,'h');
+                            //agenda.schedule(alertDate, 'Send Mail and SMS Reminder', {session:session, userId:req.user});
+                            Registration.findOne({user: new ObjectId(req.user), statusConfirmed:true, paymentSuccessful:true}, function(err, registration){
+                                mailer.sendReminderMail(registration.email, session, record._id, function(){
+                                    mailer.sendReminderSMS(registration.mobile, session, function(body){
+                                        var smsId = body.split(': ')[1];
+                                        Attendee.update({_id:record._id}, {$set:{smsId:smsId}}, function(){
+                                            return renderSession(session, res);
+                                        });
+                                    });
+                                });
+                            });
                         }
                     });
                 }
@@ -218,9 +226,13 @@ exports.unAttendSession = function(req, res) {
                 if (err) { return handleError(res, err); }
                 if (!record) { return res.status(401).json({message: 'You have not registered to attend this session.' }); }
 
-                record.remove(function(err){
-                    if (err) { return handleError(res, err); }
-                    return renderSession(session, res);
+                mailer.cancelMail(record.messageId, function() {
+                    mailer.cancelSMS(record.smsId, function(){
+                        record.remove(function(err){
+                            if (err) { return handleError(res, err); }
+                            return renderSession(session, res);
+                        });
+                    });
                 });
             });
         } else {
