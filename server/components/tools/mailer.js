@@ -263,14 +263,14 @@ exports.sendReportEmail = function(theMessage, subject, callback) {
         { email: 'dapo.omonayajo@gitlimited.com', type: 'to' },
         { email: 'benedicta.moha@lawpavilion.com', type: 'to' },
         { email: 'ope.olugasa@gitlimited.com', type: 'to' },
-    ]
+    ];
 
     sendMessage(newMessage, function(){
         return callback();
     }, function(e) {
         return callback(e);
     });
-}
+};
 
 exports.sendRecoveryEmail = function(user, next) {
 

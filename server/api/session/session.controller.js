@@ -4,7 +4,13 @@ var _ = require('lodash');
 var Session = require('./session.model'),
     Rating = require('./rating.model'),
     Attendee = require('./attendee.model'),
-    moment = require('moment');
+    Registration = require('../registration/registration.model'),
+    moment = require('moment'),
+    config = require('./config/environment'),
+    Agenda = require('agenda'),
+    mailer = require('../../components/tools/mailer');
+
+var agenda = new Agenda({db: { address: config.mongo.uri }});
 
 var ObjectId = require('mongoose').Types.ObjectId;
 
@@ -183,6 +189,9 @@ exports.attendSession = function(req, res) {
                             return res.status(409).json({message: 'You can only register to attend once'});
                         }
                         else {
+                            var alertDate = moment(session.start_time).subtract(2,'h');
+                            agenda.schedule(alertDate, 'Send Mail and SMS Reminder', {session:session, userId:req.user});
+
                             return renderSession(session, res);
                         }
                     });
