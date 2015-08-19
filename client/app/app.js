@@ -54,13 +54,16 @@ angular.module('nbaAgc2App', [
 
     .run(function($rootScope, $sessionStorage, Registration, $state, $auth, deviceDetector, MyRegistration, User, $window){
 
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=654331671254470';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+        $rootScope.$on('$stateChangeSuccess', function(){
+            //re-init Facebook
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=654331671254470';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        });
 
         $rootScope.isGroup = function() {
             return $rootScope.isAuthenticated() && $rootScope.$user && $rootScope.$user.accountType === 'group';

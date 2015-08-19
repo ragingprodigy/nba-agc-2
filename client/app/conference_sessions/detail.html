@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-9">
 
-            <panel-header title="{{session.title}}" class="success"></panel-header>
+            <panel-header title="{{session.title.toUpperCase()}}" class="success"></panel-header>
 
             <div class="alert alert-info text-center">
                 At <b>{{session.venue}}</b> - On {{formatDate(session.start_time)}}, From
@@ -17,7 +17,7 @@
             </div>
 
             <tabset>
-                <tab heading="Session Details">
+                <tab heading="Session Details" ng-show="session.description.length || session.speakers.length">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p ng-bind-html="session.description.replace('\n','<br>')"></p>
@@ -25,10 +25,7 @@
                             <br><br>
 
                             <img ng-src="{{speaker.photo}}" class="session-speaker img-circle img-thumbnail"
-                                 popover="{{speaker.bio}}" title="{{speaker.name}}"
-                                 popover-title="{{speaker.title+' '+speaker.name+' '+speaker.suffix}}"
-                                 popover-trigger="mouseenter" ng-click="showSpeaker(speaker)"
-                                 ng-repeat="speaker in session.speakers">
+                                 tooltip="{{speaker.name}}" ng-repeat="speaker in session.speakers">
                         </div>
                     </div>
                 </tab>

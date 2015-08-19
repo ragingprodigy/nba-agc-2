@@ -16,6 +16,11 @@
 
 .speaker-panel .panel {
     cursor: pointer;
+    height: 100%;
+}
+
+.speaker-panel .panel .panel-body {
+    height: 100%;
 }
 
 .row .speaker-panel:nth-child(5) {

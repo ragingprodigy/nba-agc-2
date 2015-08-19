@@ -20,7 +20,7 @@
                     <td class="no-padding" id="{{day}}">
                         <panel-header title="{{day}}" class="default"></panel-header>
                         <table class="table table-bordered table-striped">
-                            <tr data-ng-repeat="s in buffer[day]">
+                            <tr class="text-uppercase" data-ng-repeat="s in buffer[day]">
                                 <td class="col-md-7">{{s.title}}</td>
                                 <td class="col-md-3 text-center">{{formatDate(s.start_time, 'time')}} -
                                     {{formatDate(s.end_time,'time')}}</td>
