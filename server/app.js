@@ -77,11 +77,12 @@ function start() {
 	//require('./backgroundTasks').start();
 
 	// Use the rollbar error handler to send exceptions to your rollbar account
-	app.use(rollbar.errorHandler('fd9dcb150036419292ea7ae4bd8b4e0e'));
+	//app.use(rollbar.errorHandler('fd9dcb150036419292ea7ae4bd8b4e0e'));
 
 	// Start server
 	server.listen(config.port, config.ip, function () {
 	  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+	  console.log('Registration Cutoff date is: %s', process.env.CUTOFF);
 	});
 
 	// Expose app

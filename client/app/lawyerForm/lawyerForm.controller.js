@@ -5,6 +5,8 @@ angular.module('nbaAgc2App')
 
         $anchorScroll();
 
+        if ($rootScope.expired()) { $state.go('main'); }
+
         if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
             blocker.block();
 

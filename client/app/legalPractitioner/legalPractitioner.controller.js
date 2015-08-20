@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-.controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $auth) {
+.controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $auth, $rootScope) {
 
     $scope.person = {};
     $scope.members = [];
+
+        if ($rootScope.expired()) { $state.go('main'); }
 
     $anchorScroll();
 

@@ -49,7 +49,11 @@ angular.module('nbaAgc2App')
         };
 
         if (what==='webpay') { toUp.webpay = true; $sessionStorage.activeGroupInvoice = $stateParams.invoiceId; }
-        else { toUp.bankpay = true;  }
+        else {
+            // Stop Bank
+            $state.go('main');
+            toUp.bankpay = true;
+        }
 
         toUp.finalized = true;
 

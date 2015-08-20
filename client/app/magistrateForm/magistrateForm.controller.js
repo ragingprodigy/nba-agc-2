@@ -4,6 +4,8 @@ angular.module('nbaAgc2App')
   .controller('MagistrateFormCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
 
         $anchorScroll();
+
+        if ($rootScope.expired()) { $state.go('main'); }
         
         // If any other type of Registration is on-going, re-direct to it
         if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined){

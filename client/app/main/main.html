@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-lg-12">
 
-        <div class="row">
+        <div class="row" ng-if="!expired()">
           <div class="col-md-6" ng-class="{'col-md-offset-3': noneInProgress()}" ng-hide="isAuthenticated() && !isGroup()">
             <a class="btn btn-primary btn-lg btn-block" ng-click="startReg()">
                 {{!noneInProgress()?'Start':'Resume'}} Individual Registration <i class="fa fa-play"></i>

@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-.controller('GroupPayCtrl', function ($scope, $state, $stateParams, Invoice, blocker) {
+.controller('GroupPayCtrl', function ($scope, $state, $stateParams, Invoice, blocker,$rootScope) {
+
+        if ($rootScope.expired()) { $state.go('main'); }
+
 	if (!$stateParams.invoiceId) { $state.go('myRegistrations'); }
 
 	blocker.block();

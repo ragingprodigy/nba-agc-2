@@ -6,6 +6,8 @@ angular.module('nbaAgc2App')
         if ($rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
 
         else {
+            if ($rootScope.expired()) { $state.go('main'); }
+
             if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
 
                 blocker.block();
@@ -42,6 +44,9 @@ angular.module('nbaAgc2App')
 
         $scope.payBank = function() {
 
+            // Disable Bank Payment
+            //return false;
+
             if ($scope.data.completed && $scope.data.bankpay) {
 
                 $state.go('bankPay');
@@ -77,7 +82,12 @@ angular.module('nbaAgc2App')
             blocker.block();
 
             if (what==='webpay') { $scope.data.webpay = true; }
-            else { $scope.data.bankpay = true; }
+            else {
+                // Disable Bank Payment
+                //return false; blocker.clear();
+                $scope.data.bankpay = true;
+            }
+
             $scope.data.completed = true;
 
             // Prevent Account signup for people trying to Pay after signing in

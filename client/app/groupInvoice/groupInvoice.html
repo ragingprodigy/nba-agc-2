@@ -59,12 +59,12 @@
                             <td colspan="4" class="text-center">
                                 <button type="button" class="btn btn-danger" ng-hide="invoice.finalized" ng-click="deleteInvoice()"><i
                                         class="fa fa-times-circle"></i> CANCEL INVOICE</button>
-                                <button ng-click="markFinal('webpay')" class="btn btn-success"
+                                <button ng-hide="expired()" ng-click="markFinal('webpay')" class="btn btn-success"
                                         type="button"><i
                                         class="fa fa-play"></i> PAY ONLINE </button>
-                                <button ng-click="markFinal('bankpay')" class="btn btn-primary"
+                                <!--<button ng-click="markFinal('bankpay')" class="btn btn-primary"
                                         type="button"><i
-                                        class="fa fa-anchor"></i> PAY TO THE BANK </button>
+                                        class="fa fa-anchor"></i> PAY TO THE BANK </button>-->
                                 <button type="button" class="btn btn-info" onclick="window.print()"><i
                                         class="fa fa-print"></i>
                                     PRINT
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="alert alert-info hidden-print" ng-show="pInfo">
+            <div class="alert alert-info hidden-print" ng-show="pInfo && !expired()">
                 <h3>Payment Instructions</h3>
                 <p>
                     Where does the template get inserted?

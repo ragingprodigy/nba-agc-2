@@ -54,6 +54,10 @@ angular.module('nbaAgc2App', [
 
     .run(function($rootScope, $sessionStorage, Registration, $state, $auth, deviceDetector, MyRegistration, User, $window){
 
+        $rootScope.expired = function() {
+            return moment().isAfter('2015-08-20 23:59');
+        };
+
         $rootScope.$on('$stateChangeSuccess', function(){
             //re-init Facebook
             (function(d, s, id) {

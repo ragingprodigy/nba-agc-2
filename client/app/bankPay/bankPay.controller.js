@@ -2,6 +2,10 @@
 
 angular.module('nbaAgc2App')
   .controller('BankPayCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $auth) {
+
+        // Disable
+        //$state.go('main');
+
   	if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
 
             blocker.block();
@@ -31,8 +35,7 @@ angular.module('nbaAgc2App')
 
                 r.completed = true;
                 Registration.update({id: $scope.data._id}, r, function(){
-                    
-                    //window.alert('Congratulations!\n\n Your account has been created and your payment is now expected within the next 48 hours.\n\n Do check your email for more information (including your login details)');
+
                     window.alert('Registration Received, please proceed to bank payment within the next 48 hours. Please check your email for your login details and more information.');
 
                     $sessionStorage.$reset();

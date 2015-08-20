@@ -3,10 +3,10 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-8 col-md-offset-2">
-            <panel-header title="PLEASE SELECT YOUR CATEGORY" class="success"></panel-header>
+            <panel-header title="PLEASE SELECT YOUR CATEGORY" class="success" ng-if="!expired()"></panel-header>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <ul class="group-list">
+                    <ul class="group-list" ng-if="!expired()">
                         <li>
                             <a ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
                         </li>
@@ -29,6 +29,10 @@
                             <a ui-sref="international">INTERNATIONAL ATTENDEES</a>
                         </li>
                     </ul>
+                    <div class="alert alert-danger text-center text-uppercase" ng-if="expired()">
+                        <h3>Online Registration for the NBA Annual General Conference - ABUJA 2015 - has Closed!</h3>
+                        <h2>ONLY ON-SITE REGISTRATION IS AVAILABLE NOW</h2>
+                    </div>
                 </div>
             </div>
         </div>

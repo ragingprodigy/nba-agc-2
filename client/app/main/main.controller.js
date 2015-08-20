@@ -5,9 +5,12 @@ angular.module('nbaAgc2App')
 
     if ($rootScope.isAuthenticated()) {
         $state.go('myRegistrations');
+    } else if ($rootScope.expired()) {
+        $state.go('conference_sessions');
     }
     
     $scope.startReg = function() {
+        if ($rootScope.expired()) { return false; }
         if ($sessionStorage.lpRegistrant!==null && $sessionStorage.lpRegistrant!== undefined) {
             $state.go($sessionStorage.lpRegistrant.registrationType);
         } else {

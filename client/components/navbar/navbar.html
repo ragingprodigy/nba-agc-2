@@ -17,7 +17,8 @@
             <!--<li ng-show="isAuthenticated()" ng-class="{active: isActive('/')}">
                 <a ui-sref="main">HOME</a>
             </li>-->
-            <li ng-show="!isAuthenticated() && !noneInProgress()" ng-class="{active: isActive('/register')}">
+            <li ng-if="!expired()" ng-show="!isAuthenticated() && !noneInProgress()"
+                ng-class="{active: isActive('/register')}">
                 <a ui-sref="registerAs">START REGISTRATION</a>
             </li>
             <li class="dropdown" ng-show="isAuthenticated() && isGroup()" ng-class="{active: isActive('/register')||isActive('/registrations')||isActive('/my_invoices')}">
