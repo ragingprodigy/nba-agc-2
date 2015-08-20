@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Invoice = require('./invoice.model'),
+    moment = require('moment'),
     Registration = require('../registration/registration.model');
 
 // Get list of invoices
@@ -35,6 +36,8 @@ exports.show = function(req, res) {
 
 // Creates a new invoice in the DB.
 exports.create = function(req, res) {
+
+    if (moment().isAfter(process.env.CUTOFF)) { return res.status(400).json({message: 'Registration Has Closed'}); }
 
   // Pull the list of Registrations first
   if (req.body.registrations) {

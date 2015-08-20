@@ -5,7 +5,8 @@ var _ = require('lodash'),
 var Registration = require('./registration.model'),
     User = require('../user/user.model'),
     Invoice = require('../invoice/invoice.model'),
-    parseString = require('xml2js').parseString;
+    parseString = require('xml2js').parseString,
+    moment = require('moment');
 
 var ObjectId = require('mongoose').Types.ObjectId; 
 
@@ -116,6 +117,8 @@ exports.show = function(req, res) {
 // Creates a new registration in the DB.
 exports.create = function(req, res) {
 
+    if (moment().isAfter(process.env.CUTOFF)) { return res.status(400).json({message: 'Registration Has Closed'}); }
+
   req.body.regCode = Registration.pRef(5);
 
     // Check the
@@ -139,8 +142,10 @@ exports.update = function(req, res) {
   });
 };
 
-// Create a Fresh Registrtaion from an old one
+// Create a Fresh Registration from an old one
 exports.clone = function(req, res) {
+
+    if (moment().isAfter(process.env.CUTOFF)) { return res.status(400).json({message: 'Registration Has Closed'}); }
 
   if (String(req.body._id) !== String(req.params.id)) { return res.status(400).json({ message:'Invalid request' }); }
 
@@ -191,6 +196,9 @@ exports.clone = function(req, res) {
 
 // Deletes a registration from the DB.
 exports.destroy = function(req, res) {
+
+    if (moment().isAfter(process.env.CUTOFF)) { return res.status(400).json({message: 'Registration Has Closed'}); }
+
   Registration.findById(req.params.id, function (err, registration) {
     if(err) { return handleError(res, err); }
     if(!registration) { return res.send(404); }
