@@ -160,7 +160,7 @@
                         </slide>
                     </carousel>
                     <br><br>
-                    <button class="btn btn-block btn-large"
+                    <button ng-hide="expired()" class="btn btn-block btn-large"
                             ng-class="{'btn-primary':imageUrl.length, 'btn-success':!imageUrl.length}"
                             ng-click="pickBag()">{{imageUrl
                         .length?'CLICK HERE TO CHANGE YOUR BAG':'CLICK HERE TO PICK A

@@ -43,6 +43,8 @@ angular.module('nbaAgc2App')
 
         $scope.pickBag = function () {
 
+            if ($rootScope.expired()) { return false; }
+
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'components/modal/modal.html',
