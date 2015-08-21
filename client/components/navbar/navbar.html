@@ -48,7 +48,7 @@
             <li ng-class="{active: isActive('/conference_speakers')}">
                 <a ui-sref="conference_speakers">SPEAKERS</a>
             </li>
-            <li ng-class="{active: isActive('/papers')}">
+            <li ng-show="isAuthenticated()" ng-class="{active: isActive('/papers')}">
                 <a ui-sref="papers">PAPERS</a>
             </li>
             <!--<li ng-class="{active: isActive('/attendees')}">
