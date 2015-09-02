@@ -3,4 +3,4 @@ THE Conference Registration Portal for the NIGERIAN BAR ASSOCIATION's 2015 Annua
 **How to Use**
 
 * Run `npm install` from the root of the application
-* Then usUdatee `grunt serve` or `node server/app.js` to serve the application
+* Then use `grunt serve` or `node server/app.js` to serve the application
