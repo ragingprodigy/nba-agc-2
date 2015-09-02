@@ -1,10 +1,6 @@
-THE Conference Registration Portal for the NIGERIAN BAR ASSOCIATION's 2015 Annual General Conference (Abuja)
+THE Conference Registration Portal for the NIGERIAN BAR ASSOCIATION's 2015 Annual General Conference (Abuja). The project uses a MongoDb backend and presumes that the MongoDb driver for Node.js is install globally using `npm install -g mongodb`
 
-The project uses a MongoDb backend and presumes that the MongoDb driver for Node.js is install globally using `npm
-install -g mongodb`
+**How to Use**
 
-[b]How to Use[/b]
-
-Run `npm install` from the root of the application
-
-Then use `grunt serve` or `node server/app.js` to serve the application
+* Run `npm install` from the root of the application
+* Then usUdatee `grunt serve` or `node server/app.js` to serve the application
