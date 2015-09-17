@@ -32,7 +32,7 @@ exports.index = function(req, res) {
             res.json(records);
         });
     } else {
-        Session.find(req.query, 'title venue start_time end_time rating_start speakers papers')
+        Session.find(req.query, 'title venue start_time end_time rating_start speakers papers rappoteur')
         .populate('papers.speaker', '-photo_base64')
         .exec(function (err, sessions) {
             if(err) { return handleError(res, err); }

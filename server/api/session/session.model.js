@@ -25,7 +25,8 @@ var SessionSchema = new Schema({
       speaker: { type: Schema.Types.ObjectId, ref: 'Speaker' },
       title: String,
       document: String
-  }]
+  }],
+  rappoteur : String
 });
 
 // generating a hash
