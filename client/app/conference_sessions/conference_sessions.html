@@ -2,11 +2,12 @@
 
 <div class="container session-container">
 
-    <panel-header title="CONFERENCE Programme" class="success"></panel-header>
+    <panel-header title="CONFERENCE Papers" class="success" ng-click="showRappoteur( 'src')">
+
+    </panel-header>
 
     <div class="row">
         <div class="col-md-9">
-
             <div class="panel panel-default">
                 <div class="panel-body bg-info">
                     <button data-ng-repeat="day in days" class="btn btn-info btn-sm conference-days"
@@ -14,17 +15,38 @@
                         }}</button>
                 </div>
             </div>
+            <div class="input-group custom-search-form col-lg-4 pull-right" style="margin-bottom: 6px;">
+                <input type="text" class="form-control" placeholder="Search by session | speaker | title | day" ng-model="searchQuery">
+            </div>
 
             <table class="table">
                 <tr data-ng-repeat="day in days">
-                    <td class="no-padding" id="{{day}}">
+                    <td class="no-padding" id="{{day}}"   >
                         <panel-header title="{{day}}" class="default"></panel-header>
                         <table class="table table-bordered table-striped">
-                            <tr class="text-uppercase" data-ng-repeat="s in buffer[day]">
-                                <td class="col-md-7">{{s.title}}</td>
-                                <td class="col-md-3 text-center">{{formatDate(s.start_time, 'time')}} -
-                                    {{formatDate(s.end_time,'time')}}</td>
-                                <td class="col-md-2"><a class="btn btn-primary btn-xs btn-block" ui-sref="conference_session_detail({id: s._id})">DETAILS</a>
+                            <tr class="text-uppercase" data-ng-repeat="s in buffer[day] | filter: searchQuery"
+                                ng-show="s.papers.length || s.rappoteur.length">
+                                <td>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="padding-right: 0px">
+                                            <div class="col-md-9"><b>{{ s.title }}</b> </div>
+                                            <div class="col-md-3" style="padding: 5px" ng-show="(s.rappoteur.length > 0)">
+                                                <a class="btn btn-primary btn-xs btn-block"  ng-click="showRappoteur( s.rappoteur )" style="width:100%; background-color: #9a0006">Rapporteurs Report</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<panel-header  title="{{ s.title }}"></panel-header>-->
+                                    <table class="table table-bordered table-striped">
+                                        <tr class="text-uppercase" data-ng-repeat="paper in s.papers">
+                                            <td class="col-md-6">{{paper.title}}</td>
+                                            <td class="col-md-3 text-center">{{ paper.speaker.name}}</td>
+                                            <td class="col-md-3">
+                                                <a class="btn btn-primary btn-xs btn-block"  href="{{paper.document}}" target="_blank">DOWNLOAD PAPER</a>
+                                                <a class="btn btn-primary btn-xs btn-block" ng-show="(s.rappoteur.length > 0)" ng-click="showRappoteur( s.rappoteur )" style="width:100%; background-color: #be0006">Rapporteurs Report</a>
+                                            </td>
+                                            <!--<td class="col-md-2"><a class="btn btn-primary btn-xs btn-block" ui-sref="conference_session_detail({id: s._id})">DOWNLOAD</a></td>-->
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
@@ -37,4 +59,14 @@
     </div>
 </div>
 
+<div ng-controller="ConferenceSessionsCtrl">
+    <script type="text/ng-template" id="rappoteur.html">
+        <p ng-bind-html="rappoteur"></p>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+</div>
+
 <div ng-include="'components/footer/footer.html'"></div>
+
