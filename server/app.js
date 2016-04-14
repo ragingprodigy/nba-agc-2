@@ -86,6 +86,7 @@ function start() {
 	});
 
 	// Expose app
+	//noinspection JSUnresolvedVariable
 	exports = module.exports = app;
 }
 
