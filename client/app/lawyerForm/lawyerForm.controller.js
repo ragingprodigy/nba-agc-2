@@ -42,4 +42,8 @@ angular.module('nbaAgc2App')
                 }
             }
         };
+      // gets all branch names
+      $http.get('api/registrations/branch').success(function (branch) {
+          return $scope.branchData = branch;
+      });
   });

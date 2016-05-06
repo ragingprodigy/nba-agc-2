@@ -27,7 +27,12 @@ angular.module('nbaAgc2App')
         $scope.person.nbSurname = $scope.person.surname;
         $scope.showForm2 = true;
     };
-
+    // // gets all branch names
+    // $scope.listBranches = function () {
+    //     $http.get('api/registrations/branch').success(function (branch) {
+    //         $scope.branchData = branch;
+    //     });
+    // };
     // Lookup the registration data for this user
     $scope.doLookup = function() {
         blocker.block();

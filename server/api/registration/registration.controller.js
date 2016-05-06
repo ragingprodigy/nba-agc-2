@@ -5,6 +5,7 @@ var _ = require('lodash'),
 var Registration = require('./registration.model'),
     User = require('../user/user.model'),
     Invoice = require('../invoice/invoice.model'),
+    Branch = require('./branches.model'),
     parseString = require('xml2js').parseString,
     moment = require('moment');
 
@@ -78,7 +79,15 @@ exports.fetch = function (req, res) {
         return res.status(200).json(registration);
     });
 };
-
+// get list of branches
+exports.branch = function (req, res) {
+  Branch.find(function (err, branch) {
+    if (err) {
+      return handleError(res, err);
+    }
+    return res.status(200).json(branch);
+  });
+};
 // Get list of registrations
 exports.index = function(req, res) {
     var params = {};

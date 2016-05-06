@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('OthersFormCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
-
+    .controller('OthersFormCtrl', function ($scope, $state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+        $http.get('api/registrations/branch').success(function (branch) {
+            console.log(branch);
+            return $scope.branchData = branch;
+        });
         $anchorScroll();
 
         if ($rootScope.expired()) { $state.go('main'); }

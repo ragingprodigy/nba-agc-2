@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('BenchFormCtrl', function ($scope, $state, Registration, $sessionStorage, blocker, $anchorScroll, $rootScope) {
-
+    .controller('BenchFormCtrl', function ($scope, $state, $http, Registration, $sessionStorage, blocker, $anchorScroll, $rootScope) {
+        $http.get('api/registrations/branch').success(function (branch) {
+            console.log(branch);
+            return $scope.branchData = branch;
+        });
         $anchorScroll();
 
         if ($rootScope.expired()) { $state.go('main'); }
@@ -36,6 +39,7 @@ angular.module('nbaAgc2App')
             for (k = 2010; k >= 1960; k--){ results.push(k); }
             return results;
         }).apply(this);
+
 
         $scope.startReg = function() {
 

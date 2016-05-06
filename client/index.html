@@ -7,8 +7,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
-    <title>Nigerian Bar Association - 2015 Annual General Conference</title>
-    <meta name="description" content="lawyers &map; National Development - The Largest gathering of Lawyers anywhere! 23rd - 28th August, 2015; International Conference Center, Abuja">
+      <title>Nigerian Bar Association - 2016 Annual General Conference</title>
+      <meta name="description"
+            content="lawyers &map; National Development - The Largest gathering of Lawyers anywhere! 23rd - 28th August, 2016; International Conference Center, PORT HARCOURT">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
@@ -16,7 +17,6 @@
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
       <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css" />
-      <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
       <!-- endbower -->
       <link rel="stylesheet" href="bower_components/datatables/media/css/dataTables.bootstrap.css" />
     <!-- endbuild -->
@@ -135,6 +135,12 @@
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
+    <script src="assets/floating/floating.controller.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
           <!-- injector:js -->
           <script src="app/AccessCheck/AccessCheck.service.js"></script>
           <script src="app/Bags/Bags.service.js"></script>

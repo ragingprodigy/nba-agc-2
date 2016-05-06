@@ -21,35 +21,38 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="prefix">Prefix <span class="required">*</span></label>
+                                    <label class="control-label" for="prefix">Prefix <span
+                                            class="required">*</span></label>
                                     <input type="text" name="prefix" id="prefix" ng-model="person.prefix"
                                            class="form-control" placeholder="Mr, Mrs, Chief" required autofocus>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="surname">Surname <span class="required">*</span> </label>
+                                    <label class="control-label" for="surname">Surname <span class="required">*</span>
+                                    </label>
                                     <input class="form-control" type="text" name="surname" id="surname" ng-model="person.surname"
                                            placeholder="Surname" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="middleName">Middle Name</label>
+                                    <label class="control-label" for="middleName">Middle Name</label>
                                     <input class="form-control" type="text" name="middleName" id="middleName" ng-model="person.middleName"
                                            placeholder="Middle Name">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="firstName">First Name <span class="required">*</span> </label>
+                                    <label class="control-label" for="firstName">First Name <span
+                                            class="required">*</span> </label>
                                     <input class="form-control" type="text" name="firstName" id="firstName" ng-model="person.firstName"
                                            placeholder="First Name" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="suffix">Suffix</label>
+                                    <label class="control-label" for="suffix">Suffix</label>
                                     <input type="text" name="suffix" id="suffix" ng-model="person.suffix"
                                            class="form-control" placeholder="ESQ, MON, GCON" >
                                 </div>
@@ -80,88 +83,88 @@
                     </form>
 
 
-                    <form method="post" name="dataForm2" ng-show="showForm2 && !showTable" ng-submit="dataForm2.$valid && doLookup()">
+                    <!--<form method="post" name="dataForm2" ng-show="showForm2 && !showTable" ng-submit="dataForm2.$valid && doLookup()">-->
 
-                        <div class="alert alert-info">
-                            <p class="text-danger"><i class="glyphicon glyphicon-chevron-down"></i> <b>First Step Completed!</b>. Now, please enter your 'Last Name' as it appears on your 'Call to Bar' Certificate for validation purposes</p>
-                        </div>
+                    <!--<div class="alert alert-info">-->
+                    <!--<p class="text-danger"><i class="glyphicon glyphicon-chevron-down"></i> <b>First Step Completed!</b>. Now, please enter your 'Last Name' as it appears on your 'Call to Bar' Certificate for validation purposes</p>-->
+                    <!--</div>-->
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="_surname">Surname <span class="required">*</span> </label>
-                                    <input class="form-control" type="text" name="surname" id="_surname"
-                                           ng-model="person.nbSurname" ng-minlength="3"
-                                           placeholder="Surname" required>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit"  ng-disabled="dataForm2.$invalid"
-                                            class="btn btn-block btn-success" ng-submit="dataForm2.$valid && doLookup()"> <i
-                                            class="fa fa-play"></i>
-                                        CONTINUE
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    <!--<div class="row">-->
+                    <!--<div class="col-md-12">-->
+                    <!--<div class="form-group">-->
+                    <!--<label for="_surname">Surname <span class="required">*</span> </label>-->
+                    <!--<input class="form-control" type="text" name="surname" id="_surname"-->
+                    <!--ng-model="person.nbSurname" ng-minlength="3"-->
+                    <!--placeholder="Surname" required>-->
+                    <!--</div>-->
+                    <!--<div class="text-center">-->
+                    <!--<button type="submit"  ng-disabled="dataForm2.$invalid"-->
+                    <!--class="btn btn-block btn-success" ng-submit="dataForm2.$valid && doLookup()"> <i-->
+                    <!--class="fa fa-play"></i>-->
+                    <!--CONTINUE-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</form>-->
 
-                    <div ng-show="showTable">
-                        <div class="row">
-                            <div class="col-sm-9 col-xs-9">
-                                <input class="form-control" type="text" name="surname" id="_filter"
-                                       ng-model="nameFilter"
-                                       placeholder="Filter the Results ({{members.length}} records found)">
-                            </div>
-                            <div class="col-sm-3 col-xs-3">
-                                <button class="btn btn-block btn-warning" ng-click="showTable=!showTable"><i class="fa fa-arrow-left"></i> Back</button>
-                            </div>
-                        </div><hr>
+                    <!--<div ng-show="showTable">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-9 col-xs-9">-->
+                    <!--<input class="form-control" type="text" name="surname" id="_filter"-->
+                    <!--ng-model="nameFilter"-->
+                    <!--placeholder="Filter the Results ({{members.length}} records found)">-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3 col-xs-3">-->
+                    <!--<button class="btn btn-block btn-warning" ng-click="showTable=!showTable"><i class="fa fa-arrow-left"></i> Back</button>-->
+                    <!--</div>-->
+                    <!--</div><hr>-->
 
-                        <div class="alert alert-success">
-                            Select your name from the list below. In the event that the list is long, you can filter it by entering your other names or your year of call using the textbox above.
-                        </div>
+                    <!--<div class="alert alert-success">-->
+                    <!--Select your name from the list below. In the event that the list is long, you can filter it by entering your other names or your year of call using the textbox above.-->
+                    <!--</div>-->
 
-                        <table class="table table-bordered table-striped table-hover table-responsive hidden-xs">
-                            <hr>
-                            <tr>
-                                <!--<th>S/N</th>-->
-                                <th>Name</th>
-                                <th>Called to Bar</th>
-                                <!--<th>Call Number</th>-->
-                                <th class="col-sm-1"></th>
-                            </tr>
-                            <tr ng-repeat="member in members | filter: nameFilter">
-                                <!--<td>{{$index+1}}.</td>-->
-                                <td>{{member.name}}</td>
-                                <td>{{member.yearCalled}}</td>
-                                <!--<td>{{member.nbaId}}</td>-->
-                                <td>
-                                    <button class="btn btn-xs btn-success" ng-click="details(member)"><i
-                                        class="fa fa-check"></i> SELECT</button>
-                                </td>
-                            </tr>
-                        </table>
+                    <!--<table class="table table-bordered table-striped table-hover table-responsive hidden-xs">-->
+                    <!--<hr>-->
+                    <!--<tr>-->
+                    <!--&lt;!&ndash;<th>S/N</th>&ndash;&gt;-->
+                    <!--<th>Name</th>-->
+                    <!--<th>Called to Bar</th>-->
+                    <!--&lt;!&ndash;<th>Call Number</th>&ndash;&gt;-->
+                    <!--<th class="col-sm-1"></th>-->
+                    <!--</tr>-->
+                    <!--<tr ng-repeat="member in members | filter: nameFilter">-->
+                    <!--&lt;!&ndash;<td>{{$index+1}}.</td>&ndash;&gt;-->
+                    <!--<td>{{member.name}}</td>-->
+                    <!--<td>{{member.yearCalled}}</td>-->
+                    <!--&lt;!&ndash;<td>{{member.nbaId}}</td>&ndash;&gt;-->
+                    <!--<td>-->
+                    <!--<button class="btn btn-xs btn-success" ng-click="details(member)"><i-->
+                    <!--class="fa fa-check"></i> SELECT</button>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--</table>-->
 
-                        <div class="visible-xs">
-                            <div ng-repeat="member in members | filter: nameFilter" class="row">
-                                <div class="col-xs-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <div class="panel-title" ng-bind="member.name"></div>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="text-center">
-                                                <span class="pull-left"><label class="label label-info">Year Called</label> {{member.yearCalled}}</span>
-                                                <span class="pull-right">{{member.nbaId}}</span>
-                                                <button class="btn btn-xs btn-success" ng-click="details(member)"><i
-                                                    class="fa fa-check"></i> SELECT</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="visible-xs">-->
+                    <!--<div ng-repeat="member in members | filter: nameFilter" class="row">-->
+                    <!--<div class="col-xs-12">-->
+                    <!--<div class="panel panel-default">-->
+                    <!--<div class="panel-heading">-->
+                    <!--<div class="panel-title" ng-bind="member.name"></div>-->
+                    <!--</div>-->
+                    <!--<div class="panel-body">-->
+                    <!--<div class="text-center">-->
+                    <!--<span class="pull-left"><label class="label label-info">Year Called</label> {{member.yearCalled}}</span>-->
+                    <!--<span class="pull-right">{{member.nbaId}}</span>-->
+                    <!--<button class="btn btn-xs btn-success" ng-click="details(member)"><i-->
+                    <!--class="fa fa-check"></i> SELECT</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
                     
                 </div>
             </div>
