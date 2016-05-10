@@ -3,10 +3,27 @@
 angular.module('nbaAgc2App')
 .controller('LegalPractitionerCtrl', function ($scope, $state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $auth, $rootScope) {
 
-    $scope.person = {};
-    $scope.members = [];
+    $scope.data = {};
+    $scope.memberss = [];
+    $scope.member = {};
+    $scope.newuser = {};
 
-        if ($rootScope.expired()) { $state.go('main'); }
+    var k, results;
+    $scope.membersYears = (function () {
+        results = [];
+        for (k = 2015; k >= 1960; k--) {
+            results.push(k);
+        }
+        return results;
+    }).apply(this);
+
+
+    //watch for any new changes on keypressed
+
+
+    if ($rootScope.expired()) {
+        $state.go('main');
+    }
 
     $anchorScroll();
 
@@ -23,46 +40,118 @@ angular.module('nbaAgc2App')
     }
 
     // Ask for Name as it appears on Call to Bar Certificate!
-    $scope.nextForm = function() {
-        $scope.person.nbSurname = $scope.person.surname;
-        $scope.showForm2 = true;
-    };
-    // // gets all branch names
-    // $scope.listBranches = function () {
-    //     $http.get('api/registrations/branch').success(function (branch) {
-    //         $scope.branchData = branch;
-    //     });
+    // $scope.nextForm = function() {
+    //     $scope.person.nbSurname = $scope.person.surname;
+    //     $scope.showForm2 = true;
     // };
-    // Lookup the registration data for this user
-    $scope.doLookup = function() {
-        blocker.block();
-        $http.post('/api/members/verify', $scope.person).success(function(members) {
-            $scope.members = members;
-            $scope.showTable = true;
 
-            blocker.clear();
-        });
+    $scope.doLookup = function () {
+        $http.post('/api/members/getmember', $scope.data).success(function (members) {
+            $scope.memberss = [];
+            if (members) {
+                $scope.memberss.push.apply($scope.memberss, members);
+            }
+        })
     };
 
-    $scope.details = function(person) {
+    $scope.doSave = function () {
+        $http.post('/api/members/savemember', $scope.newuser).success(function (members) {
+            $scope.member = members;
+            $scope.data.member = $scope.member._id;
+            $scope.data.nbaId = $scope.member.nbaId;
+            $scope.data.yearCalled = '' + $scope.member.yearCalled;
+            console.log($scope.data);
+            $('#myModal').modal('hide');
+            $('#ctb').prop('disabled', true);
+        })
+    };
 
-        blocker.block();
-        
-        $scope.person.member = person._id;
-        $scope.person.nbaId = person.nbaId;
-        $scope.person.yearCalled = person.yearCalled;
+
+    $scope.setData = function () {
+        $scope.data.member = $scope.member.data._id;
+        $scope.data.nbaId = $scope.member.data.nbaId;
+        $scope.data.yearCalled = '' + $scope.member.data.yearCalled;
+        console.log($scope.data);
+        $('#myModal').modal('hide');
+        $('#ctb').prop('disabled', true);
+    };
+
+    $scope.showmodal = function () {
+        if ($scope.data.surname.length >= 3 && $scope.data.firstName.length >= 3) {
+            blocker.block();
+            $scope.doLookup();
+            $('#myModal').modal();
+            blocker.clear();
+        }
+
+    };
+    $scope.reviewForm = function (formName) {
+        if (formName.$invalid) {
+
+            window.alert('All form fields marked with * are required!');
+
+            $anchorScroll();
+
+        } else {
+            var cnf = window.confirm('Are you sure you want to submit this form?');
+            if (cnf) {
+
+                blocker.block();
+
+                $scope.data.formFilled = true;
+
+                var reg = new Registration($scope.data);
+                console.log($scope.data);
+                reg.$save().then(function (registrationData) {
+
+                    $sessionStorage.lpRegistrant = registrationData;
+                    $scope.data = registrationData;
+                    console.log($scope.data);
+                    if ($rootScope.isAuthenticated() && $rootScope.isGroup()) {
+                        $sessionStorage.$reset();
+                        $state.go('myRegistrations');
+                    }
+                    else {
+                        $state.go('invoice');
+                    }
+
+                    blocker.clear();
+                });
+
+                // // Update the Registration Information
+                // Registration.update({id: $scope.data._id}, $scope.data, function(){
+                //     if ($rootScope.isAuthenticated() && $rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
+                //     else { $state.go('invoice'); }
+                // });
+            }
+        }
+    };
+
+
+    // gets all branch names
+    $http.get('api/registrations/branch').success(function (branch) {
+        return $scope.branchData = branch;
+    });
+
+    $scope.details = function () {
+
+        // blocker.block();
+        //
+        // $scope.person.member = person._id;
+        // $scope.person.nbaId = person.nbaId;
+        // $scope.person.yearCalled = person.yearCalled;
 
         // Group Registration Support
         if ($auth.isAuthenticated()) { $scope.person.owner = $auth.getPayload().sub; $scope.person.isGroup = true; }
 
         // Notify the server that a registration has been started for the current user!
-        var reg = new Registration($scope.person);
-        reg.$save().then(function(registrationData) {
-
-            $sessionStorage.lpRegistrant = registrationData;
+        // var reg = new Registration($scope.person);
+        // reg.$save().then(function(registrationData) {
+        //
+        //     $sessionStorage.lpRegistrant = registrationData;
 
             // Set Some data in the browser cookie and on the server
             $state.go('lawyerForm');
-        });
+        // });
     };
 });

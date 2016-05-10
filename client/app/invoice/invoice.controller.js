@@ -2,7 +2,6 @@
 
 angular.module('nbaAgc2App')
   .controller('InvoiceCtrl', function ($scope, $sessionStorage, Registration, $state, blocker, $auth, $rootScope) {
-        
         if ($rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
 
         else {

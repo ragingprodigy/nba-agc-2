@@ -5,7 +5,7 @@
         <div class="col-sm-12 col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">ENTER ATTENDEE DATA 
+                    <div class="panel-title">ENTER ATTENDEE DATA
                         <button class="btn btn-danger pull-right text-white btn-xs" ng-click="doReset()"><i
                                 class="fa fa-times-circle"></i> CANCEL
                             REGISTRATION</button>
@@ -27,7 +27,9 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="surname">Surname <span class="required">*</span></label>
-                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="data.surname"
+                                    <input ng-change="showmodal()" ng-model-options="{updateOn: 'blur'}"
+                                           class="form-control" type="text" name="surname" id="surname"
+                                           ng-model="data.surname"
                                            placeholder="Surname" required>
                                 </div>
                             </div>
@@ -41,7 +43,9 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="firstName">First Name <span class="required">*</span></label>
-                                    <input class="form-control" type="text" name="firstName" id="firstName" ng-model="data.firstName"
+                                    <input ng-change="showmodal()" ng-model-options="{updateOn: 'blur'}"
+                                           class="form-control" type="text" name="firstName" id="firstName"
+                                           ng-model="data.firstName"
                                            placeholder="First Name" required>
                                 </div>
                             </div>
@@ -58,16 +62,21 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ctb">Year of Call to Bar</label>
-                                    <input readonly="readonly" class="form-control" type="text" name="ctb" id="ctb" ng-model="data.yearCalled" placeholder="1989">
+                                    <select class="form-control" name="ctb" id="ctb" ng-model="data.yearCalled"
+                                            required>
+                                        <option ng-repeat=" y in membersYears"
+                                                value="{{y}}">{{y}}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-md-5 col-md-offset-4">
-                                <div class="form-group">
-                                    <label>Conference Fee</label>
-                                    <div class="form-price label label-primary">NGN {{data.conferenceFee
-                                        .formatMoney(2)}}</div>
-                                </div>
-                            </div>
+                            <!--<div class="col-md-5 col-md-offset-4">-->
+                            <!--<div class="form-group">-->
+                            <!--<label>Conference Fee</label>-->
+                            <!--<div class="form-price label label-primary">NGN {{data.conferenceFee-->
+                            <!--.formatMoney(2)}}</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
                         </div>
 
                         <div class="form-group">
@@ -145,7 +154,7 @@
                                 </div>
                             </div>
                         </div>-->
-                        
+
                         <hr>
 
                         <div class="row">
@@ -163,9 +172,9 @@
                                     EDIT</a>
                             </div>
                             <div class="col-sm-6 col-xs-6">
-                                <button type="submit" 
+                                <button type="submit"
                                         class="btn btn-block btn-success"
-                                        ng-click="reviewForm(dataForm, dataForm2)"> <i
+                                        ng-click="reviewForm(dataForm)"><i
                                         class="fa fa-play"></i>
                                     NEXT <i class="fa fa-check"></i>
                                 </button>
@@ -178,5 +187,49 @@
         </div>
 
         <!--<div ng-include="'components/rightInfo/rightInfo.html'" class="col-sm-4"></div>-->
+    </div>
+    <!-- Modal -->
+    <div ng-show="true" class="modal fade" id="myModal" role="dialog">ss
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Click on your name to Select your info</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Call Number
+                                </th>
+                                <th>
+                                    Year Called
+                                </th>
+                            </tr>
+                            </thead>
+                            <tr ng-click="setData()" ng-repeat="member in memberss">
+                                <input type="text" name="member.name" id="member.name" ng-model="memb.name"
+                                       value={{member.name}}>
+                                <input type="text" name="member.nbaId" id="member.nbaId" ng-model="memb.nbaId" hidden
+                                       value="{{member.name}}">
+                                <input type="text" name="member.yearCalled" id="member.yearCalled"
+                                       ng-model="memb.yearCalled" hidden value="{{member.name}}">
+                                <td class="success">{{member.name}}</td>
+                                <td class="warning">{{member.nbaId}}</td>
+                                <td class="danger">{{member.yearCalled}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,173 +2,296 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">
-                        LEGAL PRACTITIONER
-                        <a ui-sref="registerAs" class="btn btn-danger btn-xs pull-right text-white"><i
-                                class="fa fa-backward"></i> Change <span ng-show="!isGroup()">Your</span> Group</a>
+                    <div class="panel-title">LEGAL PRACTITIONER DATA
+                        <button class="btn btn-danger pull-right text-white btn-xs" ng-click="doReset()"><i
+                                class="fa fa-times-circle"></i> CANCEL
+                            REGISTRATION
+                        </button>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <form method="post" name="dataForm" ng-submit="dataForm.$valid && nextForm()" ng-hide="showForm2">
+                    <form method="post" name="dataForm">
 
-                        <div class="alert alert-success">
-                            <i class="glyphicon glyphicon-chevron-down"></i> Please enter your name as you'll want it to appear on your name tag
+                        <div class="alert alert-info">All fields marked <span class="required">*</span> are required!
                         </div>
 
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="control-label" for="prefix">Prefix <span
-                                            class="required">*</span></label>
-                                    <input type="text" name="prefix" id="prefix" ng-model="person.prefix"
-                                           class="form-control" placeholder="Mr, Mrs, Chief" required autofocus>
+                                    <label for="prefix">Prefix <span class="required">*</span></label>
+                                    <input type="text" name="prefix" id="prefix" ng-model="data.prefix"
+                                           class="form-control" placeholder="Mr, Mrs, Chief, Dr, etc" required
+                                           autofocus>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label" for="surname">Surname <span class="required">*</span>
-                                    </label>
-                                    <input class="form-control" type="text" name="surname" id="surname" ng-model="person.surname"
+                                    <label for="surname">Surname <span class="required">*</span></label>
+                                    <input ng-change="showmodal()" ng-model-options="{updateOn: 'blur'}"
+                                           class="form-control" type="text" name="surname" id="surname"
+                                           ng-model="data.surname"
                                            placeholder="Surname" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="control-label" for="middleName">Middle Name</label>
-                                    <input class="form-control" type="text" name="middleName" id="middleName" ng-model="person.middleName"
-                                           placeholder="Middle Name">
+                                    <label for="middleName">Middle Name</label>
+                                    <input class="form-control" type="text" name="middleName" id="middleName"
+                                           ng-model="data.middleName"
+                                           placeholder="Middle">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label" for="firstName">First Name <span
-                                            class="required">*</span> </label>
-                                    <input class="form-control" type="text" name="firstName" id="firstName" ng-model="person.firstName"
+                                    <label for="firstName">First Name <span class="required">*</span></label>
+                                    <input ng-change="showmodal()" ng-model-options="{updateOn: 'blur'}"
+                                           class="form-control" type="text" name="firstName" id="firstName"
+                                           ng-model="data.firstName"
                                            placeholder="First Name" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="control-label" for="suffix">Suffix</label>
-                                    <input type="text" name="suffix" id="suffix" ng-model="person.suffix"
-                                           class="form-control" placeholder="ESQ, MON, GCON" >
+                                    <label for="suffix">Suffix</label>
+                                    <input type="text" name="suffix" id="suffix" ng-model="data.suffix"
+                                           class="form-control" placeholder="SAN, MNI, MON, CON, GCON, etc.">
                                 </div>
                             </div>
                         </div>
 
-                        <div ng-hide="showForm2 || (!dataForm.firstName.$dirty && !dataForm.surname.$dirty && !dataForm.prefix.$dirty)" class="row">
-                            <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ctb">Year of Call to Bar</label>
+                                    <select class="form-control" name="ctb" id="ctb" ng-model="data.yearCalled"
+                                            required>
+                                        <option ng-repeat=" y in membersYears"
+                                                value="{{y}}">{{y}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-5 col-md-offset-4">-->
+                            <!--<div class="form-group">-->
+                            <!--<label>Conference Fee</label>-->
+                            <!--<div class="form-price label label-primary">NGN {{data.conferenceFee-->
+                            <!--.formatMoney(2)}}</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                        </div>
 
-                            <div class="col-md-6 col-md-offset-3 col-sm-12">
-                                <h4 class="text-center text-success">Below's what your name tag looks like</h4><br>
-                                <div class="panel panel-default">
-                                    <div class="panel-body name-tag">
-                                        <h5 class="text-center" ng-bind="person.prefix" ng-hide="person.prefix.toLowerCase().indexOf('mr')>=0||person.prefix.toLowerCase().indexOf('mis')>=0"></h5>
-                                        <h3 class="text-center">{{person.firstName}} {{person.surname}} <small ng-bind="person.suffix"></small></h3>
-                                    </div>
+                        <div class="form-group">
+                            <label for="branch">NBA Branch <span class="required">*</span></label>
+                            <select class="form-control" name="branch" ng-model="data.branch" id="branch"
+                                    required>
+                                <option ng-repeat=" branch in branchData | orderBy:'-name':'reverse'"
+                                        value="{{branch.name}}">{{branch.name}}
+                                </option>
+                            </select>
+                            <span class="help-block label label-danger"
+                                  ng-show="dataForm.branch.$dirty && dataForm.branch.$error.required">Please enter your NBA Branch</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company">Firm / Company / Organization <span class="required">*</span> </label>
+                            <input class="form-control" type="text" name="company" id="company"
+                                   ng-model="data.company" placeholder="Firm / Company / Organization" required>
+                            <span class="help-block label label-danger"
+                                  ng-show="dataForm.company.$dirty && dataForm.company.$error.required">Please enter your Firm / Company / Organization</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address </label>
+                            <input type="text" class="form-control" name="address" id="address"
+                                   ng-model="data.address" placeholder="Address">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mobile">Mobile Phone <span class="required">*</span>
+                                        <small
+                                                class="text-muted">eg: 08031231234
+                                        </small>
+                                    </label>
+                                    <input class="form-control" type="tel" name="mobile" id="mobile"
+                                           ng-model="data.mobile"
+                                           placeholder="Mobile Phone Number" ng-number="true" ng-minlength="11"
+                                           ng-maxlength="11"
+                                           required>
+                                    <span class="help-block label label-danger"
+                                          ng-show="dataForm.mobile.$dirty && dataForm.mobile.$error.required">Valid phone number is required</span>
+                                    <span class="help-block label label-danger"
+                                          ng-show="((dataForm.mobile.$error.minlength || dataForm.mobile.$error.maxlength) && dataForm.mobile.$dirty) ">Mobile Phone Number should be 11 digits</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Office Telephone Number </label>
+                                    <input class="form-control" type="tel" name="phone" id="phone" ng-model="data.phone"
+                                           placeholder="Office Phone Number">
+
                                 </div>
                             </div>
                         </div>
 
-                        <div class="text-center" ng-hide="showForm2">
-                            <button type="submit" ng-disabled="dataForm.$invalid"
-                                    class="btn btn-block btn-primary" ng-submit="dataForm.$valid && nextForm()"> <i
-                                    class="fa fa-play"></i>
-                                NEXT
-                            </button>
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span> <em
+                                    class="text-danger">Please provide a
+                                valid email address.</em> </label>
+                            <input type="email" class="form-control" name="email" id="email" ng-model="data.email"
+                                   placeholder="Email Address" required>
+                             <span class="help-block label label-danger"
+                                   ng-show="dataForm.email.$dirty && (dataForm.email.$error.required || dataForm.email.$error.email)">Please provide a valid email address
+                            </span>
+                        </div>
+
+                        <!--<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="emergency">Emergency Contact Name</label>
+                                    <input class="form-control" type="text" name="e_name" id="emergency"
+                                           ng-model="data.emergencyContact"
+                                           placeholder="Emergency Contact Name" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="e_phone">Emergency Contact Number</label>
+                                    <input class="form-control" type="tel" name="e_phone" id="e_phone"
+                                           ng-model="data.emergencyPhone"
+                                           placeholder="Emergency Contact Number" >
+                                </div>
+                            </div>
+                        </div>-->
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-6" ng-hide="editing">
+                                <button class="btn btn-danger btn-block hidden-xs" type="button" ng-click="doReset()"><i
+                                        class="fa fa-times"></i> CANCEL
+                                    REGISTRATION
+                                </button>
+                                <button class="btn btn-danger btn-block visible-xs" type="button" ng-click="doReset()">
+                                    <i
+                                            class="fa fa-times"></i> CANCEL
+                                </button>
+                            </div>
+                            <div class="col-sm-6 col-xs-6" ng-show="editing">
+                                <a class="btn btn-warning btn-block" ui-sref="myRegistrations"><i
+                                        class="fa fa-edit"></i> CANCEL
+                                    EDIT</a>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <button type="submit"
+                                        class="btn btn-block btn-success"
+                                        ng-click="reviewForm(dataForm)"><i
+                                        class="fa fa-play"></i>
+                                    NEXT <i class="fa fa-check"></i>
+                                </button>
+                            </div>
+
                         </div>
                     </form>
-
-
-                    <!--<form method="post" name="dataForm2" ng-show="showForm2 && !showTable" ng-submit="dataForm2.$valid && doLookup()">-->
-
-                    <!--<div class="alert alert-info">-->
-                    <!--<p class="text-danger"><i class="glyphicon glyphicon-chevron-down"></i> <b>First Step Completed!</b>. Now, please enter your 'Last Name' as it appears on your 'Call to Bar' Certificate for validation purposes</p>-->
-                    <!--</div>-->
-
-                    <!--<div class="row">-->
-                    <!--<div class="col-md-12">-->
-                    <!--<div class="form-group">-->
-                    <!--<label for="_surname">Surname <span class="required">*</span> </label>-->
-                    <!--<input class="form-control" type="text" name="surname" id="_surname"-->
-                    <!--ng-model="person.nbSurname" ng-minlength="3"-->
-                    <!--placeholder="Surname" required>-->
-                    <!--</div>-->
-                    <!--<div class="text-center">-->
-                    <!--<button type="submit"  ng-disabled="dataForm2.$invalid"-->
-                    <!--class="btn btn-block btn-success" ng-submit="dataForm2.$valid && doLookup()"> <i-->
-                    <!--class="fa fa-play"></i>-->
-                    <!--CONTINUE-->
-                    <!--</button>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</form>-->
-
-                    <!--<div ng-show="showTable">-->
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-9 col-xs-9">-->
-                    <!--<input class="form-control" type="text" name="surname" id="_filter"-->
-                    <!--ng-model="nameFilter"-->
-                    <!--placeholder="Filter the Results ({{members.length}} records found)">-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-3 col-xs-3">-->
-                    <!--<button class="btn btn-block btn-warning" ng-click="showTable=!showTable"><i class="fa fa-arrow-left"></i> Back</button>-->
-                    <!--</div>-->
-                    <!--</div><hr>-->
-
-                    <!--<div class="alert alert-success">-->
-                    <!--Select your name from the list below. In the event that the list is long, you can filter it by entering your other names or your year of call using the textbox above.-->
-                    <!--</div>-->
-
-                    <!--<table class="table table-bordered table-striped table-hover table-responsive hidden-xs">-->
-                    <!--<hr>-->
-                    <!--<tr>-->
-                    <!--&lt;!&ndash;<th>S/N</th>&ndash;&gt;-->
-                    <!--<th>Name</th>-->
-                    <!--<th>Called to Bar</th>-->
-                    <!--&lt;!&ndash;<th>Call Number</th>&ndash;&gt;-->
-                    <!--<th class="col-sm-1"></th>-->
-                    <!--</tr>-->
-                    <!--<tr ng-repeat="member in members | filter: nameFilter">-->
-                    <!--&lt;!&ndash;<td>{{$index+1}}.</td>&ndash;&gt;-->
-                    <!--<td>{{member.name}}</td>-->
-                    <!--<td>{{member.yearCalled}}</td>-->
-                    <!--&lt;!&ndash;<td>{{member.nbaId}}</td>&ndash;&gt;-->
-                    <!--<td>-->
-                    <!--<button class="btn btn-xs btn-success" ng-click="details(member)"><i-->
-                    <!--class="fa fa-check"></i> SELECT</button>-->
-                    <!--</td>-->
-                    <!--</tr>-->
-                    <!--</table>-->
-
-                    <!--<div class="visible-xs">-->
-                    <!--<div ng-repeat="member in members | filter: nameFilter" class="row">-->
-                    <!--<div class="col-xs-12">-->
-                    <!--<div class="panel panel-default">-->
-                    <!--<div class="panel-heading">-->
-                    <!--<div class="panel-title" ng-bind="member.name"></div>-->
-                    <!--</div>-->
-                    <!--<div class="panel-body">-->
-                    <!--<div class="text-center">-->
-                    <!--<span class="pull-left"><label class="label label-info">Year Called</label> {{member.yearCalled}}</span>-->
-                    <!--<span class="pull-right">{{member.nbaId}}</span>-->
-                    <!--<button class="btn btn-xs btn-success" ng-click="details(member)"><i-->
-                    <!--class="fa fa-check"></i> SELECT</button>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    
                 </div>
             </div>
         </div>
+
         <!--<div ng-include="'components/rightInfo/rightInfo.html'" class="col-sm-4"></div>-->
+    </div>
+    <!-- Modal -->
+    <div ng-show="true" class="modal fade" id="myModal" role="dialog">ss
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Click on your name to Select your info</h4>
+                </div>
+                <div class="modal-body">
+                    <div ng-show="memberss.length>=1" class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Call Number
+                                </th>
+                                <th>
+                                    Year Called
+                                </th>
+                            </tr>
+                            </thead>
+                            <tr style="cursor:pointer" ng-click="member.data = users; setData()"
+                                ng-repeat="users in memberss">
+                                <td class="success">{{users.name}}</td>
+                                <td class="warning">{{users.nbaId}}</td>
+                                <td class="danger">{{users.yearCalled}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-show="memberss.length===0" class="row">
+                        <p class="text-center text-white help-block label-danger">
+                            <strong>Name Not found</strong>, Please check your Surname and FirstName, if it's correct.
+                            If this persist, it may be that your name does not exist in our database, If you have your
+                            Supreme court number(SCN) with you please fill the form below.
+                        </p>
+                        <form method="post" name="memberForm">
+                            <div class="form-group col-md-5 col-md-offset-3">
+                                <label for="name">FullName <span class="required">*</span> </label>
+                                <input class="form-control" type="text" name="name" id="name"
+                                       ng-model="newuser.name" placeholder="Input Your FullName Call To Bar Name"
+                                       required>
+                                <span class="help-block label label-danger"
+                                      ng-show="memberForm.name.$dirty && memberForm.name.$error.required">Please Enter Your Full Call To Bar Name</span>
+                            </div>
+
+                            <div class="form-group col-md-5 col-md-offset-3">
+                                <label for="year">Year of Call to Bar</label>
+                                <select class="form-control" name="year" id="year" ng-model="newuser.yearCalled"
+                                        required>
+                                    <option ng-repeat=" y in membersYears"
+                                            value="{{y}}">{{y}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-5 col-md-offset-3">
+                                <label for="scn">Supreme Court Number<span class="required">*</span> </label>
+                                <input class="form-control" type="text" name="scn" id="scn"
+                                       ng-model="newuser.nbaId" placeholder="Please input your Supreme court number"
+                                       required>
+                                <span class="help-block label label-danger"
+                                      ng-show="memberForm.scn.$dirty && memberForm.scn.$error.required">Please Enter Your Supreme Court Number</span>
+                            </div>
+                            <div class="form-group col-md-5 col-md-offset-3">
+                                <div class="col-sm-6 col-xs-6">
+                                    <button type="submit"
+                                            class="btn btn-block btn-danger" data-dismiss="modal"><i
+                                            class="fa fa-play"></i>
+                                        Cancel <i class="fa fa-check"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-6 col-xs-6">
+                                    <button type="submit" ng-disabled="memberForm.$invalid"
+                                            class="btn btn-block btn-success"
+                                            ng-click="doSave()"><i
+                                            class="fa fa-play"></i>
+                                        NEXT <i class="fa fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -35,7 +35,7 @@ angular.module('nbaAgc2App')
         }
 
         var k, results;
-        $scope.years = (function() {
+        $scope.yearss = (function () {
             results = [];
             for (k = 2010; k >= 1960; k--){ results.push(k); }
             return results;

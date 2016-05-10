@@ -14,5 +14,7 @@ router.delete('/:id', controller.destroy);*/
 
 // Only allow member details to be verified
 router.post('/verify', controller.verify);
+router.post('/getMember', controller.getMember);
+router.post('/savemember', controller.create);
 
 module.exports = router;
