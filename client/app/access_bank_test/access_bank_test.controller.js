@@ -14,7 +14,6 @@ angular.module('nbaAgc2App')
                 Registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
                     $scope.data = d;
                     $scope.nextForm = true;
-
                     blocker.clear();
                 });
             } else {
