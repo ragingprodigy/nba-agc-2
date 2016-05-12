@@ -8,25 +8,32 @@
                 <div class="panel-body">
                     <ul class="group-list" ng-if="!expired()">
                         <li>
-                            <a ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
+                            <a class="btn btn-success btn-sm" ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
                         </li>
                         <li>
-                            <a ui-sref="sanAndBench">SANs, HONOURABLE AGS &amp; BENCHERS</a>
+                            <a class="btn btn-primary btn-sm" ui-sref="sanAndBench">SANs, HONOURABLE AGS &amp;
+                                BENCHERS</a>
                         </li>
                         <li>
-                            <a ui-sref="magistrate">MAGISTRATES &amp; OTHER JUDICIAL OFFICERS</a>
+                            <a class="btn btn-info btn-sm" ui-sref="law_students">LAW SCHOOL STUDENTS</a>
                         </li>
                         <li>
-                            <a ui-sref="judge">HONOURABLE JUSTICES, JUDGES, GRAND KHADIS &amp; KHADIS</a>
+                            <a class="btn btn-warning btn-sm" ui-sref="magistrate">MAGISTRATES &amp; OTHER JUDICIAL
+                                OFFICERS</a>
                         </li>
                         <li>
-                            <a ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL APPOINTEES</a>
+                            <a class="btn btn-primary btn-sm" ui-sref="judge">HONOURABLE JUSTICES, JUDGES, GRAND KHADIS
+                                &amp; KHADIS</a>
                         </li>
                         <li>
-                            <a ui-sref="non_lawyer">NON-LAWYERS</a>
+                            <a class="btn btn-danger btn-sm" ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL
+                                APPOINTEES</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-warning btn-sm" ui-sref="non_lawyer">NON-LAWYERS</a>
                         </li>
                         <li ng-hide="isGroup()">
-                            <a ui-sref="international">INTERNATIONAL ATTENDEES</a>
+                            <a class="btn btn-success btn-sm" ui-sref="international">INTERNATIONAL ATTENDEES</a>
                         </li>
                     </ul>
                     <div class="alert alert-danger text-center text-uppercase" ng-if="expired()">

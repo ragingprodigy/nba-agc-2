@@ -1,20 +1,22 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('NonLawyerCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+    .controller('LawStudentsCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
 
         $anchorScroll();
 
-        if ($rootScope.expired()) { $state.go('main'); }
+        if ($rootScope.expired()) {
+            $state.go('main');
+        }
 
         // If any other type of Registration is on-going, re-direct to it
-        if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined){
+        if ($sessionStorage.lpRegistrant !== null && $sessionStorage.lpRegistrant !== undefined) {
 
             blocker.block();
 
-            if ($sessionStorage.lpRegistrant.registrationType==='non_lawyer') {
+            if ($sessionStorage.lpRegistrant.registrationType === 'law_students') {
 
-                Registration.get({id: $sessionStorage.lpRegistrant._id}, function(d){
+                Registration.get({id: $sessionStorage.lpRegistrant._id}, function (d) {
                     $scope.data = d;
                     $scope.nextForm = true;
 
@@ -26,37 +28,37 @@ angular.module('nbaAgc2App')
         } else {
             $sessionStorage.$reset();
             $scope.data = {
-                registrationType: 'non_lawyer',
+                registrationType: 'law_students',
                 member: ''
             };
         }
 
-      // $scope.startReg = function() {
-      //
-      //     var cnf = window.confirm('Is this information correct?');
-      //
-      //     if (cnf) {
-      //
-      //         blocker.block();
-      //
-      //         if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
-      //
-      //         var reg = new Registration($scope.data);
-      //         reg.$save().then(function(registrationData) {
-      //
-      //             $sessionStorage.lpRegistrant = registrationData;
-      //             $scope.data = registrationData;
-      //
-      //             $scope.nextForm = true;
-      //
-      //             blocker.clear();
-      //         });
-      //     }
-      // };
+        // $scope.startReg = function() {
+        //
+        //     var cnf = window.confirm('Is this information correct?');
+        //
+        //     if (cnf) {
+        //
+        //         blocker.block();
+        //
+        //         if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
+        //
+        //         var reg = new Registration($scope.data);
+        //         reg.$save().then(function(registrationData) {
+        //
+        //             $sessionStorage.lpRegistrant = registrationData;
+        //             $scope.data = registrationData;
+        //
+        //             $scope.nextForm = true;
+        //
+        //             blocker.clear();
+        //         });
+        //     }
+        // };
 
-      $scope.reviewForm = function (form1) {
+        $scope.reviewForm = function (form1) {
 
-          if (form1.$valid) {
+            if (form1.$valid) {
 
                 var cnf = window.confirm('Are you sure you want to submit this form?');
                 if (cnf) {

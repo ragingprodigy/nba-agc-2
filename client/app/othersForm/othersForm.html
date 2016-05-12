@@ -53,18 +53,17 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="yearCalled">Year of Call to Bar <span class="required">*</span></label>
-                                    <select class="form-control" name="yearCalled" ng-model="data.yearCalled" id="yearCalled"
-                                            required>
+                                    <label for="yearCalled">Year of Call to Bar</label>
+                                    <select class="form-control" name="yearCalled" ng-model="data.yearCalled"
+                                            id="yearCalled">
                                         <option ng-repeat="y in yearss">{{y}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="branch">NBA Branch <span class="required">*</span> </label>
-                                    <select class="form-control" name="branch" ng-model="data.branch" id="branch"
-                                            required>
+                                    <label for="branch">NBA Branch </label>
+                                    <select class="form-control" name="branch" ng-model="data.branch" id="branch">
                                         <option ng-repeat=" branch in branchData" value="{{branch.name}}">
                                             {{branch.name}}
                                         </option>
@@ -74,12 +73,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Conference Fee</label>
-                                    <div class="form-price label label-primary">NGN 250,000.00</div>
+                                    <div class="form-price label label-primary">NGN 200,000.00</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div ng-hide="nextForm || (!dataForm.firstName.$dirty && !dataForm.surname.$dirty && !dataForm.prefix.$dirty)" class="row">
+                        <div ng-hide="(!dataForm.firstName.$dirty && !dataForm.surname.$dirty && !dataForm.prefix.$dirty)"
+                             class="row">
                             <hr>
 
                             <div class="col-md-6 col-md-offset-3 col-sm-12">
@@ -93,19 +93,20 @@
                             </div>
                         </div>
 
-                        <div ng-hide="nextForm">
-                            <button class="btn-block btn btn-primary" ng-click="startReg()"
-                                    ng-disabled="dataForm.$invalid">
-                                <i class="fa fa-play"></i> NEXT
-                            </button>
-                        </div>
-                    </form>
+                        <!--<div ng-hide="nextForm">-->
+                        <!--<button class="btn-block btn btn-primary" ng-click="startReg()"-->
+                        <!--ng-disabled="dataForm.$invalid">-->
+                        <!--<i class="fa fa-play"></i> NEXT-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--</form>-->
 
-                    <form method="post" name="dataForm2" ng-show="nextForm">
+                        <!--<form method="post" name="dataForm2" ng-show="nextForm">-->
                         <div class="form-group">
                             <label for="designation">Designation <span class="required">*</span> </label>
                             <input class="form-control" type="text" name="designation" id="designation"
-                                   ng-model="data.designation" placeholder="Designation" required>
+                                   ng-model="data.designation" placeholder="Designation e.g Governor, Senate President"
+                                   required>
                         </div>
 
                         <div class="form-group">
@@ -113,7 +114,27 @@
                             <input type="text" class="form-control" name="address" id="address"
                                    ng-model="data.address" placeholder="Address">
                         </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group btn-group">
+                                    <label>Location For Conference Material Pick Up
+                                        <span class="required">*</span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <label class="btn btn-primary" ng-model="data.material" btn-radio="'branch'">My
+                                            NBA Branch</label>or
+                                        <label class="btn btn-success" ng-model="data.material" btn-radio="'onsite'">Fast
+                                            Track ( Individual )</label>
+                                            <span class="help-block label label-danger"
+                                                  ng-show="data.material.$dirty && (data.material.$error.required)">Please Select one Location
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -123,8 +144,10 @@
                                     <input class="form-control" type="tel" name="mobile" id="mobile" ng-model="data.mobile"
                                            placeholder="Mobile Phone Number" ng-minlength="11" ng-maxlength="11"
                                            required>
-                                    <span class="help-block label label-danger" ng-show="dataForm2.mobile.$dirty && dataForm2.mobile.$error.required">Valid phone number is required</span>
-                                    <span class="help-block label label-danger" ng-show="((dataForm2.mobile.$error.minlength || dataForm2.mobile.$error.maxlength) && dataForm.mobile.$dirty) ">Mobile Phone Number should be 11 digits</span>
+                                    <span class="help-block label label-danger"
+                                          ng-show="dataForm.mobile.$dirty && dataForm.mobile.$error.required">Valid phone number is required</span>
+                                    <span class="help-block label label-danger"
+                                          ng-show="((dataForm.mobile.$error.minlength || dataForm.mobile.$error.maxlength) && dataForm.mobile.$dirty) ">Mobile Phone Number should be 11 digits</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -142,7 +165,7 @@
                                 valid email address.</em> </label>
                             <input type="email" class="form-control" name="email" id="email" ng-model="data.email" placeholder="Email Address" required>
                             <span class="help-block label label-danger"
-                                  ng-show="dataForm.email.$error.required || dataForm.email.$error.invalidEmail">Please provide a valid email address
+                                  ng-show="dataForm.email.$dirty && (dataForm.email.$error.required || dataForm.email.$error.email)">Please provide a valid email address
                             </span>
                         </div>
                         
@@ -163,9 +186,9 @@
                                     EDIT</a>
                             </div>
                             <div class="col-sm-6 col-xs-6">
-                                <button type="submit" 
+                                <button type="submit"
                                         class="btn btn-block btn-success"
-                                        ng-click="reviewForm(dataForm, dataForm2)"> <i
+                                        ng-click="reviewForm(dataForm)"><i
                                         class="fa fa-play"></i>
                                     NEXT <i class="fa fa-check"></i>
                                 </button>

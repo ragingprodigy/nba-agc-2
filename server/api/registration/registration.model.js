@@ -32,6 +32,10 @@ var RegistrationSchema = new Schema({
     type: String,
     default: 1960
   },
+    material: {
+        type: String,
+        default: "onsite"
+    },
   regCode: {
     type:String,
     unique: true,
@@ -82,6 +86,7 @@ var RegistrationSchema = new Schema({
     type: Date,
     default: Date.now
   },
+
   successMailSent: {
     type: Boolean,
     default: false
@@ -139,17 +144,25 @@ RegistrationSchema.post('save', function(entry){
        Registration.findById(entry._id, function (err, member) {
            if (!!err) return;
            if (member) {
-               console.log(member);
              var currentYear = new Date().getFullYear();
              var atTheBar = currentYear - member.yearCalled;
-             feeDue = 50000;
-             if (atTheBar <= 5) { feeDue = 8000; }
-             else if (atTheBar <= 10) { feeDue = 15000; }
-             else if (atTheBar <= 14) { feeDue = 20000; }
-             else if (atTheBar <= 20) { feeDue = 30000; }
-
-               console.log(atTheBar);
-             Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue} }, function(e){
+               switch (atTheBar) {
+                   case atTheBar <= 5:
+                       feeDue = 8000;
+                       break;
+                   case  atTheBar <= 10:
+                       feeDue = 15000;
+                       break;
+                   case atTheBar <= 14:
+                       feeDue = 20000;
+                       break;
+                   case atTheBar <= 20:
+                       feeDue = 30000;
+                       break;
+                   default:
+                       feeDue = 50000;
+               }
+               Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
               return;
              });
            }
@@ -162,6 +175,9 @@ RegistrationSchema.post('save', function(entry){
                break;
            case 'judge':
                feeDue = 75000;
+               break;
+           case 'law_students':
+               feeDue = 4500;
                break;
            case 'magistrate':
                feeDue = 50000;
@@ -180,7 +196,7 @@ RegistrationSchema.post('save', function(entry){
               break;
        }
 
-       Registration.update({ _id: entry._id }, { $set: { conferenceFee: feeDue } }, function(e){
+       Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
           return;
        });
    }

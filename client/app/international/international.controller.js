@@ -33,32 +33,32 @@ angular.module('nbaAgc2App')
             };
         }
 
-        $scope.startReg = function() {
+      // $scope.startReg = function() {
+      //
+      //     var cnf = window.confirm('Is this information correct?');
+      //
+      //     if (cnf) {
+      //
+      //         blocker.block();
+      //
+      //         if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
+      //
+      //         var reg = new Registration($scope.data);
+      //         reg.$save().then(function(registrationData) {
+      //
+      //             $sessionStorage.lpRegistrant = registrationData;
+      //             $scope.data = registrationData;
+      //
+      //             $scope.nextForm = true;
+      //
+      //             blocker.clear();
+      //         });
+      //     }
+      // };
 
-            var cnf = window.confirm('Is this information correct?');
+      $scope.reviewForm = function (form1) {
 
-            if (cnf) {
-
-                blocker.block();
-
-                if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
-
-                var reg = new Registration($scope.data);
-                reg.$save().then(function(registrationData) {
-
-                    $sessionStorage.lpRegistrant = registrationData;
-                    $scope.data = registrationData;
-
-                    $scope.nextForm = true;
-
-                    blocker.clear();
-                });
-            }
-        };
-
-        $scope.reviewForm = function(form1, form2) {
-
-            if (form1.$valid && form2.$valid) {
+          if (form1.$valid) {
 
                 var cnf = window.confirm('Are you sure you want to submit this form?');
                 if (cnf) {
@@ -67,10 +67,20 @@ angular.module('nbaAgc2App')
 
                     $scope.data.formFilled = true;
 
-                    // Update the Registration Information
-                    Registration.update({id: $scope.data._id}, $scope.data, function(){
-                        if ($rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
-                        $state.go('invoice');
+                    var reg = new Registration($scope.data);
+                    reg.$save().then(function (registrationData) {
+
+                        $sessionStorage.lpRegistrant = registrationData;
+                        $scope.data = registrationData;
+                        if ($rootScope.isAuthenticated() && $rootScope.isGroup()) {
+                            $sessionStorage.$reset();
+                            $state.go('myRegistrations');
+                        }
+                        else {
+                            $state.go('invoice');
+                        }
+
+                        blocker.clear();
                     });
                 }
             } else {

@@ -54,16 +54,22 @@ angular.module('nbaAgc2App')
         })
     };
 
-    $scope.doSave = function () {
-        $http.post('/api/members/savemember', $scope.newuser).success(function (members) {
-            $scope.member = members;
-            $scope.data.member = $scope.member._id;
-            $scope.data.nbaId = $scope.member.nbaId;
-            $scope.data.yearCalled = '' + $scope.member.yearCalled;
-            console.log($scope.data);
-            $('#myModal').modal('hide');
-            $('#ctb').prop('disabled', true);
-        })
+    $scope.doSave = function (form) {
+        if (form.$invalid) {
+            window.alert('All form fields marked with * are required!');
+            $anchorScroll();
+        }
+        else {
+            $http.post('/api/members/savemember', $scope.newuser).success(function (members) {
+                $scope.member = members;
+                $scope.data.member = $scope.member._id;
+                $scope.data.nbaId = $scope.member.nbaId;
+                $scope.data.yearCalled = '' + $scope.member.yearCalled;
+                console.log($scope.data);
+                $('#myModal').modal('hide');
+                $('#ctb').prop('disabled', true);
+            })
+        }
     };
 
 
@@ -101,12 +107,10 @@ angular.module('nbaAgc2App')
                 $scope.data.formFilled = true;
 
                 var reg = new Registration($scope.data);
-                console.log($scope.data);
                 reg.$save().then(function (registrationData) {
 
                     $sessionStorage.lpRegistrant = registrationData;
                     $scope.data = registrationData;
-                    console.log($scope.data);
                     if ($rootScope.isAuthenticated() && $rootScope.isGroup()) {
                         $sessionStorage.$reset();
                         $state.go('myRegistrations');

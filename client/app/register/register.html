@@ -10,7 +10,8 @@
                 <div class="panel-body" id="theForm">
                     <div class="alert alert-danger" ng-show="error.length">{{error}}</div>
                     <div class="alert alert-{{status.type}}" ng-show="status.message.length">
-                    	<button class="btn btn-danger btn-xs" ng-click="status.message=''"><i class="fa fa-times-circle"></i></button>
+                        <button class="btn btn-danger btn-xs" ng-click="status.message==''"><i
+                                class="fa fa-times-circle"></i></button>
 		                {{status.message}}
 		            </div>
 

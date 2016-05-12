@@ -8,7 +8,7 @@
     </div>
 
     <div class="row" ng-show="showPay">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-9 col-sm-12 col-md-offset-1">
 
             <panel-header title="Your Registration has been CONFIRMED" class="success"></panel-header>
 
@@ -143,31 +143,30 @@
             </div>
         </div>
 
-        <div class="col-md-6">
-            <panel-header ng-show="imageUrl.length" title="Here is the bag you've selected" class="info"></panel-header>
-            <panel-header ng-hide="imageUrl.length" title="You've not chosen a bag yet! choose your bag"
-                          class="danger"></panel-header>
+        <!--<div class="col-md-6">-->
+        <!--<panel-header ng-show="imageUrl.length" title="Here is the bag you've selected" class="info"></panel-header>-->
+        <!--<panel-header ng-hide="imageUrl.length" title="You've not chosen a bag yet! choose your bag"-->
+        <!--class="danger"></panel-header>-->
 
-            <div class="panel panel-default">
-                <div class="panel-body text-center">
-                    <img ng-src="{{imageUrl}}" width="100%" style="padding: 70px 0;" ng-show="imageUrl.length">
-                    <carousel interval="3000" ng-hide="imageUrl.length">
-                        <slide ng-repeat="slide in slides" active="slide.active">
-                            <img src="{{slide.image}}" style="width:90%; padding: 70px 0;">
-                            <div class="carousel-caption">
-                                <h4>OPTION {{$index+1}} - <span class="label label-success">{{slide.quantity}} units available</span></h4>
-                            </div>
-                        </slide>
-                    </carousel>
-                    <br><br>
-                    <button ng-hide="expired()" class="btn btn-block btn-large"
-                            ng-class="{'btn-primary':imageUrl.length, 'btn-success':!imageUrl.length}"
-                            ng-click="pickBag()">{{imageUrl
-                        .length?'CLICK HERE TO CHANGE YOUR BAG':'CLICK HERE TO PICK A
-                        BAG'}}</button>
-                </div>
-            </div>
-        </div>
+        <!--<div class="panel panel-default">-->
+        <!--<div class="panel-body text-center">-->
+        <!--<img ng-src="{{imageUrl}}" width="100%" style="padding: 70px 0;" ng-show="imageUrl.length">-->
+        <!--<carousel interval="3000" ng-hide="imageUrl.length">-->
+        <!--<slide ng-repeat="slide in slides" active="slide.active">-->
+        <!--<img src="{{slide.image}}" style="width:90%; padding: 70px 0;">-->
+        <!--<div class="carousel-caption">-->
+        <!--<h4>OPTION {{$index+1}} - <span class="label label-success">{{slide.quantity}} units available</span></h4>-->
+        <!--</div>-->
+        <!--</slide>-->
+        <!--</carousel>-->
+        <!--<br><br>-->
+        <!--<button ng-hide="expired()" class="btn btn-block btn-large"-->
+        <!--ng-class="{'btn-primary':imageUrl.length, 'btn-success':!imageUrl.length}"-->
+        <!--ng-click="pickBag()">{{imageUrl-->
+        <!--.length?'CLICK HERE TO CHANGE YOUR BAG':'CLICK HERE TO PICK A BAG'}}</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div ng-hide="paidRegistrations.length">

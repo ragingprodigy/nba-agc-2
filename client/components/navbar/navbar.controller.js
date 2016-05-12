@@ -15,6 +15,12 @@ angular.module('nbaAgc2App')
 
     $scope.u = $auth.getPayload();
 
+      $scope.pull = "pull-right";
+      $scope.changeClass = function () {
+          if ($scope.pull === "pull-right")
+              $scope.pull = "";
+      };
+      
     $scope.logout = function() {
         var cnf = window.confirm('Are you sure you want to end your session?');
         if (cnf) {

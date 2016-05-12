@@ -78,7 +78,7 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Conference Fee</label>
-                                    <div class="form-price label label-primary">NGN 100,000.00</div>
+                                    <div class="form-price label label-primary">NGN 80,000.00</div>
                                 </div>
                             </div>
                         </div>
@@ -111,15 +111,15 @@
                             </label>
                         </div>
 
-                        <div ng-hide="nextForm">
-                            <button class="btn-block btn btn-primary" ng-click="startReg()"
-                                    ng-disabled="dataForm.$invalid">
-                                <i class="fa fa-play"></i> CONTINUE
-                            </button>
-                        </div>
-                    </form>
+                        <!--<div ng-hide="nextForm">-->
+                        <!--<button class="btn-block btn btn-primary" ng-click="startReg()"-->
+                        <!--ng-disabled="dataForm.$invalid">-->
+                        <!--<i class="fa fa-play"></i> CONTINUE-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--</form>-->
 
-                    <form method="post" name="dataForm2" ng-show="nextForm">
+                        <!--<form method="post" name="dataForm2" ng-show="nextForm">-->
                         <div class="row">
                             <div ng-class="{'col-sm-6': data.group.bencher||data.group.ag, 'col-sm-12': !data.group.bencher&&!data.group.ag}">
                                 <div class="form-group">
@@ -145,7 +145,27 @@
                                    ng-model="data.address" placeholder="Address">
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group btn-group">
+                                    <label>Location For Conference Material Pick Up
+                                        <span class="required">*</span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <label class="btn btn-primary" ng-model="data.material" btn-radio="'branch'">My
+                                            NBA Branch</label>or
+                                        <label class="btn btn-success" ng-model="data.material" btn-radio="'onsite'">Fast
+                                            Track ( Individual )</label>
+                                            <span class="help-block label label-danger"
+                                                  ng-show="data.material.$dirty && (data.material.$error.required)">Please Select one Location
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -155,8 +175,10 @@
                                     <input class="form-control" type="tel" name="mobile" id="mobile" ng-model="data.mobile"
                                            placeholder="Mobile Phone Number" ng-minlength="11" ng-maxlength="11"
                                            required>
-                                    <span class="help-block label label-danger" ng-show="dataForm2.mobile.$dirty && dataForm2.mobile.$error.required">Valid phone number is required</span>
-                                    <span class="help-block label label-danger" ng-show="((dataForm2.mobile.$error.minlength || dataForm2.mobile.$error.maxlength) && dataForm2.mobile.$dirty) ">Mobile Phone Number should be 11 digits</span>
+                                    <span class="help-block label label-danger"
+                                          ng-show="dataForm.mobile.$dirty && dataForm.mobile.$error.required">Valid phone number is required</span>
+                                    <span class="help-block label label-danger"
+                                          ng-show="((dataForm.mobile.$error.minlength || dataForm.mobile.$error.maxlength) && dataForm.mobile.$dirty) ">Mobile Phone Number should be 11 digits</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -174,7 +196,7 @@
                                 valid email address.</em> </label>
                             <input type="email" class="form-control" name="email" id="email" ng-model="data.email" placeholder="Email Address" required>
                             <span class="help-block label label-danger"
-                                  ng-show="dataForm.email.$error.required || dataForm.email.$error.invalidEmail">Please provide a valid email address
+                                  ng-show="dataForm.email.$dirty && (dataForm.email.$error.required || dataForm.email.$error.email)">Please provide a valid email address
                             </span>
                         </div>
 
@@ -214,9 +236,9 @@
                                     EDIT</a>
                             </div>
                             <div class="col-sm-6 col-xs-6">
-                                <button type="submit" 
+                                <button type="submit"
                                         class="btn btn-block btn-success"
-                                        ng-click="reviewForm(dataForm, dataForm2)"> <i
+                                        ng-click="reviewForm(dataForm)"><i
                                         class="fa fa-play"></i>
                                     NEXT <i class="fa fa-check"></i>
                                 </button>

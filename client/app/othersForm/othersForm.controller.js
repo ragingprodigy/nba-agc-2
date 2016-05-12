@@ -3,7 +3,6 @@
 angular.module('nbaAgc2App')
     .controller('OthersFormCtrl', function ($scope, $state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
         $http.get('api/registrations/branch').success(function (branch) {
-            console.log(branch);
             return $scope.branchData = branch;
         });
         $anchorScroll();
@@ -37,36 +36,38 @@ angular.module('nbaAgc2App')
         var k, results;
         $scope.yearss = (function () {
             results = [];
-            for (k = 2010; k >= 1960; k--){ results.push(k); }
+            for (k = 2015; k >= 1960; k--) {
+                results.push(k);
+            }
             return results;
         }).apply(this);
 
-        $scope.startReg = function() {
+        // $scope.startReg = function() {
+        //
+        //     var cnf = window.confirm('Is this information correct?');
+        //
+        //     if (cnf) {
+        //
+        //         blocker.block();
+        //
+        //         if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
+        //
+        //         var reg = new Registration($scope.data);
+        //         reg.$save().then(function(registrationData) {
+        //
+        //             $sessionStorage.lpRegistrant = registrationData;
+        //             $scope.data = registrationData;
+        //
+        //             $scope.nextForm = true;
+        //
+        //             blocker.clear();
+        //         });
+        //     }
+        // };
 
-            var cnf = window.confirm('Is this information correct?');
+        $scope.reviewForm = function (form1) {
 
-            if (cnf) {
-
-                blocker.block();
-
-                if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
-
-                var reg = new Registration($scope.data);
-                reg.$save().then(function(registrationData) {
-
-                    $sessionStorage.lpRegistrant = registrationData;
-                    $scope.data = registrationData;
-
-                    $scope.nextForm = true;
-
-                    blocker.clear();
-                });
-            }
-        };
-
-        $scope.reviewForm = function(form1, form2) {
-
-            if (form1.$valid && form2.$valid) {
+            if (form1.$valid) {
 
                 var cnf = window.confirm('Are you sure you want to submit this form?');
                 if (cnf) {
@@ -75,10 +76,20 @@ angular.module('nbaAgc2App')
 
                     $scope.data.formFilled = true;
 
-                    // Update the Registration Information
-                    Registration.update({id: $scope.data._id}, $scope.data, function(){
-                        if ($rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
-                        $state.go('invoice');
+                    var reg = new Registration($scope.data);
+                    reg.$save().then(function (registrationData) {
+
+                        $sessionStorage.lpRegistrant = registrationData;
+                        $scope.data = registrationData;
+                        if ($rootScope.isAuthenticated() && $rootScope.isGroup()) {
+                            $sessionStorage.$reset();
+                            $state.go('myRegistrations');
+                        }
+                        else {
+                            $state.go('invoice');
+                        }
+
+                        blocker.clear();
                     });
                 }
             } else {

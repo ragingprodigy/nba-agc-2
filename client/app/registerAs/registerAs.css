@@ -4,11 +4,10 @@
 }
 
 .group-list li {
-    padding: 10px;
-    margin: 20px 0;
-    border-radius: 5px;
-    background: url('../../assets/images/group-bg.png')  repeat-x;
+    padding: 5px;
+    border-radius: 1px;
     cursor: pointer;
+    wrap-option: break;
 }
 
 .group-list li a {
