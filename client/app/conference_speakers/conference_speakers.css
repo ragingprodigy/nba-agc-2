@@ -1,0 +1,28 @@
+.speaker-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: -60px auto 20px;
+    border: 3px solid #CCC;
+    background: #fcfcfc;
+}
+
+.speaker-panel {
+    margin-bottom: 10px;
+    margin-top: 40px;
+    height: 180px;
+}
+
+.speaker-panel .panel {
+    cursor: pointer;
+    height: 100%;
+}
+
+.speaker-panel .panel .panel-body {
+    height: 100%;
+}
+
+.row .speaker-panel:nth-child(5) {
+    clear: both;
+}

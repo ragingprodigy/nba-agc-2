@@ -1,0 +1,85 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-sm-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE</div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped">
+                        <tr class="space">
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                            <td style="width: 25%"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="4" class="text-uppercase text-center"><h4>{{getName(data)}}</h4></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><i class="fa fa-bullhorn"></i> {{ data.yearCalled }} - Year of CALL </th>
+                            <td colspan="2"><i class="fa fa-building"></i> {{data.branch}} {{data.state}} </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-phone-square"></i> {{data.phone}}</td>
+                            <td><i class="fa fa-mobile-phone"></i> {{data.mobile}}</td>
+                            <td colspan="2"><i class="fa fa-envelope-o"></i> {{data.email}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <i class="fa fa-map-marker"></i> {{data.company}} {{data.court}} {{data.division}}
+                            </td>
+                            <td colspan="2">
+                                <i class="fa fa-map-marker"></i> {{data.address}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Order ID:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>{{data.regCode}}-{{data.conferenceFee}}</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-right">
+                                <h4>Conference Fees:</h4>
+                            </th>
+                            <th colspan="2">
+                                <h4>{{data.international?'USD':'NGN'}} {{ data.conferenceFee.formatMoney(2) }}</h4>
+                            </th>
+                        </tr>
+                        <tr class="hidden-print">
+                            <td colspan="4" class="text-center">
+                                <button type="button" class="btn btn-danger" ng-click="back()" ng-hide="data.webpay || data.bankpay"><i
+                                        class="fa fa-arrow-left"></i> GO BACK</button>
+                                <button ng-click="payOnline()" class="btn btn-success"
+                                        ng-hide="expired() || data.bankpay"
+                                        type="button" ng-class="{'btn-block': data.webpay}"><i
+                                        class="fa fa-play"></i> PAY ONLINE </button>
+                                <button ng-click="payBank()" class="btn btn-primary" ng-class="{'btn-block': data.bankpay}" ng-hide="data.webpay || data.international || expired()"
+                                        type="button"><i
+                                        class="fa fa-anchor"></i> PAY TO THE BANK </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-info hidden-print" ng-show="pInfo && !expired()">
+                <h3>Payment Instructions</h3>
+                <p>
+                    Where does the template get inserted?
+
+                    When a state is activated, its templates are automatically inserted into the ui-view of its parent state's template. If it's a top-level state—which 'contacts' is because it has no parent state–then its parent template is index.html.
+
+                    Right now, the 'contacts' state won't ever be activated. So let's see how we can activate a state.
+
+                    Activating a state
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

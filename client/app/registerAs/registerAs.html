@@ -1,0 +1,50 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <panel-header title="PLEASE SELECT YOUR CATEGORY" class="success" ng-if="!expired()"></panel-header>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="group-list" ng-if="!expired()">
+                        <li>
+                            <a class="btn btn-success btn-sm" ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-sm" ui-sref="sanAndBench">SANs, HONOURABLE AGS &amp;
+                                BENCHERS</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-info btn-sm" ui-sref="law_students">LAW SCHOOL STUDENTS</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-warning btn-sm" ui-sref="magistrate">MAGISTRATES &amp; OTHER JUDICIAL
+                                OFFICERS</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-sm" ui-sref="judge">HONOURABLE JUSTICES, JUDGES, GRAND KHADIS
+                                &amp; KHADIS</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-danger btn-sm" ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL
+                                APPOINTEES</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-warning btn-sm" ui-sref="non_lawyer">NON-LAWYERS</a>
+                        </li>
+                        <li ng-hide="isGroup()">
+                            <a class="btn btn-success btn-sm" ui-sref="international">INTERNATIONAL ATTENDEES</a>
+                        </li>
+                    </ul>
+                    <div class="alert alert-danger text-center text-uppercase" ng-if="expired()">
+                        <h3>Online Registration for the NBA Annual General Conference - PORT HARCOURT 2016 - has
+                            Closed!</h3>
+                        <h2>ONLY ON-SITE REGISTRATION IS AVAILABLE NOW</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="col-md-5" ng-include="'components/rightInfo/rightInfo.html'"></div>-->
+    </div>
+</div>

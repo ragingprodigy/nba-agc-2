@@ -1,0 +1,17 @@
+<div class="modal-body">
+    <panel-header title="click on one of the images to select a bag type" class="success"></panel-header>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="bag-selector">
+                <div class="single-bag" ng-click="selectBag($index)" ng-repeat="slide in slides">
+                    <img ng-src="{{slide.image}}" class="img-thumbnail">
+                    <h4>{{slide.name}} - <span class="label label-success">{{slide.quantity}} Units</span> </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">CLOSE</button>
+</div>

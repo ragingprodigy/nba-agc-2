@@ -1,0 +1,245 @@
+<div ng-hide="isGroup()">
+
+    <div class="alert alert-success" ng-show="paidRegistrations.length">
+        <h4>Do you know you can signup to attend various sessions during the NBA Conference and get notified (via SMS
+            and Email) when the sessions are about to start?</h4>
+        <h5>In addition to this, you can also submit questions for the sessions you've indicated interest to attend
+            .</h5>
+    </div>
+
+    <div class="row" ng-show="showPay">
+        <div class="col-md-9 col-sm-12 col-md-offset-1">
+
+            <panel-header title="Your Registration has been CONFIRMED" class="success"></panel-header>
+
+            <div class="panel panel-default no-border">
+                <div class="panel-body no-padding">
+                    <div ng-show="selectedReg.webpay">
+                        <table class="table table-bordered table-striped table-condensed no-margin">
+                            <tr>
+                                <th>Transaction Reference</th>
+                                <td>{{selectedReg.TransactionRef}}</td>
+                            </tr>
+                            <tr>
+                                <th>Payment Reference</th>
+                                <td>{{selectedReg.PaymentRef}}</td>
+                            </tr>
+                            <tr>
+                                <th>Order ID</th>
+                                <td>{{selectedReg.regCode+'-'+selectedReg.conferenceFee}}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{selectedReg.Status}}</td>
+                            </tr>
+                            <tr>
+                                <th>Response Code</th>
+                                <td>{{selectedReg.ResponseCode}}</td>
+                            </tr>
+                            <tr>
+                                <th>Response Description</th>
+                                <td>{{selectedReg.ResponseDescription}}</td>
+                            </tr>
+                            <tr>
+                                <th>Transaction Date</th>
+                                <td>{{selectedReg.DateTime}}</td>
+                            </tr>
+                            <tr>
+                                <th>Conference Fee</th>
+                                <td>{{selectedReg.international?'USD':'NGN'}} {{selectedReg.conferenceFee}}</td>
+                            </tr>
+                            <tr>
+                                <th>Due at Switch</th>
+                                <td>{{selectedReg.international?'USD':'NGN'}} {{selectedReg.Amount}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-show="selectedReg.bankpay">
+                        <table class="table table-bordered table-striped table-condensed no-margin">
+                            <tr>
+                                <th>Order ID</th>
+                                <td>{{selectedReg.regCode+'-'+selectedReg.conferenceFee}}</td>
+                            </tr>
+                            <tr>
+                                <th>Payment Date</th>
+                                <td>{{selectedReg.bankDatePaid}}</td>
+                            </tr>
+                            <tr>
+                                <th>Conference Fee</th>
+                                <td>NGN {{selectedReg.conferenceFee}}</td>
+                            </tr>
+                            <tr>
+                                <th>Amount Paid</th>
+                                <td>NGN {{selectedReg.bankDeposit}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <panel-header title="Here's what your name tag looks like" class="success"></panel-header>
+
+            <div class="panel panel-default">
+                <div class="panel-body name-tag">
+                    <div ng-hide="editingTag">
+                        <h5 class="text-center" ng-bind="tag.prefix" ng-hide="tag.prefix.toLowerCase().indexOf('mr')>=0||tag.prefix.toLowerCase().indexOf('mis')>=0"></h5>
+                        <h3 class="text-center">{{tag.name}} <small ng-bind="tag.suffix"></small></h3>
+                        <hr>
+                        <div class="text-center">
+                            <p><strong>{{tag.firm}}</strong></p>
+                            <img ng-src="/auth/qrCode?me={{$user._id}}" style="max-width: 20%;">
+                        </div>
+                    </div>
+
+                    <div ng-show="editingTag">
+                        <form ng-submit="tagForm.$valid && confirmEdit(tagForm)" name="tagForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="tag_prefix" class="col-md-3 control-label">Prefix</label>
+                                <div class="col-md-9">
+                                    <input id="tag_prefix" ng-model="tag.prefix" class="form-control"
+                                           placeholder="Chief, Dr., Engr., Prof., Justice etc">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tag_name">Name</label>
+                                <div class="col-md-9">
+                                    <input id="tag_name" ng-model="tag.name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tag_suffix">Suffix</label>
+                                <div class="col-md-9">
+                                    <input id="tag_suffix" ng-model="tag.suffix" class="form-control"
+                                           placeholder="MON, JSC, JCA, MON, CON, etc">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tag_firm">Firm/Organization</label>
+                                <div class="col-md-9">
+                                    <input id="tag_firm" ng-model="tag.firm" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="mt-20 bg-white pad-20 mb-10">
+                                <h5 class="text-center" ng-bind="tag.prefix" ng-hide="tag.prefix.toLowerCase().indexOf('mr')>=0||tag.prefix.toLowerCase().indexOf('mis')>=0"></h5>
+                                <h3 class="text-center">{{tag.name}} <small ng-bind="tag.suffix"></small></h3>
+                                <hr>
+                                <div>
+                                    <p class="text-center"><strong>{{tag.firm}}</strong></p>
+                                </div>
+                            </div>
+
+                            <br><br>
+
+                            <button type="submit" class="btn-block btn btn-success">Save Changes</button>
+
+                        </form>
+                    </div>
+
+                    <button class="btn btn-block btn-primary mt-20" ng-click="editTag()" ng-hide="editingTag">Edit Name
+                        Tag</button>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="col-md-6">-->
+        <!--<panel-header ng-show="imageUrl.length" title="Here is the bag you've selected" class="info"></panel-header>-->
+        <!--<panel-header ng-hide="imageUrl.length" title="You've not chosen a bag yet! choose your bag"-->
+        <!--class="danger"></panel-header>-->
+
+        <!--<div class="panel panel-default">-->
+        <!--<div class="panel-body text-center">-->
+        <!--<img ng-src="{{imageUrl}}" width="100%" style="padding: 70px 0;" ng-show="imageUrl.length">-->
+        <!--<carousel interval="3000" ng-hide="imageUrl.length">-->
+        <!--<slide ng-repeat="slide in slides" active="slide.active">-->
+        <!--<img src="{{slide.image}}" style="width:90%; padding: 70px 0;">-->
+        <!--<div class="carousel-caption">-->
+        <!--<h4>OPTION {{$index+1}} - <span class="label label-success">{{slide.quantity}} units available</span></h4>-->
+        <!--</div>-->
+        <!--</slide>-->
+        <!--</carousel>-->
+        <!--<br><br>-->
+        <!--<button ng-hide="expired()" class="btn btn-block btn-large"-->
+        <!--ng-class="{'btn-primary':imageUrl.length, 'btn-success':!imageUrl.length}"-->
+        <!--ng-click="pickBag()">{{imageUrl-->
+        <!--.length?'CLICK HERE TO CHANGE YOUR BAG':'CLICK HERE TO PICK A BAG'}}</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+
+    <div ng-hide="paidRegistrations.length">
+        <h4 class="text-primary">Pending Registration(s)</h4><hr/>
+        <div class="alert alert-info" ng-hide="pendingRegistrations.length"><h5>You do not have any pending registrations yet.</h5></div>
+        <table class="table table-bordered table-striped table-hover" id="ui-table" ng-show="pendingRegistrations.length">
+            <tr class="text-uppercase">
+                <th class="text-center">S/N</th>
+                <th>Name</th>
+                <th class="text-center">Year of Call</th>
+                <th class="text-center">Firm / Court / DESIGNATION</th>
+                <th class="text-center">Conference Fee</th>
+                <th class="text-center">Channel</th>
+                <th />
+            </tr>
+            <tr ng-repeat="r in pendingRegistrations">
+                <td class="text-center">{{$index+1}}.</td>
+                <td>{{r.prefix}} {{r.firstName}} {{r.middleName}} {{r.surname}} <small class="text-muted">{{r.suffix}}</small></td>
+                <td class="text-center">{{r.yearCalled}}</td>
+                <td class="text-center">
+                    <div ng-show="r.registrationType!='judge'&&r.registrationType!='magistrate'" class="text-center">
+                        <strong>{{r.company}}</strong>
+                    </div>
+                    <div ng-show="r.registrationType=='judge'||r.registrationType=='magistrate'">
+                        <strong>{{r.court}} {{r.state}} {{r.division}}</strong>
+                    </div>
+                    <div ng-show="r.designation.length">
+                        <strong>{{r.designation}}</strong>
+                    </div>
+                </td>
+                <td class="text-center">{{r.international?'USD':'NGN'}} {{r.conferenceFee.formatMoney(2)}}</td>
+                <td class="text-center">{{r.bankpay?'Bank Payment':'Web Payment'}}</td>
+                <td class="text-center" ng-show="!isGroup()">
+                    <button ng-show="r.webpay" class="btn btn-xs btn-warning" ng-click="updateRecord(r._id, true)"><i class="fa fa-refresh"></i> Pay NOW</button>
+                    <button class="btn btn-xs btn-success" ng-click="showBank(r)" ng-show="r.bankpay"><i class="fa fa-info-circle"></i> Show Invoice</button>
+                </td>
+            </tr>
+        </table>
+
+        <h4 class="text-danger">Failed Registration Payments</h4><hr/>
+        <div class="alert alert-info" ng-hide="failedRegistrations.length"><h5>You do not have any failed registration payments.</h5></div>
+        <table class="table table-bordered table-striped table-hover" id="ui-table" ng-show="failedRegistrations.length">
+            <tr class="text-uppercase">
+                <th class="text-center">S/N</th>
+                <th>Name</th>
+                <th class="text-center">Year of Call</th>
+                <th class="text-center">Firm / Court / DESIGNATION</th>
+                <th class="text-center">Conference Fee</th>
+                <th class="text-center">Channel</th>
+                <th />
+            </tr>
+            <tr ng-repeat="r in failedRegistrations">
+                <td class="text-center">{{$index+1}}.</td>
+                <td>{{r.prefix}} {{r.firstName}} {{r.middleName}} {{r.surname}} <small class="text-muted">{{r.suffix}}</small></td>
+                <td class="text-center">{{r.yearCalled}}</td>
+                <td class="text-center">
+                    <div ng-show="r.registrationType!='judge'&&r.registrationType!='magistrate'" class="text-center">
+                        <strong>{{r.company}}</strong>
+                    </div>
+                    <div ng-show="r.registrationType=='judge'||r.registrationType=='magistrate'">
+                        <strong>{{r.court}} {{r.state}} {{r.division}}</strong>
+                    </div>
+                    <div ng-show="r.designation.length">
+                        <strong>{{r.designation}}</strong>
+                    </div>
+                </td>
+                <td class="text-center">{{r.international?'USD':'NGN'}} {{r.conferenceFee.formatMoney(2)}}</td>
+                <td class="text-center">{{r.bankpay?'Bank Payment':'Web Payment'}}</td>
+                <td class="text-center">
+                    <button ng-hide="paidRegistrations.length" class="btn btn-block btn-xs btn-primary" ng-click="newReg(r)"><i class="fa fa-refresh"></i> Retry Payment</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

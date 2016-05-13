@@ -1,0 +1,118 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE
+
+                        <button type="button" class="btn btn-danger pull-right btn-xs" ng-click="back()"><i
+                                class="fa fa-arrow-left"></i> GO BACK</button></div>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-info">
+                        <p>In order to Pay with your ATM Cards, Kindly ensure your card is registered for One Time Passwords(OTP) for Mastercards and Ipin(VbyV) for Visa cards by your bank.</p>
+                        <p>Just walk into any of your bank branches and ask to activate OTPs, to enable you complete online transactions (Including on NBA and other websites in Nigeria)</p>
+                        <p>The OTP and Ipin is for your added safety and security on your payments.</p>
+                    </div>
+                    
+                    <form method="POST" id="upay_form" name="upay_form" action="https://cipg.accessbankplc.com/MerchantServices/MakePayment.aspx" target="_top">
+                        <table class="table table-bordered table-striped">
+                            <tr class="space">
+                                <td style="width: 25%"></td>
+                                <td style="width: 25%"></td>
+                                <td style="width: 25%"></td>
+                                <td style="width: 25%"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" class="text-uppercase text-center"><h4>{{data.prefix}} {{getName(data)}} {{data.suffix}}</h4></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><i class="fa fa-bullhorn"></i> {{ data.yearCalled }} - Year of CALL </th>
+                                <td colspan="2"><i class="fa fa-building"></i> {{data.branch}} {{data.state}} </td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-phone-square"></i> {{data.phone}}</td>
+                                <td><i class="fa fa-mobile-phone"></i> {{data.mobile}}</td>
+                                <td colspan="2"><i class="fa fa-envelope-o"></i> {{data.email}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <i class="fa fa-map-marker"></i> {{data.company}} {{data.court}} {{data.division}}
+                                </td>
+                                <td colspan="2">
+                                    <i class="fa fa-map-marker"></i> {{data.address}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2" class="text-right">Order ID</th>
+                                <th colspan="2">
+                                    <strong>{{data.regCode}}-{{data.conferenceFee}}</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="2" class="text-right">Conference Fees:</th>
+                                <th colspan="2">
+                                    <strong>{{data.international?'USD':'NGN'}} {{ data.conferenceFee.formatMoney(2)
+                                        }}</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="2" class="text-right">Processing Fees:</th>
+                                <th colspan="2"><strong class="text-danger">To be Calculated</strong>
+                                </th>
+                            </tr>
+                        </table>
+
+                        <div class="row" ng-hide="data.completed">
+                            <div class="col-md-8 col-md-offset-2">
+                                <h3 class="text-center text-success">Below's what your name tag looks like</h3><br>
+                                <div class="panel panel-default">
+                                    <div class="panel-body name-tag">
+                                        <h5 class="text-center" ng-bind="data.prefix" ng-hide="data.prefix.toLowerCase().indexOf('mr')>=0"></h5>
+                                        <h3 class="text-center">{{getName(data)}} <small ng-bind="data.suffix"></small></h3>
+                                        <hr>
+                                        <div ng-show="data.registrationType!='judge'&&data.registrationType!='magistrate'">
+                                            <p class="text-center"><strong>{{data.company}}</strong></p>
+                                        </div> 
+                                        <div ng-show="data.registrationType=='judge'||data.registrationType=='magistrate'">
+                                            <p class="text-center"><strong>{{data.court}} {{data.state}} {{data.division}}</strong></p>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info hidden-print" ng-hide="data.completed">
+                            Clicking on <b>"Confirm Registration"</b> would finalize this registration. An email would be sent
+                            to you containing details of this registration and details of how to access conference
+                            information.
+                        </div>
+
+                        <div class="hidden-print">
+                            <button ng-hide="data.completed" ng-click="markComplete(data)"
+                                            class="btn-block btn btn-primary"
+                                            type="button"><i
+                                            class="fa fa-check"></i> CONFIRM REGISTRATION </button>
+                            <button ng-show="data.completed"
+                                    class="btn-block btn btn-success"
+                                    type="submit"><i
+                                    class="fa fa-play"></i> PROCEED TO PAYMENT </button>
+                        </div>
+
+                        <input type="hidden" name="mercId" value="09948">
+                        <input type="hidden" name="currCode" value="{{data.international?840:566}}">
+                        <input type="hidden" name="amt" value="{{ toPay(data.conferenceFee) }}">
+                        <input type="hidden" name="orderId" value="{{data.regCode}}-{{data.conferenceFee}}">
+                        <input type="hidden" name="prod" value="NBA AGC 2016 Registration for {{getName()}}">
+                        <input type="hidden" name="email" value="{{data.email}}">
+                        <input type="hidden" name="submit" value="Pay">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

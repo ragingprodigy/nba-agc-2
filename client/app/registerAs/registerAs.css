@@ -1,0 +1,21 @@
+.group-list {
+    list-style: none;
+    padding: 0;
+}
+
+.group-list li {
+    padding: 5px;
+    border-radius: 1px;
+    cursor: pointer;
+    wrap-option: break;
+}
+
+.group-list li a {
+    color: #000;
+    font-weight: bold;
+    display: block;
+}
+
+.group-list li a:hover {
+    text-decoration: none;
+}

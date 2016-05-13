@@ -1,0 +1,24 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container session-container">
+    <div class="row">
+        <div class="col-md-9">
+            <panel-header title="Conference Speakers, Panelists & Facilitators" class="success"></panel-header>
+
+            <div class="row">
+                <div class="col-md-3 speaker-panel" ng-repeat="speaker in speakers">
+                    <div class="panel panel-success">
+                        <div class="panel-body bg-success text-center">
+                            <img ng-src="{{speaker.photo}}" class="speaker-avatar">
+                            <h4>{{speaker.title+' '+speaker.name}} <small>{{speaker.suffix}}</small></h4>
+                            <em>{{speaker.organization}}</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-include="'components/sidebar/sidebar.html'" class="col-md-3"></div>
+    </div>
+</div>
+
+<div ng-include="'components/footer/footer.html'"></div>

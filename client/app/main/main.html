@@ -1,0 +1,169 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-8 col-md-offset-4">
+
+          <div class="row mb-10" ng-if="!expired()">
+              <div class="col-md-7"
+                   ng-hide="isAuthenticated() && !isGroup()">
+            <a class="btn btn-primary btn-lg btn-block" ng-click="startReg()">
+                {{!noneInProgress()?'Start':'Resume'}} Individual Registration <i class="fa fa-play"></i>
+            </a>
+          </div>
+          </div>
+          <div class="row mb-10" ng-if="!expired()">
+              <div class="col-md-7" ng-show="!isAuthenticated() && !noneInProgress()">
+            <a class="btn btn-info btn-lg btn-block" ui-sref="register">
+                Group Registration <i class="fa fa-play"></i>
+            </a>
+          </div>
+        </div>
+        <br>
+
+          <div class="col-md-7 alert alert-info" ng-hide="isAuthenticated()">
+          <p class="text-center">If you've registered before but could not make payment, please <a ui-sref="login" class="btn btn-success">SIGN IN HERE</a>  using the login details sent to your email the last time you registered.</p>
+        </div>
+
+      <div class="row">
+          <div class="col-md-7" id="accordion">
+              <div ng-include="'components/rightInfo/rightInfo.html'"></div>
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" data-placement="top"
+                         title="Click To View More Details">
+                          <div class="panel-title text-center"><strong>CONFERENCE FEES</strong></div>
+                      </a>
+                  </div>
+                  <div id="collapse1" class="panel-collapse">
+                      <div class="panel-body">
+                          <table class="table table-bordered table-striped table-hover">
+                              <thead>
+                              <tr>
+                                  <th style="vertical-align: middle;" class="text-center">Status</th>
+                                  <th class="text-center">Early Bird<br>
+                                      <small class="text-danger">May 15th -
+                                          Jun. 30th
+                                      </small>
+                                  </th>
+                                  <th class="text-center">Regular Fee<br>
+                                      <small class="text-danger">July 1st -
+                                          Aug. 5th
+                                      </small>
+                                  </th>
+                                  <th class="text-center">Onsite Fee<br>
+                                      <small class="text-danger">Aug. 19th -
+                                          Aug. 27th
+                                      </small>
+                                  </th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <td class="text-center">1-5 Years</td>
+                                  <td class="text-center">N 5,000</td>
+                                  <td class="text-center">N 9,500</td>
+                                  <td class="text-center">N 14,500</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">6-10 Years</td>
+                                  <td class="text-center">N 11,000</td>
+                                  <td class="text-center">N 14,500</td>
+                                  <td class="text-center">N 24,500</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">11-14 Years</td>
+                                  <td class="text-center">N 15,000</td>
+                                  <td class="text-center">N 20,500</td>
+                                  <td class="text-center">N 30,000</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">15-20 Years</td>
+                                  <td class="text-center">N 20,500</td>
+                                  <td class="text-center">N 32,000</td>
+                                  <td class="text-center">N 48,500</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">Above 20 Years</td>
+                                  <td class="text-center">N 37,000</td>
+                                  <td class="text-center">N 55,000</td>
+                                  <td class="text-center">N 75,000</td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <ul>
+                                          <li>Senior Advocates of Nigeria</li>
+                                          <li>Honourable Attorneys General</li>
+                                          <li>Benchers</li>
+                                      </ul>
+                                  </td>
+                                  <td class="text-center" style="vertical-align: middle;">N 80,000</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 105,000</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 125,000</td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <ul>
+                                          <li>Magistrates</li>
+                                          <li>Other Judicial Officers</li>
+                                      </ul>
+                                  </td>
+                                  <td class="text-center" style="vertical-align: middle;">N 40,500</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 52,500</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 55,000</td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <ul>
+                                          <li>Honourable Justices</li>
+                                          <li>Honourable Judges</li>
+                                          <li>Grand Khadis</li>
+                                          <li>Khadis</li>
+                                      </ul>
+                                  </td>
+                                  <td class="text-center" style="vertical-align: middle;">N 60,000</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 75,000</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 77,000</td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <ul>
+                                          <li>Governors</li>
+                                          <li>Legislators</li>
+                                          <li>Political Appointees</li>
+                                      </ul>
+                                  </td>
+                                  <td class="text-center" style="vertical-align: middle;">N 200,000</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 300,000</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 350,000</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">NON-Lawyers</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 47,500</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 47,500</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 47,500</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">Law School Students</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 4,500</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 4,500</td>
+                                  <td class="text-center" style="vertical-align: middle;">N 4,500</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-center">International Delegates</td>
+                                  <td class="text-center" style="vertical-align: middle;">USD $ 550</td>
+                                  <td class="text-center" style="vertical-align: middle;">USD $ 550</td>
+                                  <td class="text-center" style="vertical-align: middle;">USD $ 550</td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

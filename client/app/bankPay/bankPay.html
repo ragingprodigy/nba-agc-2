@@ -1,0 +1,108 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+
+    	<div class="col-md-6">
+    		<div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE
+
+                        <div class="pull-right hidden-print">
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="back()"><i
+                                    class="fa fa-arrow-left"></i> GO BACK</button>  - 
+                            <button type="button" class="btn btn-primary btn-xs " onclick="window.print()"><i
+                                            class="fa fa-print"></i>
+                                        PRINT
+                                    </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped">
+                        <tr class="space">
+                            <td style="width: 50%"></td>
+                            <td style="width: 50%"></td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">REGISTRATION CODE</th>
+                            <th>
+                                <strong>{{data.regCode}}-{{data.conferenceFee}}</strong>
+                            </th>
+                        </tr>
+                        <tr>
+                        	<th class="text-right">Depositor's Full Name</th>
+                            <th class="text-uppercase"> {{data.regCode}}-{{data.conferenceFee}} {{data.firstName}} {{data.surname}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Depositor's Contact Telephone Number</th>
+                            <th class="text-uppercase"> {{data.mobile}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">BANK</th>
+                            <th class="text-uppercase"> ACCESS BANK</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">ACCOUNT NAME</th>
+                            <th class="text-uppercase"> NBA-AGC Account</td>
+                        </tr>
+                        <tr>
+                        	<th class="text-right">ACCOUNT NUMBER</th>
+                            <th class="text-uppercase"> 0 6 9 5 1 7 6 4 9 5</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Conference Fees:</th>
+                            <th>
+                                <strong>NGN {{ data.conferenceFee.formatMoney(2) }}</strong>
+                            </th>
+                        </tr>
+                        <tr class="hidden-print">
+                            <td colspan="2" class="text-center">
+                                <button ng-hide="data.completed" ng-click="markComplete(data)"
+                                        class="btn-block btn btn-success"
+                                        type="button"><i
+                                        class="fa fa-check"></i> CONFIRM REGISTRATION </button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <button class="btn btn-success btn-block" ng-click="completeReg()" ng-show="channelChosen() && !isAuthenticated()" >FINISH REGISTRATION</button><br>
+
+                    <h4 class="text-center text-success hidden-print">Below is what your name tag looks like</h4><br>
+		            <div class="panel panel-default hidden-print">
+                        <div class="panel-body name-tag">
+                            <h5 class="text-center" ng-bind="data.prefix" ng-hide="data.prefix.toLowerCase().indexOf('mr')>=0"></h5>
+                            <h3 class="text-center">{{getName(data)}} <small ng-bind="data.suffix"></small></h3>
+                            <hr>
+                            <div ng-show="data.registrationType!='judge'&&data.registrationType!='magistrate'">
+                                <p class="text-center"><strong>{{data.company}}</strong></p>
+                            </div> 
+                            <div ng-show="data.registrationType=='judge'||data.registrationType=='magistrate'">
+                                <p class="text-center"><strong>{{data.court}} {{data.state}} {{data.division}}</strong></p>
+                            </div> 
+                        </div>
+		            </div>
+                </div>
+            </div>
+    	</div>
+    	<div class="col-md-6">
+    		<div class="panel panel-default">
+    			<div class="panel-body">
+                    <div class="alert alert-info hidden-print">
+                        <strong>All payments MUST be made to the nearest Access Bank branch</strong>
+                    </div>
+                    <!--<div class="alert alert-info hidden-print">
+                        Clicking on "Confirm Registration" would finalize this registration. An email would be sent
+                        to you containing details of this registration and details of how to access conference
+                        information
+                    </div>-->
+    				<img ng-src="assets/images/slip.jpg" style="max-width: 100%; margin-bottom: 15px;"><br>
+                    <div class="alert alert-info hidden-print no-margin">
+                        Please fill your bank teller using the information on the left side of your screen. <strong>All payments MUST be made to the nearest Access Bank branch</strong>. If you'd be making direct transfer to the Bank Account listed below, please <b class="text-uppercase">include the Order id in your Payment description or Narration</b>
+                    </div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+</div>

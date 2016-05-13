@@ -1,0 +1,22 @@
+.session-container {
+    margin-top: 35px;
+}
+
+.conference-days {
+    margin: 0 5px;
+}
+
+.session-speaker {
+    width: 100px;
+    height: 100px;
+    /*border-radius: 50%;
+    border: 3px solid #cccccc;
+    background: #fcfcfc;*/
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.overall-rating {
+    font-size: 20px;
+    margin: 0px 30px;
+}

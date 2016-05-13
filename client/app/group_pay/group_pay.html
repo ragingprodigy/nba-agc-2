@@ -1,0 +1,110 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">PAYMENT INVOICE
+
+                        <button type="button" class="btn btn-danger pull-right btn-xs" ng-click="back()"><i
+                                class="fa fa-arrow-left"></i> GO BACK</button></div>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-info">
+                        <p>In order to Pay with your ATM Cards, Kindly ensure your card is registered for One Time Passwords(OTP) for Mastercards and Ipin(VbyV) for Visa cards by your bank.</p>
+                        <p>Just walk into any of your bank branches and ask to activate OTPs, to enable you complete online transactions (Including on NBA and other websites in Nigeria)</p>
+                        <p>The OTP and Ipin is for your added safety and security on your payments.</p>
+                    </div>
+                    
+                    <form method="POST" id="upay_form" name="upay_form" action="https://cipg.accessbankplc.com/MerchantServices/MakePayment.aspx" target="_top">
+                        <table class="table table-bordered table-striped">
+                            <tr class="space"><td colspan="4"></td></tr>
+	                        <tr class="space"><td colspan="4"></td></tr>
+	                        <tr>
+	                            <th colspan="4" class="text-uppercase text-center"><h4>{{data._group.groupName}}</h4></td>
+	                        </tr>
+	                        <tr>
+	                            <th colspan="2" class="text-right">
+	                                <h4>Members in Group:</h4>
+	                            </th>
+	                            <th colspan="2">
+	                                <h4>{{data.registrations.length}}</h4>
+	                            </th>
+	                        </tr>
+	                        <tr>
+	                            <th colspan="2" class="text-right">
+	                                <h4>Order ID:</h4>
+	                            </th>
+	                            <th colspan="2">
+	                                <h4>{{data.code+'-'+data.invoiceAmount}}</h4>
+	                            </th>
+	                        </tr>
+	                        <tr>
+	                            <th colspan="2" class="text-right">
+	                                <h4>Conference Fees:</h4>
+	                            </th>
+	                            <th colspan="2">
+	                                <h4>NGN {{ data.invoiceAmount.formatMoney(2) }}</h4>
+	                            </th>
+	                        </tr>
+                            <tr ng-hide="data.responseGotten">
+                                <th colspan="2" class="text-right">Processing Fees:</th>
+                                <th colspan="2"><strong class="text-danger">To be Calculated</strong>
+                                </th>
+                            </tr>
+                            <tr ng-show="data.responseGotten">
+                                <th colspan="2" class="text-right">Status:</th>
+                                <th colspan="2"><strong class="text-danger">{{data.Status}}</strong>
+                                </th>
+                            </tr>
+                            <tr ng-show="data.responseGotten">
+                                <th colspan="2" class="text-right">Response Code:</th>
+                                <th colspan="2"><strong class="text-danger">{{data.ResponseCode}}</strong>
+                                </th>
+                            </tr>
+                            <tr ng-show="data.responseGotten">
+                                <th colspan="2" class="text-right">Response Desc:</th>
+                                <th colspan="2"><strong class="text-danger">{{data.ResponseDescription}}</strong>
+                                </th>
+                            </tr>
+                            <tr ng-show="data.responseGotten">
+                                <th colspan="2" class="text-right">Transaction Reference:</th>
+                                <th colspan="2"><strong class="text-danger">{{data.TransactionRef}}</strong>
+                                </th>
+                            </tr>
+                            <tr ng-show="data.responseGotten">
+                                <th colspan="2" class="text-right">Payment Reference:</th>
+                                <th colspan="2"><strong class="text-danger">{{data.PaymentRef}}</strong>
+                                </th>
+                            </tr>
+                            <tr ng-show="data.responseGotten">
+                                <th colspan="2" class="text-right">Transaction Date:</th>
+                                <th colspan="2"><strong class="text-danger">{{data.DateTime|date}}</strong>
+                                </th>
+                            </tr>
+                        </table>
+
+                        <div class="hidden-print" ng-hide="data.responseGotten">
+                            <button
+                                    class="btn-block btn btn-success"
+                                    type="submit"><i
+                                    class="fa fa-play"></i> PROCEED TO PAYMENT </button>
+                        </div>
+
+                        <input type="hidden" name="mercId" value="09948">
+                        <input type="hidden" name="currCode" value="566">
+                        <input type="hidden" name="amt" value="{{ data.invoiceAmount }}">
+                        <input type="hidden" name="orderId" value="{{data.code}}-{{data.invoiceAmount}}">
+                        <input type="hidden" name="prod"
+                               value="NBA AGC 2016 Registration for {{data._group.groupName}}">
+                        <input type="hidden" name="email" value="{{data._group.email}}">
+                        <input type="hidden" name="submit" value="Pay">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

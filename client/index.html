@@ -1,0 +1,227 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+      <title>Nigerian Bar Association - 2016 Annual General Conference</title>
+      <meta name="description"
+            content="lawyers &map; National Development - The Largest gathering of Lawyers anywhere! 23rd - 28th August, 2016; International Conference Center, PORT HARCOURT">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(client) app/vendor.css -->
+      <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+      <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
+      <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css" />
+      <!-- endbower -->
+      <link rel="stylesheet" href="bower_components/datatables/media/css/dataTables.bootstrap.css" />
+    <!-- endbuild -->
+    <!-- build:css({.tmp,client}) app/app.css -->
+    <link rel="stylesheet" href="app/app.css">
+      <!-- injector:css -->
+      <link rel="stylesheet" href="app/access_bank_test/access_bank_test.css">
+      <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/attendees/attendees.css">
+      <link rel="stylesheet" href="app/bankPay/bankPay.css">
+      <link rel="stylesheet" href="app/benchForm/benchForm.css">
+      <link rel="stylesheet" href="app/conference_sessions/conference_sessions.css">
+      <link rel="stylesheet" href="app/conference_speakers/conference_speakers.css">
+      <link rel="stylesheet" href="app/doPasswordReset/doPasswordReset.css">
+      <link rel="stylesheet" href="app/groupInvoice/groupInvoice.css">
+      <link rel="stylesheet" href="app/group_pay/group_pay.css">
+      <link rel="stylesheet" href="app/home/home.css">
+      <link rel="stylesheet" href="app/international/international.css">
+      <link rel="stylesheet" href="app/invoice/invoice.css">
+      <link rel="stylesheet" href="app/judgeForm/judgeForm.css">
+      <link rel="stylesheet" href="app/law_students/law_students.css">
+      <link rel="stylesheet" href="app/lawyerForm/lawyerForm.css">
+      <link rel="stylesheet" href="app/legalPractitioner/legalPractitioner.css">
+      <link rel="stylesheet" href="app/login/login.css">
+      <link rel="stylesheet" href="app/magistrateForm/magistrateForm.css">
+      <link rel="stylesheet" href="app/main/main.css">
+      <link rel="stylesheet" href="app/myInvoices/myInvoices.css">
+      <link rel="stylesheet" href="app/myRegistrations/myRegistrations.css">
+      <link rel="stylesheet" href="app/my_sessions/my_sessions.css">
+      <link rel="stylesheet" href="app/non_lawyer/non_lawyer.css">
+      <link rel="stylesheet" href="app/othersForm/othersForm.css">
+      <link rel="stylesheet" href="app/panelHeader/panelHeader.css">
+      <link rel="stylesheet" href="app/papers/papers.css">
+      <link rel="stylesheet" href="app/profile/profile.css">
+      <link rel="stylesheet" href="app/recoverPassword/recoverPassword.css">
+      <link rel="stylesheet" href="app/register/register.css">
+      <link rel="stylesheet" href="app/registerAs/registerAs.css">
+      <link rel="stylesheet" href="app/webpay/webpay.css">
+      <link rel="stylesheet" href="components/modal/modal.css">
+      <!-- endinjector -->
+    <!-- endbuild -->
+    
+    <script>
+      var _rollbarConfig = {
+          accessToken: "a5968f32f4e04bf98a950cef53a90027",
+          captureUncaught: true,
+          payload: { environment: "production" }
+      };
+      !function(r){function t(o){if(e[o])return e[o].exports;var n=e[o]={exports:{},id:o,loaded:!1};return r[o].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var e={};return t.m=r,t.c=e,t.p="",t(0)}([function(r,t,e){"use strict";var o=e(1).Rollbar,n=e(2),a="https://d37gvrvc0wt4s1.cloudfront.net/js/v1.4/rollbar.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||a;var i=o.init(window,_rollbarConfig),l=n(i,_rollbarConfig);i.loadFull(window,document,!1,_rollbarConfig,l)},function(r,t){"use strict";function e(){var r=window.console;r&&"function"==typeof r.log&&r.log.apply(r,arguments)}function o(r){this.shimId=++u,this.notifier=null,this.parentShim=r,this.logger=e,this._rollbarOldOnError=null}function n(r,t,e){window._rollbarWrappedError&&(e[4]||(e[4]=window._rollbarWrappedError),e[5]||(e[5]=window._rollbarWrappedError._rollbarContext),window._rollbarWrappedError=null),r.uncaughtError.apply(r,e),t&&t.apply(window,e)}function a(r){var t=o;return l(function(){if(this.notifier)return this.notifier[r].apply(this.notifier,arguments);var e=this,o="scope"===r;o&&(e=new t(this));var n=Array.prototype.slice.call(arguments,0),a={shim:e,method:r,args:n,ts:new Date};return window._rollbarShimQueue.push(a),o?e:void 0})}function i(r,t){if(t.hasOwnProperty&&t.hasOwnProperty("addEventListener")){var e=t.addEventListener;t.addEventListener=function(t,o,n){e.call(this,t,r.wrap(o),n)};var o=t.removeEventListener;t.removeEventListener=function(r,t,e){o.call(this,r,t&&t._wrapped?t._wrapped:t,e)}}}function l(r,t){return t=t||e,function(){try{return r.apply(this,arguments)}catch(e){t("Rollbar internal error:",e)}}}var u=0;o.init=function(r,t){var e=t.globalAlias||"Rollbar";if("object"==typeof r[e])return r[e];r._rollbarShimQueue=[],r._rollbarWrappedError=null,t=t||{};var a=new o;return l(function(){if(a.configure(t),t.captureUncaught){a._rollbarOldOnError=r.onerror,r.onerror=function(){var r=Array.prototype.slice.call(arguments,0);n(a,a._rollbarOldOnError,r)};var o,l,u="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(o=0;o<u.length;++o)l=u[o],r[l]&&r[l].prototype&&i(a,r[l].prototype)}return r[e]=a,a},a.logger)()},o.prototype.loadFull=function(r,t,e,o,n){var a=l(function(){var r=t.createElement("script"),n=t.getElementsByTagName("script")[0];r.src=o.rollbarJsUrl,r.async=!e,r.onload=i,n.parentNode.insertBefore(r,n)},this.logger),i=l(function(){var t;if(void 0===r._rollbarPayloadQueue){var e,o,a,i;for(t=new Error("rollbar.js did not load");e=r._rollbarShimQueue.shift();)for(a=e.args,i=0;i<a.length;++i)if(o=a[i],"function"==typeof o){o(t);break}}"function"==typeof n&&n(t)},this.logger);l(function(){e?a():r.addEventListener?r.addEventListener("load",a,!1):r.attachEvent("onload",a)},this.logger)()},o.prototype.wrap=function(r,t){try{var e;if(e="function"==typeof t?t:function(){return t||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._wrapped){r._wrapped=function(){try{return r.apply(this,arguments)}catch(t){throw t._rollbarContext=e()||{},t._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=t,t}},r._wrapped._isWrap=!0;for(var o in r)r.hasOwnProperty(o)&&(r._wrapped[o]=r[o])}return r._wrapped}catch(n){return r}};for(var s="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),p=0;p<s.length;++p)o.prototype[s[p]]=a(s[p]);r.exports={Rollbar:o,_rollbarWindowOnError:n}},function(r,t){"use strict";r.exports=function(r,t){return function(e){if(!e&&!window._rollbarInitialized){var o=window.RollbarNotifier,n=t||{},a=n.globalAlias||"Rollbar",i=window.Rollbar.init(n,r);i._processShimQueue(window._rollbarShimQueue||[]),window[a]=i,window._rollbarInitialized=!0,o.processPayloads()}}}}]);
+      </script>
+
+
+    <!--[if lte IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
+    <![endif]-->
+  </head>
+  <body ng-app="nbaAgc2App" ng-mask>
+    <div id="fb-root"></div>
+    <div ng-show="deviceDetector.device.blackberry" class="alert alert-info">
+      If you have <b>Private Browsing</b> turned on, <b>PLEASE TURN IT OFF</b> now before proceeding in order to be able to use this Portal. Thanks.</div>
+    </div>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ui-view="" id="site-body"></div>
+
+    <div ng-include="'components/footer/footer.html'"></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-64044336-1');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <!-- build:js({client,node_modules}) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/jquery/dist/jquery.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+      <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+      <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+      <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/ngstorage/ngStorage.js"></script>
+      <script src="bower_components/x2js/xml2json.min.js"></script>
+      <script src="bower_components/angular-xml/angular-xml.js"></script>
+      <script src="bower_components/satellizer/satellizer.js"></script>
+      <script src="bower_components/underscore/underscore.js"></script>
+      <script src="bower_components/re-tree/re-tree.js"></script>
+      <script src="bower_components/ng-device-detector/ng-device-detector.js"></script>
+      <script src="bower_components/moment/moment.js"></script>
+      <!-- endbower -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,client}) app/app.js -->
+        <script src="app/app.js"></script>
+    <script src="assets/floating/floating.controller.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+          <!-- injector:js -->
+          <script src="app/AccessCheck/AccessCheck.service.js"></script>
+          <script src="app/Bags/Bags.service.js"></script>
+          <script src="app/Countries/Countries.service.js"></script>
+          <script src="app/FormEditor/FormEditor.controller.js"></script>
+          <script src="app/MyRegistration/MyRegistration.service.js"></script>
+          <script src="app/Sessions/Sessions.service.js"></script>
+          <script src="app/User/User.service.js"></script>
+          <script src="app/access_bank_test/access_bank_test.controller.js"></script>
+          <script src="app/access_bank_test/access_bank_test.js"></script>
+          <script src="app/attendees/attendees.controller.js"></script>
+          <script src="app/attendees/attendees.js"></script>
+          <script src="app/bankPay/bankPay.controller.js"></script>
+          <script src="app/bankPay/bankPay.js"></script>
+          <script src="app/benchForm/benchForm.controller.js"></script>
+          <script src="app/benchForm/benchForm.js"></script>
+          <script src="app/blockService/blockService.service.js"></script>
+          <script src="app/conference_sessions/conference_sessions.controller.js"></script>
+          <script src="app/conference_sessions/conference_sessions.js"></script>
+          <script src="app/conference_speakers/conference_speakers.controller.js"></script>
+          <script src="app/conference_speakers/conference_speakers.js"></script>
+          <script src="app/doPasswordReset/doPasswordReset.controller.js"></script>
+          <script src="app/doPasswordReset/doPasswordReset.js"></script>
+          <script src="app/groupInvoice/groupInvoice.controller.js"></script>
+          <script src="app/groupInvoice/groupInvoice.js"></script>
+          <script src="app/group_pay/group_pay.controller.js"></script>
+          <script src="app/group_pay/group_pay.js"></script>
+          <script src="app/home/home.controller.js"></script>
+          <script src="app/home/home.js"></script>
+          <script src="app/international/international.controller.js"></script>
+          <script src="app/international/international.js"></script>
+          <script src="app/invoice/Invoice.service.js"></script>
+          <script src="app/invoice/invoice.controller.js"></script>
+          <script src="app/invoice/invoice.js"></script>
+          <script src="app/judgeForm/judgeForm.controller.js"></script>
+          <script src="app/judgeForm/judgeForm.js"></script>
+          <script src="app/law_students/law_students.controller.js"></script>
+          <script src="app/law_students/law_students.js"></script>
+          <script src="app/lawyerForm/lawyerForm.controller.js"></script>
+          <script src="app/lawyerForm/lawyerForm.js"></script>
+          <script src="app/legalPractitioner/legalPractitioner.controller.js"></script>
+          <script src="app/legalPractitioner/legalPractitioner.js"></script>
+          <script src="app/login/login.controller.js"></script>
+          <script src="app/login/login.js"></script>
+          <script src="app/magistrateForm/magistrateForm.controller.js"></script>
+          <script src="app/magistrateForm/magistrateForm.js"></script>
+          <script src="app/main/main.controller.js"></script>
+          <script src="app/main/main.js"></script>
+          <script src="app/myInvoices/myInvoices.controller.js"></script>
+          <script src="app/myInvoices/myInvoices.js"></script>
+          <script src="app/myRegistrations/myRegistrations.controller.js"></script>
+          <script src="app/myRegistrations/myRegistrations.js"></script>
+          <script src="app/my_sessions/my_sessions.controller.js"></script>
+          <script src="app/my_sessions/my_sessions.js"></script>
+          <script src="app/non_lawyer/non_lawyer.controller.js"></script>
+          <script src="app/non_lawyer/non_lawyer.js"></script>
+          <script src="app/othersForm/othersForm.controller.js"></script>
+          <script src="app/othersForm/othersForm.js"></script>
+          <script src="app/panelHeader/panelHeader.directive.js"></script>
+          <script src="app/papers/papers.controller.js"></script>
+          <script src="app/papers/papers.js"></script>
+          <script src="app/profile/profile.controller.js"></script>
+          <script src="app/profile/profile.js"></script>
+          <script src="app/recoverPassword/recoverPassword.controller.js"></script>
+          <script src="app/recoverPassword/recoverPassword.js"></script>
+          <script src="app/register/register.controller.js"></script>
+          <script src="app/register/register.js"></script>
+          <script src="app/registerAs/registerAs.controller.js"></script>
+          <script src="app/registerAs/registerAs.js"></script>
+          <script src="app/registration/registration.service.js"></script>
+          <script src="app/repeatPassword/repeatPassword.directive.js"></script>
+          <script src="app/speakers/speakers.service.js"></script>
+          <script src="app/webpay/webpay.controller.js"></script>
+          <script src="app/webpay/webpay.js"></script>
+          <script src="components/footer/footer.controller.js"></script>
+          <script src="components/modal/modal.service.js"></script>
+          <script src="components/navbar/navbar.controller.js"></script>
+          <script src="components/rightInfo/rightInfo.controller.js"></script>
+          <script src="components/sidebar/sidebar.controller.js"></script>
+          <!-- endinjector -->
+        <!-- endbuild -->
+</body>
+</html>

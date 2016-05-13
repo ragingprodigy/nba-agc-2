@@ -1,0 +1,48 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title text-center"><b>LOGIN</b></div>
+                </div>
+                <div class="panel-body" id="theForm">
+                    <div class="alert alert-info" ng-hide="error.length">Your Login details would have been sent to your email after you registered!</div>
+                    <div class="alert alert-danger" ng-show="error.length">{{error}}</div>
+                    <form ng-submit="loginForm.$valid && doLogin()" name="loginForm">
+                        <div class="form-group">
+                            <label for="username">Email Address / Username <span class="required">*</span> </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Your Email Address"
+                                       ng-model="user.email" id="username" required>
+                                <span class="input-group-addon"><i class="fa fa-envelope-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password <span class="required">*</span> </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Your NBA Conference Password"
+                                       ng-model="user.password" id="password" required>
+                                <span class="input-group-addon"><i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-block btn-success" ng-disabled="loginForm.$invalid" type="submit"><i
+                                class="fa fa-key"></i> LOGIN
+                        </button>
+
+                        <br>
+                        <div class="text-center">
+                            <a ui-sref="recoverPassword" class="btn-link">forgot your password?</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

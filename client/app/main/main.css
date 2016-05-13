@@ -1,0 +1,46 @@
+#banner {
+    border-bottom: none;
+    margin-top: -20px;
+    min-height: 200px;
+    margin-bottom: 15px;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.hero-unit {
+    position: relative;
+    /*padding: 30px 15px;*/
+    color: #F5F5F5;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background: url('../../assets/images/nba-header.jpg') no-repeat;
+}
+
+.footer {
+    position: fixed;
+    bottom:0;
+    right:0;
+    left:0;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #0A0A0A;
+    color: #FFFFFF;
+    border-top: 1px solid #E5E5E5;
+    z-index: 999999;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer p a {
+    color: #de8e00;
+}
