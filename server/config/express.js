@@ -35,6 +35,7 @@ module.exports = function(app) {
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', config.root + '/public');
     //app.use(morgan('dev'));
+    console.log('production');
   }
 
   if ('development' === env || 'test' === env) {
@@ -44,5 +45,6 @@ module.exports = function(app) {
     app.set('appPath', 'client');
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
+    console.log('development');
   }
 };

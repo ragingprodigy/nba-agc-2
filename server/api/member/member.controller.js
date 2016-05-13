@@ -14,6 +14,27 @@ exports.verify = function(req, res) {
     });
 };
 
+
+exports.getMember = function (req, res) {
+
+    var surname = new RegExp(req.body.surname + '*', 'i');
+    var firstname = new RegExp(req.body.firstName + '*', 'i');
+
+    Member.find().and([{'name': surname}, {'name': firstname}]).exec(function (err, members) {
+        if (err) return handleError(res, err);
+        return res.status(200).json(members);
+    });
+};
+
+// Creates a new member in the DB.
+exports.create = function (req, res) {
+    Member.create(req.body, function (err, member) {
+        if (err) {
+            return handleError(res, err);
+        }
+        return res.status(201).json(member);
+    });
+};
 /*
 // Get list of members
 exports.index = function(req, res) {
@@ -32,15 +53,9 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new member in the DB.
-exports.create = function(req, res) {
-  Member.create(req.body, function(err, member) {
-    if(err) { return handleError(res, err); }
-    return res.status(201).json(member);
-  });
-};
 
-// Updates an existing member in the DB.
+
+ // Updates an existing member in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Member.findById(req.params.id, function (err, member) {
