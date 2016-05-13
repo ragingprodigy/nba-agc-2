@@ -11,15 +11,15 @@ module.exports = {
     // Control debug level for modules using visionmedia/debug
     DEBUG: '',
     WEB_CONCURRENCY: 1,
-    MANDRILL_API_KEY: '9UAR7iFKFPiZy9fGAJ0lLw',
+    SENDGRID_API_KEY: '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',
 
     SMS_OWNER_EMAIL: 'benedicta.moha@lawpavilion.com',
     SMS_SUB_ACCOUNT: 'NBA-AGC',
     SMS_SUB_ACCOUNT_PASSWORD: 'graceLIMITED12',
-    SMS_SENDER: 'NBA-AGC2015',
+    SMS_SENDER: 'NBA-AGC 2016',
     SMS_MSG_TYPE: 0,
 
-    CUTOFF: '2016-08-19 23:59'
+    CUTOFF: '2016-08-05 23:59'
 
     /*STORMPATH_API_KEY_ID: '6GVSYRJZ6I4M7XYT8X0UKIJFA',
     STORMPATH_API_KEY_SECRET: 'Yj+BTI3+YGITPI3aoRhBP6kuHOSJY1cVD17yiBbV1xM',
