@@ -137,69 +137,142 @@ RegistrationSchema.post('save', function(entry){
     }
 
        var feeDue = 0;
+    var todayDate = new Date();
+    var dateEarly = new Date('2016', '04', '15');
+    var dateNormal = new Date('2016', '06', '01');
+    var dateLate = new Date('2016', '06', '01');
 
     // Only Calculate the Conference Fee if the Registration is a new one
-   if (entry.registrationType === 'legalPractitioner') {
-       // Calculate the cost and save
-       Registration.findById(entry._id, function (err, member) {
-           if (!!err) return;
-           if (member) {
-             var currentYear = new Date().getFullYear();
-             var atTheBar = currentYear - member.yearCalled;
-               switch (atTheBar) {
-                   case atTheBar <= 5:
-                       feeDue = 8000;
-                       break;
-                   case  atTheBar <= 10:
-                       feeDue = 15000;
-                       break;
-                   case atTheBar <= 14:
-                       feeDue = 20000;
-                       break;
-                   case atTheBar <= 20:
-                       feeDue = 30000;
-                       break;
-                   default:
-                       feeDue = 50000;
-               }
-               Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
-              return;
-             });
-           }
-       });
-   } else {
 
-       switch (entry.registrationType) {
-           case 'sanAndBench':
-               feeDue = 100000;
-               break;
-           case 'judge':
-               feeDue = 75000;
-               break;
-           case 'law_students':
-               feeDue = 4500;
-               break;
-           case 'magistrate':
-               feeDue = 50000;
-               break;
-           case 'others':
-               feeDue = 250000;
-               break;
-           case 'non_lawyer':
-               feeDue = 25000;
-               break;
-           case 'international':
-               feeDue = 200;
-               break;
-           case 'access_bank_test':
-              feeDue = 100;
-              break;
-       }
+    //calculates when the conference fee is in early bird stage
+    if(todayDate >= dateEarly && todayDate < dateNormal) {
+        if (entry.registrationType === 'legalPractitioner') {
+            // Calculate the cost and save
+            Registration.findById(entry._id, function (err, member) {
+                if (!!err) return;
+                if (member) {
+                    var currentYear = new Date().getFullYear();
+                    var atTheBar = currentYear - member.yearCalled;
+                    switch (atTheBar) {
+                        case atTheBar <= 5:
+                            feeDue = 5000;
+                            break;
+                        case  atTheBar <= 10:
+                            feeDue = 11000;
+                            break;
+                        case atTheBar <= 14:
+                            feeDue = 15000;
+                            break;
+                        case atTheBar <= 20:
+                            feeDue = 20500;
+                            break;
+                        default:
+                            feeDue = 37000;
+                    }
+                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                        return;
+                    });
+                }
+            });
+        } else {
 
-       Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
-          return;
-       });
-   }
+            switch (entry.registrationType) {
+                case 'sanAndBench':
+                    feeDue = 80000;
+                    break;
+                case 'judge':
+                    feeDue = 60000;
+                    break;
+                case 'law_students':
+                    feeDue = 4500;
+                    break;
+                case 'magistrate':
+                    feeDue = 40500;
+                    break;
+                case 'others':
+                    feeDue = 200000;
+                    break;
+                case 'non_lawyer':
+                    feeDue = 47500;
+                    break;
+                case 'international':
+                    feeDue = 550;
+                    break;
+                case 'access_bank_test':
+                    feeDue = 100;
+                    break;
+            }
+
+            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                return;
+            });
+        }
+    }
+
+    //calculate normal registration fee
+    if(todayDate >= dateNormal && todayDate < dateLate) {
+        if (entry.registrationType === 'legalPractitioner') {
+            // Calculate the cost and save
+            Registration.findById(entry._id, function (err, member) {
+                if (!!err) return;
+                if (member) {
+                    var currentYear = new Date().getFullYear();
+                    var atTheBar = currentYear - member.yearCalled;
+                    switch (atTheBar) {
+                        case atTheBar <= 5:
+                            feeDue = 9500;
+                            break;
+                        case  atTheBar <= 10:
+                            feeDue = 14500;
+                            break;
+                        case atTheBar <= 14:
+                            feeDue = 20500;
+                            break;
+                        case atTheBar <= 20:
+                            feeDue = 32000;
+                            break;
+                        default:
+                            feeDue = 55000;
+                    }
+                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
+                        return;
+                    });
+                }
+            });
+        } else {
+
+            switch (entry.registrationType) {
+                case 'sanAndBench':
+                    feeDue = 105000;
+                    break;
+                case 'judge':
+                    feeDue = 75000;
+                    break;
+                case 'law_students':
+                    feeDue = 4500;
+                    break;
+                case 'magistrate':
+                    feeDue = 52500;
+                    break;
+                case 'others':
+                    feeDue = 300000;
+                    break;
+                case 'non_lawyer':
+                    feeDue = 47500;
+                    break;
+                case 'international':
+                    feeDue = 550;
+                    break;
+                case 'access_bank_test':
+                    feeDue = 100;
+                    break;
+            }
+
+            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
+                return;
+            });
+        }
+    }
 });
 
 module.exports = mongoose.model('Registration', RegistrationSchema);

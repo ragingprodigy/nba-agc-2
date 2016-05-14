@@ -224,7 +224,7 @@
         <!--<div ng-include="'components/rightInfo/rightInfo.html'" class="col-sm-4"></div>-->
     </div>
     <!-- Modal -->
-    <div ng-show="true" class="modal fade" id="myModal" role="dialog">ss
+    <div class="modal fade" id="myModal" role="dialog">ss
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -257,14 +257,13 @@
                     <div ng-show="memberss.length===0" class="row">
                         <p class="text-center text-white help-block label-danger">
                             <strong>Name Not found</strong>, Please check your Surname and FirstName, if it's correct.
-                            If this persist, it may be that your name does not exist in our database, If you have your
-                            Supreme court number(SCN) with you please fill the form below.
+                            If this persist, it may be that your name does not exist in our database, Please Input you Details below, If you do not have yur SCN you can still proceed.
                         </p>
                         <form method="post" name="memberForm">
                             <div class="form-group col-md-5 col-md-offset-3">
                                 <label for="name">FullName <span class="required">*</span> </label>
                                 <input class="form-control" type="text" name="name" id="name"
-                                       ng-model="newuser.name" placeholder="Input Your FullName Call To Bar Name"
+                                       ng-model="newuser.name" placeholder="Input Your Name as it Appears on your Call To Bar Name"
                                        required>
                                 <span class="help-block label label-danger"
                                       ng-show="memberForm.name.$dirty && memberForm.name.$error.required">Please Enter Your Full Call To Bar Name</span>
@@ -280,13 +279,10 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-5 col-md-offset-3">
-                                <label for="scn">Supreme Court Number<span class="required">*</span> </label>
+                                <label for="scn">Supreme Court Number </label>
                                 <input class="form-control" type="text" name="scn" id="scn"
-                                       ng-model="newuser.nbaId" placeholder="Please input your Supreme court number"
-                                       required>
-                                <span class="help-block label label-danger"
-                                      ng-show="memberForm.scn.$dirty && memberForm.scn.$error.required">Please Enter Your Supreme Court Number</span>
-                            </div>
+                                       ng-model="newuser.nbaId" placeholder="Please input your Supreme court number">
+                                </div>
                             <div class="form-group col-md-5 col-md-offset-3">
                                 <div class="col-sm-6 col-xs-6">
                                     <button type="submit"
