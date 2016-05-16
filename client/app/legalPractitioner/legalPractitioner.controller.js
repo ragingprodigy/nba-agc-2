@@ -18,7 +18,6 @@ angular.module('nbaAgc2App')
     }).apply(this);
 
 
-    //watch for any new changes on keypressed
 
 
     if ($rootScope.expired()) {
@@ -103,7 +102,8 @@ angular.module('nbaAgc2App')
             if (cnf) {
 
                 blocker.block();
-
+                
+                if ($auth.isAuthenticated()) { $scope.data.owner = $auth.getPayload().sub; $scope.data.isGroup = true; }
                 $scope.data.formFilled = true;
 
                 var reg = new Registration($scope.data);

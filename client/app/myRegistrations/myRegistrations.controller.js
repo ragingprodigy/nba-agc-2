@@ -13,7 +13,7 @@ angular.module('nbaAgc2App')
         $modalInstance.close($scope.slides[index]);
     };
 })
-  .controller('MyRegistrationsCtrl', function ($scope, $http, Registration, blocker, $auth, $rootScope, Invoice, $sessionStorage, $state, $modal, Bags, User) {
+  .controller('MyRegistrationsCtrl', function ($scope, $timeout, $http, Registration, blocker, $auth, $rootScope, Invoice, $sessionStorage, $state, $modal, Bags, User) {
 
         $scope.editingTag = false;
 
@@ -107,8 +107,9 @@ angular.module('nbaAgc2App')
           }
 
         Registration.query(params, function(data) {
+            console.log(data);
 
-          $scope.paidRegistrations = _.flatten(_.filter(data, function(r) { return r.statusConfirmed && r.paymentSuccessful; }));
+            $scope.paidRegistrations = _.flatten(_.filter(data, function(r) { return r.statusConfirmed && r.paymentSuccessful; }));
           $scope.pendingRegistrations = _.flatten(_.filter(data, function(r) { return !r.responseGotten && (r.webpay || r.bankpay); }));
           $scope.failedRegistrations = _.filter(data, function(r) { return r.responseGotten && !r.paymentSuccessful; });
 
@@ -162,6 +163,8 @@ angular.module('nbaAgc2App')
 
       $scope.getRegistrations();
       $scope.getInvoices();
+      $timeout($scope.getRegistrations, 5000);
+      $timeout($scope.getInvoices, 5000);
 
       $scope.writeInvoice = function(data) {
 

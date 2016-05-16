@@ -21,7 +21,7 @@ module.exports =  function ensureAuthenticated(req, res, next) {
     var payload = null;
     try {
         payload = jwt.decode(token, process.env.SESSION_SECRET);
-        console.log("Decoded Authorization ", payload);
+        //console.log("Decoded Authorization ", payload);
     }
     catch (err) {
         return res.status(401).send({ message: err.message });

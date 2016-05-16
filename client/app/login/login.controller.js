@@ -10,7 +10,6 @@ angular.module('nbaAgc2App')
         	blocker.block('#theForm');
 
             $auth.login($scope.user, '/registrations').then(function() {
-                console.log($scope.user);
                 window.location.href='/registrations';
 
             }, function(e){

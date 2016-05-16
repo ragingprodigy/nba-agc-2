@@ -62,7 +62,7 @@ angular.module('nbaAgc2App')
                 if (cnf) {
 
                     blocker.block();
-
+                    if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
                     $scope.data.formFilled = true;
 
                     var reg = new Registration($scope.data);
