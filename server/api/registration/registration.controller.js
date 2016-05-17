@@ -88,6 +88,28 @@ exports.branch = function (req, res) {
     return res.status(200).json(branch);
   });
 };
+
+// Get a single branch
+exports.oneBranch = function(req, res) {
+  Branch.find({name: req.body.branch}, function (err, branch) {
+    if(err) { return handleError(res, err); }
+    if(!branch) { return res.send(404); }
+    return res.json(branch);
+  });
+};
+
+// update code in order column of Branch table
+exports.saveOrderBranch = function (req,res) {
+  Branch.findOne({ name: req.body.branch }, function (err, doc){
+    var str = req.body.registrationCode;
+    var arr = str.split('-');
+    var num =Number(arr[1]) + 1;
+    num = ("000" + num).slice (-4);
+    doc.order = ''+num;
+    doc.save();
+  });
+}
+
 // Get list of registrations
 exports.index = function(req, res) {
     var params = {};
@@ -192,6 +214,7 @@ exports.clone = function(req, res) {
       r.country = oldReg.country;
       r.international = oldReg.international;
       r.regCode = Registration.pRef();
+      r.registrationCode = oldReg.registrationCode;
 
       r.save(function(err) {
         if (err) { return handleError(res, err); }

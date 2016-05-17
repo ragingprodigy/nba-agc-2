@@ -25,6 +25,10 @@
                                 <td>{{selectedReg.PaymentRef}}</td>
                             </tr>
                             <tr>
+                                <th>Registration Code</th>
+                                <td>{{selectedReg.registrationCode}}</td>
+                            </tr>
+                            <tr>
                                 <th>Order ID</th>
                                 <td>{{selectedReg.regCode+'-'+selectedReg.conferenceFee}}</td>
                             </tr>
@@ -56,6 +60,10 @@
                     </div>
                     <div ng-show="selectedReg.bankpay">
                         <table class="table table-bordered table-striped table-condensed no-margin">
+                            <tr>
+                                <th>Registration Number</th>
+                                <td>{{selectedReg.registrationCode}}</td>
+                            </tr>
                             <tr>
                                 <th>Order ID</th>
                                 <td>{{selectedReg.regCode+'-'+selectedReg.conferenceFee}}</td>

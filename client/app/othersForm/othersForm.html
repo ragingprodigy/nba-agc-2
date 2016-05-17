@@ -63,10 +63,9 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="branch">NBA Branch </label>
-                                    <select class="form-control" name="branch" ng-model="data.branch" id="branch">
-                                        <option ng-repeat=" branch in branchData" value="{{branch.name}}">
-                                            {{branch.name}}
-                                        </option>
+                                    <select ng-options="branch as branch.name for branch in branchData | orderBy:'-name':'reverse'" class="form-control" ng-change="regCode()" ng-model="selectedItem" id="branch"
+                                            required>
+
                                     </select>
                                 </div>
                             </div>

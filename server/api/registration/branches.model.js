@@ -6,7 +6,9 @@ var mongoose = require('mongoose'),
 var BranchesSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: String,
-    state: String
+    state: String,
+    code: String,
+    order: String
 });
 
 module.exports = mongoose.model('Branch', BranchesSchema, 'branches');

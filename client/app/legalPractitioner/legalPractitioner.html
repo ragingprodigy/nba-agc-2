@@ -85,11 +85,9 @@
 
                         <div class="form-group">
                             <label for="branch">NBA Branch <span class="required">*</span></label>
-                            <select class="form-control" name="branch" ng-model="data.branch" id="branch"
+                            <select ng-options="branch as branch.name for branch in branchData | orderBy:'-name':'reverse'" class="form-control" ng-change="regCode()" ng-model="selectedItem" id="branch"
                                     required>
-                                <option ng-repeat=" branch in branchData | orderBy:'-name':'reverse'"
-                                        value="{{branch.name}}">{{branch.name}}
-                                </option>
+
                             </select>
                             <span class="help-block label label-danger"
                                   ng-show="dataForm.branch.$dirty && dataForm.branch.$error.required">Please enter your NBA Branch</span>

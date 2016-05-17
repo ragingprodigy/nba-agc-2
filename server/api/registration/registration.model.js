@@ -28,6 +28,7 @@ var RegistrationSchema = new Schema({
   division:  { type:String, default: "" },
   branch:  { type:String, default: "" },
   nbaId:  { type:String, default: "" },
+    registrationCode:  { type:String, default: "" },
   yearCalled: {
     type: String,
     default: 1960
@@ -169,7 +170,7 @@ RegistrationSchema.post('save', function(entry){
                         default:
                             feeDue = 37000;
                     }
-                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue/600}}, function (e) {
                         return;
                     });
                 }
@@ -203,7 +204,7 @@ RegistrationSchema.post('save', function(entry){
                     break;
             }
 
-            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue/600}}, function (e) {
                 return;
             });
         }

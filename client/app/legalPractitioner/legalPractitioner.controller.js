@@ -90,6 +90,14 @@ angular.module('nbaAgc2App')
         }
 
     };
+    
+    // gets the registration code from branch
+    $scope.regCode = function () {
+        $scope.data.registrationCode = $scope.selectedItem.code+'-'+$scope.selectedItem.order;
+        $scope.data.branch = $scope.selectedItem.name;
+    };
+
+    
     $scope.reviewForm = function (formName) {
         if (formName.$invalid) {
 
@@ -99,13 +107,18 @@ angular.module('nbaAgc2App')
 
         } else {
             var cnf = window.confirm('Are you sure you want to submit this form?');
+
             if (cnf) {
 
                 blocker.block();
-                
+
                 if ($auth.isAuthenticated()) { $scope.data.owner = $auth.getPayload().sub; $scope.data.isGroup = true; }
                 $scope.data.formFilled = true;
-
+                // builds registration code again before submitting
+                $http.post('api/registrations/onebranch',$scope.data).success(function (branch) {
+                    $scope.data.registrationCode = branch[0].code+'-'+branch[0].order;
+                });
+                $http.post('api/registrations/saveOrder',$scope.data);
                 var reg = new Registration($scope.data);
                 reg.$save().then(function (registrationData) {
 
@@ -119,9 +132,9 @@ angular.module('nbaAgc2App')
                         $state.go('invoice');
                     }
 
-                    blocker.clear();
-                });
 
+                });
+                blocker.clear();
                 // // Update the Registration Information
                 // Registration.update({id: $scope.data._id}, $scope.data, function(){
                 //     if ($rootScope.isAuthenticated() && $rootScope.isGroup()) { $sessionStorage.$reset(); $state.go('myRegistrations'); }
