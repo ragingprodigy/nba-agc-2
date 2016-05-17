@@ -64,7 +64,6 @@ angular.module('nbaAgc2App')
                 $scope.data.member = $scope.member._id;
                 $scope.data.nbaId = $scope.member.nbaId;
                 $scope.data.yearCalled = '' + $scope.member.yearCalled;
-                console.log($scope.data);
                 $('#myModal').modal('hide');
                 $('#ctb').prop('disabled', true);
             })
@@ -111,7 +110,7 @@ angular.module('nbaAgc2App')
             if (cnf) {
 
                 blocker.block();
-
+                console.log($scope.data);
                 if ($auth.isAuthenticated()) { $scope.data.owner = $auth.getPayload().sub; $scope.data.isGroup = true; }
                 $scope.data.formFilled = true;
                 // builds registration code again before submitting
