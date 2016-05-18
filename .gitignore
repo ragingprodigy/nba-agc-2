@@ -2,6 +2,7 @@
 logs
 *.log
 *.env.js
+.DS_STORE
 
 # Runtime data
 pids
