@@ -154,22 +154,29 @@ RegistrationSchema.post('save', function(entry){
                 if (member) {
                     var currentYear = new Date().getFullYear();
                     var atTheBar = currentYear - member.yearCalled;
-                    switch (atTheBar) {
-                        case atTheBar <= 5:
-                            feeDue = 5000;
-                            break;
-                        case  atTheBar <= 10:
-                            feeDue = 11000;
-                            break;
-                        case atTheBar <= 14:
-                            feeDue = 15000;
-                            break;
-                        case atTheBar <= 20:
-                            feeDue = 20500;
-                            break;
-                        default:
-                            feeDue = 37000;
+
+                    if (atTheBar <= 5)
+                    {
+                        feeDue = 5000;
                     }
+                    if (atTheBar <= 10)
+                    {
+                        feeDue = 11000;
+                    }
+                    if (atTheBar <= 14)
+                    {
+                        feeDue = 15000;
+                    }
+                    if (atTheBar <= 20)
+                    {
+                        feeDue = 20500;
+                    }
+                    if (atTheBar > 20)
+                    {
+                        feeDue=37000;
+                    }
+
+
                     Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue/600}}, function (e) {
                         return;
                     });
@@ -219,22 +226,28 @@ RegistrationSchema.post('save', function(entry){
                 if (member) {
                     var currentYear = new Date().getFullYear();
                     var atTheBar = currentYear - member.yearCalled;
-                    switch (atTheBar) {
-                        case atTheBar <= 5:
-                            feeDue = 9500;
-                            break;
-                        case  atTheBar <= 10:
-                            feeDue = 14500;
-                            break;
-                        case atTheBar <= 14:
-                            feeDue = 20500;
-                            break;
-                        case atTheBar <= 20:
-                            feeDue = 32000;
-                            break;
-                        default:
-                            feeDue = 55000;
+
+                    if (atTheBar <= 5)
+                    {
+                        feeDue = 9500;
                     }
+                    if (atTheBar <= 10)
+                    {
+                        feeDue = 14500;
+                    }
+                    if (atTheBar <= 14)
+                    {
+                        feeDue = 20500;
+                    }
+                    if (atTheBar <= 20)
+                    {
+                        feeDue = 32000;
+                    }
+                    if (atTheBar > 20)
+                    {
+                        feeDue=55000;
+                    }
+
                     Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
                         return;
                     });
