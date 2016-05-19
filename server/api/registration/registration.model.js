@@ -157,23 +157,23 @@ RegistrationSchema.post('save', function(entry){
 
                     if (atTheBar <= 5)
                     {
-                        feeDue = 5000;
+                        feeDue = 8000;
                     }
                     if (atTheBar <= 10)
                     {
-                        feeDue = 11000;
+                        feeDue = 15000;
                     }
                     if (atTheBar <= 14)
                     {
-                        feeDue = 15000;
+                        feeDue = 20000;
                     }
                     if (atTheBar <= 20)
                     {
-                        feeDue = 20500;
+                        feeDue = 30000;
                     }
                     if (atTheBar > 20)
                     {
-                        feeDue=37000;
+                        feeDue=50000;
                     }
 
 
@@ -186,25 +186,25 @@ RegistrationSchema.post('save', function(entry){
 
             switch (entry.registrationType) {
                 case 'sanAndBench':
-                    feeDue = 80000;
+                    feeDue = 100000;
                     break;
                 case 'judge':
-                    feeDue = 60000;
+                    feeDue = 75000;
                     break;
                 case 'law_students':
                     feeDue = 4500;
                     break;
                 case 'magistrate':
-                    feeDue = 40500;
+                    feeDue = 50000;
                     break;
                 case 'others':
-                    feeDue = 200000;
+                    feeDue = 250000;
                     break;
                 case 'non_lawyer':
-                    feeDue = 47500;
+                    feeDue = 50000;
                     break;
                 case 'international':
-                    feeDue = 550;
+                    feeDue = 500;
                     break;
                 case 'access_bank_test':
                     feeDue = 100;
@@ -229,23 +229,23 @@ RegistrationSchema.post('save', function(entry){
 
                     if (atTheBar <= 5)
                     {
-                        feeDue = 9500;
+                        feeDue = 10000;
                     }
                     if (atTheBar <= 10)
                     {
-                        feeDue = 14500;
+                        feeDue = 20000;
                     }
                     if (atTheBar <= 14)
                     {
-                        feeDue = 20500;
+                        feeDue = 30000;
                     }
                     if (atTheBar <= 20)
                     {
-                        feeDue = 32000;
+                        feeDue = 40000;
                     }
                     if (atTheBar > 20)
                     {
-                        feeDue=55000;
+                        feeDue=65000;
                     }
 
                     Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
@@ -257,7 +257,7 @@ RegistrationSchema.post('save', function(entry){
 
             switch (entry.registrationType) {
                 case 'sanAndBench':
-                    feeDue = 105000;
+                    feeDue = 120000;
                     break;
                 case 'judge':
                     feeDue = 75000;
@@ -266,16 +266,16 @@ RegistrationSchema.post('save', function(entry){
                     feeDue = 4500;
                     break;
                 case 'magistrate':
-                    feeDue = 52500;
+                    feeDue = 50000;
                     break;
                 case 'others':
-                    feeDue = 300000;
+                    feeDue = 250000;
                     break;
                 case 'non_lawyer':
-                    feeDue = 47500;
+                    feeDue = 60000;
                     break;
                 case 'international':
-                    feeDue = 550;
+                    feeDue = 750;
                     break;
                 case 'access_bank_test':
                     feeDue = 100;
