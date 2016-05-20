@@ -84,7 +84,10 @@ angular.module('nbaAgc2App')
         if ($scope.data.surname.length >= 3 && $scope.data.firstName.length >= 3) {
             blocker.block();
             $scope.doLookup();
-            $('#myModal').modal();
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
             blocker.clear();
         }
 
