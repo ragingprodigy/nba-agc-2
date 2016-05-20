@@ -6,7 +6,7 @@ var controller = require('./registration.controller');
 var sessionSec = require('../../components/tools/sessionSec');
 
 var router = express.Router();
-
+router.post('/otherCode', controller.otherCode);
 router.post('/onebranch', controller.oneBranch);
 router.post('/saveOrder', controller.saveOrderBranch);
 router.get('/branch', controller.branch);

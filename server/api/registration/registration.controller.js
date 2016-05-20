@@ -6,6 +6,7 @@ var Registration = require('./registration.model'),
     User = require('../user/user.model'),
     Invoice = require('../invoice/invoice.model'),
     Branch = require('./branches.model'),
+    OtherRegCode = require('./othersRegCode.model'),
     parseString = require('xml2js').parseString,
     moment = require('moment');
 
@@ -88,6 +89,18 @@ exports.branch = function (req, res) {
     return res.status(200).json(branch);
   });
 };
+//get vip and law student registration code
+exports.otherCode = function(req,res){
+  OtherRegCode.find({code:req.body.code},function(err, code){
+    if(err) {return handleError(res,err);}
+    if (!code) {return res.send(404);}
+    if(code){
+      var vipcode = code.code;
+      var order = code.order;
+      res.status(200).json(vipcode+'-'+order);
+    }
+  });
+};
 
 // Get a single branch
 exports.oneBranch = function(req, res) {
@@ -108,7 +121,7 @@ exports.saveOrderBranch = function (req,res) {
     doc.order = ''+num;
     doc.save();
   });
-}
+};
 
 // Get list of registrations
 exports.index = function(req, res) {
