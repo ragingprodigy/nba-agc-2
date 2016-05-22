@@ -6,7 +6,7 @@ var Registration = require('./registration.model'),
     User = require('../user/user.model'),
     Invoice = require('../invoice/invoice.model'),
     Branch = require('./branches.model'),
-    // OtherRegCode = require('./othersRegCode.model'),
+    OtherRegCode = require('./othersRegCode.model'),
     parseString = require('xml2js').parseString,
     moment = require('moment');
 
