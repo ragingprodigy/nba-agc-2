@@ -42,10 +42,12 @@ angular.module('nbaAgc2App')
                     blocker.block();
                     if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
                     $scope.data.formFilled = true;
+
                     $http.post('api/registrations/otherCode',{code:"EXT"}).then(function (code) {
                         $scope.data.registrationCode = code.data;
                         $http.post('api/registrations/saveVipCode',{code :code.data});
                     });
+
                     var reg = new Registration($scope.data);
                     reg.$save().then(function (registrationData) {
 

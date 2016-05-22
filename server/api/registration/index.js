@@ -6,10 +6,11 @@ var controller = require('./registration.controller');
 var sessionSec = require('../../components/tools/sessionSec');
 
 var router = express.Router();
-router.post('/saveVipCode', controller.saveVipCode);
+
 router.post('/otherCode', controller.otherCode);
 router.post('/onebranch', controller.oneBranch);
 router.post('/saveOrder', controller.saveOrderBranch);
+router.post('/saveVipCode', controller.saveVipCode);
 router.get('/branch', controller.branch);
 router.get('/me', sessionSec, controller.fetch);
 router.post('/postPay', controller.postPay);
