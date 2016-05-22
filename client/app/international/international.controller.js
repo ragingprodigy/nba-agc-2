@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('InternationalCtrl', function ($scope, Countries, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+  .controller('InternationalCtrl', function ($scope,$http, Countries, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
     $scope.countries = Countries;
 
         $anchorScroll();
@@ -29,32 +29,12 @@ angular.module('nbaAgc2App')
             $scope.data = {
                 registrationType: 'international',
                 international: true,
-                member: ''
+                member: '',
+                registrationCode:''
             };
         }
 
-      // $scope.startReg = function() {
-      //
-      //     var cnf = window.confirm('Is this information correct?');
-      //
-      //     if (cnf) {
-      //
-      //         blocker.block();
-      //
-      //         if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
-      //
-      //         var reg = new Registration($scope.data);
-      //         reg.$save().then(function(registrationData) {
-      //
-      //             $sessionStorage.lpRegistrant = registrationData;
-      //             $scope.data = registrationData;
-      //
-      //             $scope.nextForm = true;
-      //
-      //             blocker.clear();
-      //         });
-      //     }
-      // };
+
 
       $scope.reviewForm = function (form1) {
 
@@ -66,7 +46,10 @@ angular.module('nbaAgc2App')
                     blocker.block();
                     if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
                     $scope.data.formFilled = true;
-
+                    $http.post('api/registrations/otherCode',{code:"INT"}).then(function (code) {
+                        $scope.data.registrationCode = code.data;
+                        $http.post('api/registrations/saveVipCode',{code :code.data});
+                    });
                     var reg = new Registration($scope.data);
                     reg.$save().then(function (registrationData) {
 

@@ -107,7 +107,6 @@ angular.module('nbaAgc2App')
           }
 
         Registration.query(params, function(data) {
-            console.log(data);
 
             $scope.paidRegistrations = _.flatten(_.filter(data, function(r) { return r.statusConfirmed && r.paymentSuccessful; }));
           $scope.pendingRegistrations = _.flatten(_.filter(data, function(r) { return !r.responseGotten && (r.webpay || r.bankpay); }));

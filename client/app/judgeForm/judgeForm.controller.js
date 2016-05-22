@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('JudgeFormCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+  .controller('JudgeFormCtrl', function ($scope, $http, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
 
         $anchorScroll();
 
@@ -28,7 +28,8 @@ angular.module('nbaAgc2App')
             $scope.data = {
                 prefix: 'Hon. Justice',
                 registrationType: 'judge',
-                member: ''
+                member: '',
+                registrationCode : ''
             };
         }
 
@@ -76,6 +77,11 @@ angular.module('nbaAgc2App')
                     if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
 
                     $scope.data.formFilled = true;
+
+                    $http.post('api/registrations/otherCode',{code:"VIP"}).then(function (code) {
+                        $scope.data.registrationCode = code.data;
+                        $http.post('api/registrations/saveVipCode',{code :code.data});
+                    });
 
                     var reg = new Registration($scope.data);
                     reg.$save().then(function (registrationData) {

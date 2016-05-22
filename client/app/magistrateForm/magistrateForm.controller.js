@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('MagistrateFormCtrl', function ($scope, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+  .controller('MagistrateFormCtrl', function ($scope,$http, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
 
         $anchorScroll();
 
@@ -27,7 +27,8 @@ angular.module('nbaAgc2App')
             $sessionStorage.$reset();
             $scope.data = {
                 registrationType: 'magistrate',
-                member: ''
+                member: '',
+                registrationCode:''
             };
         }
 
@@ -72,22 +73,26 @@ angular.module('nbaAgc2App')
                     if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
 
                     $scope.data.formFilled = true;
-
-                    var reg = new Registration($scope.data);
-                    reg.$save().then(function (registrationData) {
-
-                        $sessionStorage.lpRegistrant = registrationData;
-                        $scope.data = registrationData;
-                        if ($rootScope.isAuthenticated() && $rootScope.isGroup()) {
-                            $sessionStorage.$reset();
-                            $state.go('myRegistrations');
-                        }
-                        else {
-                            $state.go('invoice');
-                        }
-
-                        blocker.clear();
+                    $http.post('api/registrations/otherCode',{code:"VIP"}).then(function (code) {
+                        $scope.data.registrationCode = code.data;
+                        $http.post('api/registrations/saveVipCode',{code :code.data});
                     });
+                    console.log($scope.data);
+                    var reg = new Registration($scope.data);
+                    // reg.$save().then(function (registrationData) {
+                    //
+                    //     $sessionStorage.lpRegistrant = registrationData;
+                    //     $scope.data = registrationData;
+                    //     if ($rootScope.isAuthenticated() && $rootScope.isGroup()) {
+                    //         $sessionStorage.$reset();
+                    //         $state.go('myRegistrations');
+                    //     }
+                    //     else {
+                    //         $state.go('invoice');
+                    //     }
+                    //
+                    //     blocker.clear();
+                    // });
                 }
             } else {
 

@@ -95,9 +95,9 @@ exports.otherCode = function(req,res){
     if(err) {return handleError(res,err);}
     if (!code) {return res.send(404);}
     if(code){
-      var vipcode = code.code;
-      var order = code.order;
-      res.status(200).json(vipcode+'-'+order);
+      var vipcode = code[0].code;
+      var order = code[0].order;
+      return res.status(200).json(vipcode+'-'+order);
     }
   });
 };
@@ -113,12 +113,23 @@ exports.oneBranch = function(req, res) {
 
 // update code in order column of Branch table
 exports.saveOrderBranch = function (req,res) {
-  Branch.findOne({ name: req.body.branch }, function (err, doc){
-    var str = req.body.registrationCode;
-    var arr = str.split('-');
-    var num =Number(arr[1]) + 1;
-    num = ("000" + num).slice (-4);
-    doc.order = ''+num;
+    Branch.findOne({name: req.body.branch}, function (err, doc) {
+      var str = req.body.registrationCode;
+      var arr = str.split('-');
+      var num = Number(arr[1]) + 1;
+      num = ("000" + num).slice(-4);
+      doc.order = '' + num;
+      doc.save();
+    });
+};
+
+exports.saveVipCode = function (req,res) {
+  var str = req.body.code;
+  var arr = str.split('-');
+  var num = Number(arr[1]) + 1;
+  num = ("000" + num).slice(-4);
+  OtherRegCode.findOne({code: ''+arr[0]}, function (err, doc) {
+    doc.order = '' + num;
     doc.save();
   });
 };
