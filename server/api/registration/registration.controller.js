@@ -107,6 +107,7 @@ exports.oneBranch = function(req, res) {
   Branch.find({name: req.body.branch}, function (err, branch) {
     if(err) { return handleError(res, err); }
     if(!branch) { return res.send(404); }
+    console.log();
     return res.json(branch);
   });
 };
