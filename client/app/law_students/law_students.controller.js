@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-    .controller('LawStudentsCtrl', function ($scope,$http, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
-
+    .controller('LawStudentsCtrl', function ($scope,FeeCalculator,$http, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+        $scope.conferenceFee = FeeCalculator.getFee('law_students');
         $anchorScroll();
 
         if ($rootScope.expired()) {

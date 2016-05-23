@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('MagistrateFormCtrl', function ($scope,$http, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
-
+  .controller('MagistrateFormCtrl', function ($scope,FeeCalculator,$http, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+      $scope.conferenceFee = FeeCalculator.getFee('magistrate');
         $anchorScroll();
 
         if ($rootScope.expired()) { $state.go('main'); }

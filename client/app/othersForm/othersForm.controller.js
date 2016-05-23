@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-    .controller('OthersFormCtrl', function ($scope, $state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+    .controller('OthersFormCtrl', function ($scope, FeeCalculator,$state, $http, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
         $http.get('api/registrations/branch').success(function (branch) {
             return $scope.branchData = branch;
         });
         $anchorScroll();
-
+        $scope.conferenceFee = FeeCalculator.getFee('others');
         if ($rootScope.expired()) { $state.go('main'); }
 
         // If any other type of Registration is on-going, re-direct to it

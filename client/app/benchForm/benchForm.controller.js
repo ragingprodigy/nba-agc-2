@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-    .controller('BenchFormCtrl', function ($scope, $state, $http, Registration, $sessionStorage, blocker, $anchorScroll, $rootScope) {
+    .controller('BenchFormCtrl', function ($scope,FeeCalculator, $state, $http, Registration, $sessionStorage, blocker, $anchorScroll, $rootScope) {
         $http.get('api/registrations/branch').success(function (branch) {
             return $scope.branchData = branch;
         });
         $anchorScroll();
+        
+        $scope.conferenceFee = FeeCalculator.getFee('sanAndBench');
 
         if ($rootScope.expired()) { $state.go('main'); }
 

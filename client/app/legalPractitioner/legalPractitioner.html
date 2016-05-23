@@ -86,7 +86,7 @@
                         <div class="form-group">
                             <label for="branch">NBA Branch <span class="required">*</span></label>
                             <select ng-options="branch as branch.name for branch in branchData | orderBy:'-name':'reverse'" class="form-control" ng-change="regCode()" ng-model="selectedItem" id="branch"
-                                    required>
+                                    ng-required="true">
 
                             </select>
                             <span class="help-block label label-danger"

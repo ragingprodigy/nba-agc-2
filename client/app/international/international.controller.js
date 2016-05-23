@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('nbaAgc2App')
-  .controller('InternationalCtrl', function ($scope, $http, Countries, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
+  .controller('InternationalCtrl', function ($scope,FeeCalculator, $http, Countries, $state, $sessionStorage, Registration, blocker, $anchorScroll, $rootScope) {
     $scope.countries = Countries;
+      $scope.conferenceFee = FeeCalculator.getFee('international');
 
         $anchorScroll();
 
