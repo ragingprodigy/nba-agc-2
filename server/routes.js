@@ -36,8 +36,18 @@ module.exports = function(app) {
   app.use('/api/registrations', require('./api/registration'));
   app.use('/api/members', require('./api/member'));
 
+    //routes for mobile app
+    app.use('/mobile/auth', require('./mobile/api/auth'));
+    app.use('/mobile/api/speakers', require('./mobile/api/speaker'));
+    app.use('/mobile/api/sessions', require('./mobile/api/session'));
+    app.use('/mobile/api/invoices', require('./mobile/api/invoice'));
+    app.use('/mobile/api/users', require('./mobile/api/user'));
+    app.use('/mobile/api/registrations', require('./mobile/api/registration'));
+    app.use('/mobile/api/members', require('./mobile/api/member'));
+
+
   // All undefined asset or api routes should return a 404
-  app.route('/:url(api|auth|components|app|bower_components|assets)/*').get(errors[404]);
+  app.route('/:url(api|mobile|mobile|auth|components|app|bower_components|assets)/*').get(errors[404]);
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

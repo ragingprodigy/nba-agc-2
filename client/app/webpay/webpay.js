@@ -14,7 +14,7 @@ angular.module('nbaAgc2App')
         controller: 'SuccessCtrl'
       })
       .state('payPending', {
-        url: '/pending/?OrderID&TransactionReference',
+        url: '/pending?OrderID&TransactionReference',
         templateUrl: 'app/webpay/cancelled.html',
         controller: 'CancelledCtrl',
         resolve: {

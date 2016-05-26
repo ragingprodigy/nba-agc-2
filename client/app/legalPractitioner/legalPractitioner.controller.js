@@ -75,7 +75,6 @@ angular.module('nbaAgc2App')
         $scope.data.member = $scope.member.data._id;
         $scope.data.nbaId = $scope.member.data.nbaId;
         $scope.data.yearCalled = '' + $scope.member.data.yearCalled;
-        console.log($scope.data);
         $('#myModal').modal('hide');
         $('#ctb').prop('disabled', true);
     };
