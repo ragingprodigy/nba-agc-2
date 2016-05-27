@@ -36,6 +36,9 @@ module.exports = function(app) {
   app.use('/api/registrations', require('./api/registration'));
   app.use('/api/members', require('./api/member'));
 
+    //conference fe api for mobile
+    app.use('/mobile/conferenceFee', require('./mobile/conferenceFee'));
+
     // //routes for mobile app
     // app.use('/mobile/auth', require('./mobile/api/auth'));
     // app.use('/mobile/api/speakers', require('./mobile/api/speaker'));

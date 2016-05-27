@@ -40,7 +40,7 @@ angular.module('nbaAgc2App')
                    }
                }
                if(todayDate >= dateNormal && todayDate < dateLate) {
-                   switch (entry.registrationType) {
+                   switch (name) {
                        case 'sanAndBench':
                            feeDue = 120000;
                            break;
