@@ -141,7 +141,7 @@ RegistrationSchema.post('save', function(entry){
     var todayDate = new Date();
     var dateEarly = new Date('2016', '04', '15');
     var dateNormal = new Date('2016', '06', '01');
-    var dateLate = new Date('2016', '06', '01');
+    var dateLate = new Date('2016', '06', '05');
 
     // Only Calculate the Conference Fee if the Registration is a new one
 
@@ -159,15 +159,15 @@ RegistrationSchema.post('save', function(entry){
                     {
                         feeDue = 8000;
                     }
-                    if (atTheBar <= 10)
+                    if (atTheBar <= 10 && atTheBar > 5)
                     {
                         feeDue = 15000;
                     }
-                    if (atTheBar <= 14)
+                    if (atTheBar <= 14 && atTheBar > 10)
                     {
                         feeDue = 20000;
                     }
-                    if (atTheBar <= 20)
+                    if (atTheBar <= 20 && atTheBar > 14)
                     {
                         feeDue = 30000;
                     }
@@ -177,7 +177,7 @@ RegistrationSchema.post('save', function(entry){
                     }
 
 
-                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue/600}}, function (e) {
+                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
                         return;
                     });
                 }
@@ -211,7 +211,7 @@ RegistrationSchema.post('save', function(entry){
                     break;
             }
 
-            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue/600}}, function (e) {
+            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
                 return;
             });
         }
@@ -231,15 +231,15 @@ RegistrationSchema.post('save', function(entry){
                     {
                         feeDue = 10000;
                     }
-                    if (atTheBar <= 10)
+                    if (atTheBar <= 10 && atTheBar > 5)
                     {
                         feeDue = 20000;
                     }
-                    if (atTheBar <= 14)
+                    if (atTheBar <= 14 && atTheBar > 10)
                     {
                         feeDue = 30000;
                     }
-                    if (atTheBar <= 20)
+                    if (atTheBar <= 20 && atTheBar > 14)
                     {
                         feeDue = 40000;
                     }
@@ -248,7 +248,7 @@ RegistrationSchema.post('save', function(entry){
                         feeDue=65000;
                     }
 
-                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
+                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
                         return;
                     });
                 }
@@ -282,7 +282,7 @@ RegistrationSchema.post('save', function(entry){
                     break;
             }
 
-            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue / 600}}, function (e) {
+            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
                 return;
             });
         }
