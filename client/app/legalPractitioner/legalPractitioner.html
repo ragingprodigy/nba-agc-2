@@ -254,17 +254,21 @@
                     </div>
                     <div ng-show="memberss.length===0" class="row">
                         <p class="text-center text-white help-block label-danger">
-                            <strong>Name Not found</strong>, Please check your Surname and FirstName, if it's correct.
-                            If this persist, it may be that your name does not exist in our database, Please Input you Details below, If you do not have yur SCN you can still proceed.
+                            <strong>Name Not found! </strong>Unfortunately, we can't seem
+                            to
+                            find your
+                            record on our
+                            database, in order to auto-fill your Enrollment Number.
+                            Please try to input your name correctly, Surname first, followed by FirstName. Otherwise, kindly fill the enrollment number column.
                         </p>
                         <form method="post" name="memberForm">
                             <div class="form-group col-md-5 col-md-offset-3">
                                 <label for="name">FullName <span class="required">*</span> </label>
                                 <input class="form-control" type="text" name="name" id="name"
-                                       ng-model="newuser.name" placeholder="Input Your Name as it Appears on your Call To Bar Name"
+                                       ng-model="newuser.name" placeholder="Name on Call To Bar Certificate."
                                        required>
                                 <span class="help-block label label-danger"
-                                      ng-show="memberForm.name.$dirty && memberForm.name.$error.required">Please Enter Your Full Call To Bar Name</span>
+                                      ng-show="memberForm.name.$dirty && memberForm.name.$error.required">Please Enter Your Full Name as it appeared on your Call To Bar Certificate.</span>
                             </div>
 
                             <div class="form-group col-md-5 col-md-offset-3">

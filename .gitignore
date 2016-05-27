@@ -30,6 +30,7 @@ node_modules
 client/bower_components
 .idea
 .tmp
+server/mobile
 
 # Dist Directory is versioned Separately
 dist
