@@ -46,7 +46,7 @@ module.exports = function(app) {
     // app.use('/mobile/api/invoices', require('./mobile/api/invoice'));
     // app.use('/mobile/api/users', require('./mobile/api/user'));
     // app.use('/mobile/api/registrations', require('./mobile/api/registration'));
-    // app.use('/mobile/api/members', require('./mobile/api/member'));
+     app.use('/mobile/api/members', require('./mobile/member'));
 
 
   // All undefined asset or api routes should return a 404
