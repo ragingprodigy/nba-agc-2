@@ -83,7 +83,7 @@ exports.sendReminderMail = function(email, session, attendanceId, next){
     var newMessage = message;
     newMessage.html = emailData;
     newMessage.subject = 'Your AGC 2016 Session Starts Soon!';
-    newMessage.to.push(email);
+    newMessage.to = [email];
 
     sendScheduledMessage(newMessage, moment(session.start_time).subtract(2,'h'), function(result) {
         // Save the ID on the
@@ -142,7 +142,7 @@ exports.sendWebPaySuccessMail = function(registration, next) {
     if (registration.firstName!==undefined) { newMessage.html = newMessage.html.replace('Registrant', registration.firstName); }
 
     newMessage.subject = 'Registration for NBA AGC Confirmed!';
-    newMessage.to.push(registration.email);
+    newMessage.to = [registration.email];
 
     sendMessage(newMessage, function(result){
 
@@ -164,7 +164,7 @@ exports.sendBankPaySuccessMail = function(registration, next) {
     if (registration.firstName!==undefined) { newMessage.html = newMessage.html.replace('Registrant', registration.firstName); }
 
     newMessage.subject = 'Registration for NBA AGC Confirmed!';
-    newMessage.to.push(registration.email);
+    newMessage.to =[registration.email];
 
     sendMessage(newMessage, function(result){
 
@@ -193,7 +193,7 @@ exports.sendGroupBankPaySuccessMail = function(invoice, next) {
     newMessage.html = emailData.replace('{{code}}', (invoice.code+'-'+invoice.invoiceAmount)).replace('{{fee}}', invoice.invoiceAmount).replace('{{amount}}', invoice.bankDeposit).replace('{{teller}}', invoice.bankTeller).replace('{{date}}', moment(invoice.bankDatePaid).format('ddd, Do MMM YYYY')).replace('{{delegates}}', delegates).replace('{{total}}', invoice.registrations.length);
 
     newMessage.subject = 'Group Registration for NBA AGC Confirmed!';
-    newMessage.to.push(invoice._group.email);
+    newMessage.to = [invoice._group.email];
 
     sendMessage(newMessage, function(result){
 
@@ -222,7 +222,7 @@ exports.sendGroupWebPaySuccessMail = function(invoice, next) {
     newMessage.html = emailData.replace('{{code}}', (invoice.code+'-'+invoice.invoiceAmount)).replace('{{fee}}', invoice.invoiceAmount).replace('{{amount}}', invoice.Amount).replace('{{ref}}', invoice.PaymentRef).replace('{{txnRef}}', invoice.TransactionRef).replace('{{delegates}}', delegates).replace('{{total}}', invoice.registrations.length);
 
     newMessage.subject = 'Group Registration for NBA AGC Confirmed!';
-    newMessage.to.push(invoice._group.email);
+    newMessage.to = [invoice._group.email];
 
     sendMessage(newMessage, function(result){
 
@@ -284,7 +284,7 @@ exports.sendBankRegistrationSuccessMail = function(registration, next) {
     if (registration.firstName!==undefined) { newMessage.html = newMessage.html.replace('Registrant', registration.firstName); }
 
     newMessage.subject = 'Registration for NBA AGC Confirmed!';
-    newMessage.to.push(registration.email);
+    newMessage.to = [registration.email];
 
     sendMessage(newMessage, function(result){
 
@@ -308,9 +308,7 @@ exports.sendReportEmail = function(theMessage, subject, callback) {
     var newMessage = message;
     newMessage.html = theMessage;
     newMessage.subject = subject;
-    newMessage.to.push('gbenga.tofade@lawpavilion.com');
-    newMessage.to.push('benedicta.moha@lawpavilion.com');
-    newMessage.to.push('ope.olugasa@gitlimited.com');
+    newMessage.setTos(['gbenga.tofade@lawpavilion.com','benedicta.moha@lawpavilion.com','ope.olugasa@gitlimited.com']);
 
 
     sendMessage(newMessage, function(){
@@ -330,7 +328,7 @@ exports.sendRecoveryEmail = function(user, next) {
 
     newMessage.html = emailData;
     newMessage.subject = 'Reset your NBA AGC Registration Portal Password';
-    newMessage.to.push(user.email);
+    newMessage.to = [user.email];
 
     sendMessage(newMessage, function(){
 
@@ -397,7 +395,7 @@ exports.sendWelcomeMail = function(registration, password, next) {
     if (registration.firstName!==undefined) { newMessage.html = newMessage.html.replace('Registrant', registration.firstName); }
 
     newMessage.subject = 'Your Login Details for NBA AGC Registration Portal';
-    newMessage.to.push(registration.email);
+    newMessage.to = [registration.email];
 
     sendMessage(newMessage, function(result){
 
@@ -433,7 +431,7 @@ exports.sendWelcomeMailWithUsername = function(registration, password, username,
     if (registration.firstName!==undefined) { newMessage.html = newMessage.html.replace('Registrant', registration.firstName); }
 
     newMessage.subject = 'Your Login Details for NBA AGC Registration Portal';
-    newMessage.to.push(registration.email);
+    newMessage.to = [registration.email];
 
     sendMessage(newMessage, function (err, json) {
         console.log(json);
@@ -469,7 +467,7 @@ exports.sendBankWelcomeMail = function(registration, password, next) {
     if (registration.firstName!==undefined) { newMessage.html = newMessage.html.replace('Registrant', registration.firstName); }
 
     newMessage.subject = 'NBA AGC 2016 Registration Received';
-    newMessage.to.push(registration.email);
+    newMessage.to = [registration.email];
 
     sendMessage(newMessage, function (err, json) {
 
