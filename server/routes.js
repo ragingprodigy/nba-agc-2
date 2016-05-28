@@ -36,17 +36,15 @@ module.exports = function(app) {
   app.use('/api/registrations', require('./api/registration'));
   app.use('/api/members', require('./api/member'));
 
-    //conference fe api for mobile
+    //api routes for mobile
     app.use('/mobile/conferenceFee', require('./mobile/conferenceFee'));
-
-    // //routes for mobile app
-    // app.use('/mobile/auth', require('./mobile/api/auth'));
-    // app.use('/mobile/api/speakers', require('./mobile/api/speaker'));
-    // app.use('/mobile/api/sessions', require('./mobile/api/session'));
-    // app.use('/mobile/api/invoices', require('./mobile/api/invoice'));
-    // app.use('/mobile/api/users', require('./mobile/api/user'));
-    // app.use('/mobile/api/registrations', require('./mobile/api/registration'));
-     app.use('/mobile/api/members', require('./mobile/member'));
+    app.use('/mobile/auth', require('./mobile/auth'));
+    app.use('/mobile/api/speakers', require('./mobile/speaker'));
+    app.use('/mobile/api/sessions', require('./mobile/session'));
+    app.use('/mobile/api/invoices', require('./mobile/invoice'));
+    app.use('/mobile/api/users', require('./mobile/user'));
+    app.use('/mobile/api/registrations', require('./mobile/registration'));
+    app.use('/mobile/api/members', require('./mobile/member'));
 
 
   // All undefined asset or api routes should return a 404
