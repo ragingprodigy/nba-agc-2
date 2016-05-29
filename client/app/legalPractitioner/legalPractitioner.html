@@ -30,8 +30,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="surname">Surname <span class="required">*</span></label>
-                                    <input ng-change="showmodal()" ng-model-options="{updateOn: 'blur'}"
-                                           class="form-control" type="text" name="surname" id="surname"
+                                    <input class="form-control" type="text" name="surname" id="surname"
                                            ng-model="data.surname"
                                            placeholder="Surname" required>
                                 </div>
@@ -47,8 +46,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="firstName">First Name <span class="required">*</span></label>
-                                    <input ng-change="showmodal()" ng-model-options="{updateOn: 'blur'}"
-                                           class="form-control" type="text" name="firstName" id="firstName"
+                                    <input class="form-control" type="text" name="firstName" id="firstName"
                                            ng-model="data.firstName"
                                            placeholder="First Name" required>
                                 </div>
@@ -63,17 +61,32 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="scnnumber">Enrollment Number <span class="required">*</span></label>
+                                    <input ng-focus="showmodal()" type="text" name="scnnumber" id="scnnumber" required
+                                           class="form-control"
+                                           ng-model="data.nbaId" placeholder="Enter your Enrollment Number">
+                                    <span class="help-block label label-danger"
+                                          ng-show="dataForm.scnnumber.$dirty && dataForm.scnnumber.$error.required">Please Enter Your Enrollment Number
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="ctb">Year of Call to Bar</label>
-                                    <select class="form-control" name="ctb" id="ctb" ng-model="data.yearCalled"
+                                    <select disabled class="form-control" name="ctb" id="ctb"
+                                             ng-model="data.yearCalled"
                                             required>
                                         <option ng-repeat=" y in membersYears"
                                                 value="{{y}}">{{y}}
                                         </option>
                                     </select>
                                 </div>
+
                             </div>
+
                             <!--<div class="col-md-5 col-md-offset-4">-->
                             <!--<div class="form-group">-->
                             <!--<label>Conference Fee</label>-->
@@ -85,47 +98,12 @@
 
                         <div class="form-group">
                             <label for="branch">NBA Branch <span class="required">*</span></label>
-                            <select ng-options="branch as branch.name for branch in branchData | orderBy:'-name':'reverse'" class="form-control" ng-change="regCode()" ng-model="selectedItem" id="branch"
+                            <select  ng-options="branch as branch.name for branch in branchData | orderBy:'-name':'reverse'" class="form-control" ng-change="regCode()" ng-model="selectedItem" id="branch"
                                     ng-required="true">
 
                             </select>
                             <span class="help-block label label-danger"
                                   ng-show="dataForm.branch.$dirty && dataForm.branch.$error.required">Please enter your NBA Branch</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="company">Firm / Company / Organization <span class="required">*</span> </label>
-                            <input class="form-control" type="text" name="company" id="company"
-                                   ng-model="data.company" placeholder="Firm / Company / Organization" required>
-                            <span class="help-block label label-danger"
-                                  ng-show="dataForm.company.$dirty && dataForm.company.$error.required">Please enter your Firm / Company / Organization</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="address">Address </label>
-                            <input type="text" class="form-control" name="address" id="address"
-                                   ng-model="data.address" placeholder="Address">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group btn-group">
-                                    <label>Location For Conference Material Pick Up
-                                        <span class="required">*</span>
-                                    </label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        <label class="btn btn-primary" ng-model="data.material" btn-radio="'branch'">My
-                                            NBA Branch</label>or
-                                        <label class="btn btn-success" ng-model="data.material" btn-radio="'onsite'">Fast
-                                            Track ( Individual )</label>
-                                            <span class="help-block label label-danger"
-                                                  ng-show="data.material.$dirty && (data.material.$error.required)">Please Select one Location
-                            </span>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -166,6 +144,55 @@
                                    ng-show="dataForm.email.$dirty && (dataForm.email.$error.required || dataForm.email.$error.email)">Please provide a valid email address
                             </span>
                         </div>
+
+                        <div class="form-group">
+                            <label for="company">Firm / Company / Organization <span class="required">*</span> </label>
+                            <input class="form-control" type="text" name="company" id="company"
+                                   ng-model="data.company" placeholder="Firm / Company / Organization" required>
+                            <span class="help-block label label-danger"
+                                  ng-show="dataForm.company.$dirty && dataForm.company.$error.required">Please enter your Firm / Company / Organization</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address </label>
+                            <input type="text" class="form-control" name="address" id="address"
+                                   ng-model="data.address" placeholder="Address">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+
+                                    <label style="padding:9px; margin-bottom: 0px" class="alert alert-success">Please
+                                        Select Your
+                                        Preferred Location For
+                                        Conference
+                                        Material Pick Up
+                                        <span class="required">*</span>
+                                    </label>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <input type="radio" id="pickup" name="pickup"
+                                               ng-model="data.material"
+                                               btn-radio="'branch'">
+                                        <label for="pickup">My NBA Branch</label>
+                                        </div>
+
+                                    </div>
+                                <div class="row">
+                                    <div class="col-md-9">
+
+                                        <input type="radio" id="pickup" name="pickup" class="" ng-model="data.material"
+                                               btn-radio="'onsite'">
+                                        <label for="pickup">Fast
+                                        Track ( Conference Venue )</label>
+                                            <span class="help-block label label-danger"
+                                                  ng-show="data.material.$dirty && (data.material.$error.required)">Please Select one Location
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
 
                         <!--<div class="row">
                             <div class="col-md-6">
@@ -226,7 +253,13 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Click on your name to Select your info</h4>
+                    <p ng-show="!memberss.length" style="font-size: 18px"
+                       class="text-center text-white help-block label-danger">
+                        <strong>Name Not found On Our Database!</strong>
+                    </p>
+                    <h4 ng-show="memberss.length>=1" class="modal-title">Please click on your name in the list below to select your Supreme Court
+                        Enrollment
+                        Number and Year Of Call</h4>
                 </div>
                 <div class="modal-body">
                     <div ng-show="memberss.length>=1" class="table-responsive">
@@ -253,19 +286,20 @@
                         </table>
                     </div>
                     <div ng-show="memberss.length===0" class="row">
-                        <p class="text-center text-white help-block label-danger">
-                            <strong>Name Not found! </strong>Unfortunately, we can't seem
+                        <p class="text-center alert" style="color:red">
+                            Unfortunately, we can't seem
                             to
                             find your
-                            record on our
-                            database, in order to auto-fill your Enrollment Number.
-                            Please try to input your name correctly, Surname first, followed by FirstName. Otherwise, kindly fill the enrollment number column.
+                            name on our
+                            database while attempting to auto-fill your Enrollment Number.
+                            Please fill the form below correctly.
                         </p>
                         <form method="post" name="memberForm">
                             <div class="form-group col-md-5 col-md-offset-3">
                                 <label for="name">FullName <span class="required">*</span> </label>
                                 <input class="form-control" type="text" name="name" id="name"
-                                       ng-model="newuser.name" placeholder="Name on Call To Bar Certificate."
+                                       ng-model="newuser.name"
+                                       placeholder="Name on Call To Bar Certificate. Surname first"
                                        required>
                                 <span class="help-block label label-danger"
                                       ng-show="memberForm.name.$dirty && memberForm.name.$error.required">Please Enter Your Full Name as it appeared on your Call To Bar Certificate.</span>
