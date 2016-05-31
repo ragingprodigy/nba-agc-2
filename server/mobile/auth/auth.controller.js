@@ -39,7 +39,7 @@ function createGroupAccount(req, res) {
         mailer.sendWelcomeMail(user, newPass, function(err){
 
             if (err !== null) { return handleError(res, err); }
-            return res.status(200).json({ message: 'Account created successfully!' });
+            return res.status(200).json({statusCode:200, message: 'Account created successfully!' });
     
         });
     });
@@ -244,14 +244,16 @@ exports.signUp = function(req, res) {
 exports.signIn = function(req, res) {
     User.findOne({ email: req.body.email }, '+password', function(err, user) {
         if (!user) {
-            return res.status(401).send({ message: 'Wrong email/username and/or password' });
+            return res.status(401).send({statusCode:401, message: 'Wrong email/username and/or password' });
         }
 
         user.validPassword(req.body.password, function(err, isMatch) {
             if (!isMatch) {
-                return res.status(401).send({ message: 'Wrong email/username and/or password' });
+                return res.status(401).send({statusCode :401, message: 'Wrong email/username and/or password' });
             }
-            res.send({ token: createJWT(user) });
+            Registration.findOne({email :req.body.email}).sort('-lastModified').exec(function (err,data) {
+                res.status(200).send({statusCode:200,message:'ok', token: createJWT(user), data:data});
+            });
         });
     });
 };
@@ -277,5 +279,13 @@ exports.view = function(req, res) {
 
 function handleError(res, err) {
     console.log('Auth Endpoint Error: ',err);
-  return res.send(500, err);
+  return res.status(500).send({statusCode:500,message: err});
 }
+
+
+exports.getSingle = function(req,res){
+
+    return Registration.findOne({email :req.body.email}).sort('-lastModified').exec(function (err,data) {
+        res.send(data);
+    });
+};

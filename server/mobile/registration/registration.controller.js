@@ -178,9 +178,16 @@ exports.create = function(req, res) {
   req.body.regCode = Registration.pRef(5);
 
     // Check the
-  Registration.create(req.body, function(err, registration) {
+  Registration.create(req.body).then(function(registration,err) {
     if(err) { return handleError(res, err); }
-    return res.status(201).json({statusCode:201,message:'ok',data : registration});
+    setTimeout(function () {
+      Registration.findById(registration._id, function (err, data) {
+        if (err) { return handleError(res, err); }
+        return res.status(201).json({statusCode:201,message:'ok',data : data});
+      });
+    },1500);
+    
+
   });
 };
 
