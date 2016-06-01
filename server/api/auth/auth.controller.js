@@ -35,6 +35,8 @@ function createGroupAccount(req, res) {
     user.accountType = 'group';
 
     user.save(function(err) {
+
+        if (err !== null) { return handleError(res, err); }
         // Send Email to the User Here
         mailer.sendWelcomeMail(user, newPass, function(err){
 

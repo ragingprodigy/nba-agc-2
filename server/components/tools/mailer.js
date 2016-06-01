@@ -407,7 +407,7 @@ exports.sendWelcomeMail = function(registration, password, next) {
         //     "id": result[0]._id
         // };
 
-        RegistrationMail.create(_rm, function(err, rm) {
+        RegistrationMail.create( function(err, rm) {
             if(err) { return next(err); }
 
             return next(null);
