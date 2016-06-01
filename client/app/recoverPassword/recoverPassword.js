@@ -5,7 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('recoverPassword', {
         url: '/myaccount/password_recovery',
-        templateUrl: 'app/recoverPassword/recoverPassword.html',
+          templateUrl: 'app/maintenance/maintenance.html',
+        //templateUrl: 'app/recoverPassword/recoverPassword.html',
         controller: 'RecoverPasswordCtrl'
       });
   });

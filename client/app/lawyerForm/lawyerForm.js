@@ -5,12 +5,14 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('lawyerForm', {
         url: '/LEGAL_PRACTITIONER',
-        templateUrl: 'app/lawyerForm/lawyerForm.html',
+          templateUrl: 'app/maintenance/maintenance.html',
+        //templateUrl: 'app/lawyerForm/lawyerForm.html',
         controller: 'LawyerFormCtrl'
       })
       .state('legalPractitionerUpdate', {
         url: '/LEGAL_PRACTITIONER/:registrationId',
-        templateUrl: 'app/lawyerForm/lawyerForm.html',
+          templateUrl: 'app/maintenance/maintenance.html',
+        //templateUrl: 'app/lawyerForm/lawyerForm.html',
         controller: 'FormEditorCtrl'
       });
   });

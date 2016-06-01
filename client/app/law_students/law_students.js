@@ -5,7 +5,8 @@ angular.module('nbaAgc2App')
         $stateProvider
             .state('law_students', {
                 url: '/LAW_SCHOOL_STUDENTS',
-                templateUrl: 'app/law_students/law_students.html',
+                templateUrl: 'app/maintenance/maintenance.html',
+                //templateUrl: 'app/law_students/law_students.html',
                 controller: 'LawStudentsCtrl'
             });
     });

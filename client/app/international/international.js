@@ -6,6 +6,7 @@ angular.module('nbaAgc2App')
       .state('international', {
         url: '/INTERNATIONAL_ATTENDEES',
         templateUrl: 'app/international/international.html',
+          //templateUrl: 'app/maintenance/maintenance.html',
         controller: 'InternationalCtrl'
       });
   });

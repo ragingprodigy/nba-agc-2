@@ -5,7 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('legalPractitioner', {
         url: '/registration/legalPractitioner',
-        templateUrl: 'app/legalPractitioner/legalPractitioner.html',
+          templateUrl: 'app/maintenance/maintenance.html',
+        //templateUrl: 'app/legalPractitioner/legalPractitioner.html',
         controller: 'LegalPractitionerCtrl'
       });
   });

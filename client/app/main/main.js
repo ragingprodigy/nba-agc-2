@@ -5,7 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('main', {
         url: '/',
-        templateUrl: 'app/main/main.html',
+          templateUrl: 'app/maintenance/maintenance.html',
+        //templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
       });
   });

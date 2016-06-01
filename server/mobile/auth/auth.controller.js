@@ -251,9 +251,19 @@ exports.signIn = function(req, res) {
             if (!isMatch) {
                 return res.status(401).send({statusCode :401, message: 'Wrong email/username and/or password' });
             }
-            Registration.findOne({email :req.body.email}).sort('-lastModified').exec(function (err,data) {
-                res.status(200).send({statusCode:200,message:'ok', token: createJWT(user), data:data});
-            });
+            if(user.accountType=='single')
+            {
+                Registration.findOne({email :req.body.email}).sort('-lastModified').exec(function (err,data) {
+                    res.status(200).send({statusCode:200,message:'ok',isGroup:false, token: createJWT(user), data:[data]});
+                });
+            }
+            else {
+                var groupId = user._id;
+                Registration.find({owner :groupId}).sort('lastModified').exec(function (err,data) {
+                    res.status(200).send({statusCode:200,message:'ok', isGroup:true, token: createJWT(user),groupId: groupId, data:data});
+                });
+            }
+
         });
     });
 };

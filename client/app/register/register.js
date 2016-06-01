@@ -5,7 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('register', {
         url: '/create_account',
-        templateUrl: 'app/register/register.html',
+          templateUrl: 'app/maintenance/maintenance.html',
+        //templateUrl: 'app/register/register.html',
         controller: 'RegisterCtrl'
       });
   });
