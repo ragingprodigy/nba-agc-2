@@ -136,19 +136,30 @@ exports.saveVipCode = function (req,res) {
 };
 
 // Get list of registrations
-exports.index = function(req, res) {
-    var params = {};
+// exports.index = function(req, res) {
+//     var params = {};
+//
+//     if (req.query.isGroup) {
+//         params = { owner: new ObjectId(req.user) };
+//     } else {
+//         params = { user: new ObjectId(req.user) };
+//     }
+//
+//   Registration.find(params, function (err, registrations) {
+//     if(err) { return handleError(res, err); }
+//
+//     return res.status(200).json(registrations);
+//   });
+// };
 
-    if (req.query.isGroup) {
-        params = { owner: new ObjectId(req.user) };
-    } else {
-        params = { user: new ObjectId(req.user) };
-    }
+exports.groupUsers = function(req, res) {
+  var params = { owner: new ObjectId(req.body.groupId) };
 
-  Registration.find(params, function (err, registrations) {
+  Registration.find(params, '_id conferenceFee paymentSuccessful nbaId firstName' +
+      ' middleName surname yearCalled',function (err, registrations) {
     if(err) { return handleError(res, err); }
 
-    return res.status(200).json(registrations);
+    return res.status(200).json({statusCode:200,message:'ok',data:registrations});
   });
 };
 
@@ -160,6 +171,7 @@ exports.attendees = function(req, res) {
         return res.status(200).json(registrations);
     });
 };
+
 
 // Get a single registration
 exports.show = function(req, res) {
@@ -178,13 +190,24 @@ exports.create = function(req, res) {
   req.body.regCode = Registration.pRef(5);
 
     // Check the
+
   Registration.create(req.body).then(function(registration,err) {
     if(err) { return handleError(res, err); }
     setTimeout(function () {
-      Registration.findById(registration._id, function (err, data) {
-        if (err) { return handleError(res, err); }
-        return res.status(201).json({statusCode:201,message:'ok',data : data});
-      });
+      if(!registration.isGroup)
+      {
+        Registration.findById(registration._id, function (err, data) {
+          if (err) { return handleError(res, err); }
+          return res.status(201).json({statusCode:201,message:'ok',data : data});
+        });
+      }
+      else {
+        Registration.find({owner : registration.owner},'_id conferenceFee paymentSuccessful nbaId firstName' +
+            ' middleName surname', function (err, data) {
+          if (err) { return handleError(res, err); }
+          return res.status(201).json({statusCode:201,message:'ok',data : data});
+        });
+      }
     },1500);
     
 
@@ -261,21 +284,18 @@ exports.clone = function(req, res) {
 // Deletes a registration from the DB.
 exports.destroy = function(req, res) {
 
-    if (moment().isAfter(process.env.CUTOFF)) { return res.status(400).json({message: 'Registration Has Closed'}); }
+    if (moment().isAfter(process.env.CUTOFF)) { return res.send({statusCode:400,message: 'Registration' +
+    ' Has' +
+    ' Closed'}); }
 
-  Registration.findById(req.params.id, function (err, registration) {
+  Registration.find({owner:req.body.groupId, _id:req.body._id, paymentSuccessful:false}, function (err, registration) {
     if(err) { return handleError(res, err); }
-    if(!registration) { return res.send(404); }
-      if (registration.completed && registration.statusConfirmed) { return res.status(400).json({message: 'Cannot delete this registration because it has been confirmed'}); }
+    if(!registration) { return res.send({statusCode:404,message: 'registration not found'}); }
+      if (registration.completed && registration.statusConfirmed) { return res.send({statusCode:400,message: 'Cannot delete this registration because it has been confirmed'}); }
 
-      if (req.user || (registration.webpay || registration.bankpay)) {
-        // Prevent logged in users from doing nefarious things like deleting other
-        // people's registrations
-        if ((registration.user !== req.user) && (registration.owner !== req.user)) { return res.status(400).json({message: 'You cannot delete this registration!'}); }
-      }
-      registration.remove(function(err) {
+      Registration.remove({_id:req.body._id},function(err) {
           if(err) { return handleError(res, err); }
-          return res.send(204);
+          return res.send({statusCode:204,message:'successfully deleted registration data'});
       });
   });
 };

@@ -7,6 +7,8 @@ var sessionSec = require('../../components/tools/sessionSec');
 
 var router = express.Router();
 
+router.post('/deleteGroupReg', controller.destroy);
+router.post('/groupDetails', controller.groupUsers);
 router.post('/otherCode', controller.otherCode);
 router.post('/onebranch', controller.oneBranch);
 router.post('/saveOrder', controller.saveOrderBranch);
@@ -16,7 +18,6 @@ router.get('/me', sessionSec, controller.fetch);
 router.post('/postPay', controller.postPay);
 router.post('/webPayStatus', sessionSec, controller.webPayStatus);
 
-router.get('/', sessionSec, controller.index);
 router.get('/attendees', controller.attendees);
 
 router.get('/:id', controller.show);
@@ -27,6 +28,6 @@ router.put('/:id', controller.update);
 router.post('/:id', sessionSec, controller.clone);
 
 router.patch('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+
 
 module.exports = router;

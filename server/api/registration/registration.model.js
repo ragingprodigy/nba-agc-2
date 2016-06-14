@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     Member = require('../member/member.model'),
+    Branch = require('./branches.model'),
+    OtherRegCode = require('./othersRegCode.model'),
     User = require('../user/user.model');
 
 var pRef = require('../../components/tools/pRef');
@@ -135,6 +137,78 @@ RegistrationSchema.post('save', function(entry){
         Registration.update({ _id: entry._id }, { $set: { paymentSuccessful: true } }, function(e){
            if (e) { console.log(e); }
          });
+
+        //Assign registrationCode for successful payment registration
+
+        if (!entry.registrationCode || entry.registrationCode=='')
+        {
+            if(entry.registrationType=='legalPractitioner') {
+                Branch.findOne({name: entry.branch}, function (err, branch) {
+                    if (err) {
+                        console.log('There was an error when retrieving Branch' +
+                            ' information' +
+                            '  to generate registration code for user');
+                        return;
+                    }
+                    if (!branch) {
+                        console.log('No branch found while trying to generate registration code for user');
+                        return
+                    }
+                    entry.registrationCode = branch.code + '-' + branch.order;
+                    var num = Number(branch.order) + 1;
+                    num = ("000" + num).slice(-4);
+                    branch.order = ''+num;
+                    branch.save();
+                });
+            }
+            else {
+                var code = '';
+                switch (entry.registrationType){
+                    case 'law_students':
+                        code = 'NLS';
+                        break;
+                    case 'international':
+                        code = 'INT';
+                        break;
+                    case 'judge':
+                        code = 'VIP';
+                        break;
+                    case 'magistrate':
+                        code = 'VIP';
+                        break;
+                    case 'non_lawyer':
+                        code = 'EXT';
+                        break;
+                    case 'sanAndBench':
+                        code = 'VIP';
+                        break;
+                    case 'others':
+                        code = 'VIP';
+                        break;
+                }
+                if(code!='')
+                {
+                    OtherRegCode.findOne({code:code},function(err, code){
+                        if(err) { console.log('Server Error could not retrieve Vip' +
+                            ' Code'); return;}
+                        if (!code) {console.log('No result returned from OtherCode,' +
+                            ' could not continue with generating code'); return;}
+                        if(code){
+                            var vipcode = code.code;
+                            var order = code.order;
+                            entry.registrationCode = vipcode+'-'+order;
+                            var num = Number(order) + 1;
+                            num = ("000" + num).slice(-4);
+                            code.order = ''+num;
+                            code.save();
+                        }
+                    });
+                }
+            }
+        }  //end assign registrationCode
+        Registration.update({ _id: entry._id }, { $set: { registrationCode: entry.registrationCode } }, function(e){
+            if (e) { console.log(e); }
+        });
     }
 
        var feeDue = 0;

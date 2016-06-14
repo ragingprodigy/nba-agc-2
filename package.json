@@ -34,6 +34,7 @@
     "mongoose": "3.8.40",
     "mongoose-findorcreate": "^0.1.2",
     "morgan": "~1.0.0",
+    "ng-annotate": "^1.0.0",
     "qr-image": "^3.1.0",
     "request": "2.72.0",
     "requirejs": "2.1.22",

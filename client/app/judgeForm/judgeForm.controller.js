@@ -78,11 +78,6 @@ angular.module('nbaAgc2App')
 
                     $scope.data.formFilled = true;
 
-                    $http.post('api/registrations/otherCode',{code:"VIP"}).then(function (code) {
-                        $scope.data.registrationCode = code.data;
-                        $http.post('api/registrations/saveVipCode',{code :code.data});
-                    });
-
                     var reg = new Registration($scope.data);
                     reg.$save().then(function (registrationData) {
 

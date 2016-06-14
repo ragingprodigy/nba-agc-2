@@ -9,7 +9,9 @@ var config = require('./config/environment');
 var parseString = require('xml2js').parseString;
 
 var Registration = require('./api/registration/registration.model');
+var Branch = require('./api/registration/branches.model');
 var Invoice = require('./api/invoice/invoice.model');
+var OtherRegCode = require('./api/registration/othersRegCode.model');
 var User = require('./api/user/user.model');
 var RegistrationController = require('./api/registration/registration.controller');
 
@@ -469,7 +471,6 @@ agenda.define('Create Accounts for Paid Invoices', function (job, done) {
 			                        theReg.bankDatePaid = invoice.bankDatePaid;
 			                        theReg.bankTeller = invoice.bankTeller;
 			                        theReg.bankBranch = invoice.bankBranch;
-
 			                        theReg.save(function ( err ) {
 
 			                            if (err) { job.fail(err); job.save(); done(); }
@@ -480,12 +481,12 @@ agenda.define('Create Accounts for Paid Invoices', function (job, done) {
 
 		                                    // Send the text message
 		                                    mailer.sendRegistrationTextWithUsername(theReg, newPass, username, function (err){
-		                                        
+
 		                                        if (err!==null) { job.fail(err); job.save(); done(); }
-		                                        
+
 		                                        done();
 		                                    });
-		                            
+
 		                                });
 
 			                        });
@@ -508,7 +509,7 @@ agenda.define('Create Accounts for Paid Invoices', function (job, done) {
 
 // TODO: Create Accounts for Direct Bank Registrations
 agenda.define('Create Accounts for Direct Bank Registrations', function (job, done) {
-	Registration.find({ bankpay: true, statusConfirmed: true, paymentSuccessful: true, responseGotten: true, isDirect: true, accountCreated: false }, function (err, toResolve){
+	Registration.find({bankpay: true, statusConfirmed: true, paymentSuccessful: true, responseGotten: true, isDirect: true, accountCreated: false }, function (err, toResolve){
 
 		if (err) { job.fail(err); job.save(); done(); }
 
@@ -540,7 +541,7 @@ agenda.define('Create Accounts for Direct Bank Registrations', function (job, do
 
 		                        theReg.user = user;
 		                        theReg.accountCreated = true;
-
+								
 		                        theReg.save(function ( err ) {
 
 		                            if (err) { job.fail(err); job.save(); done(); }
@@ -578,18 +579,26 @@ agenda.define('Create Accounts for Direct Bank Registrations', function (job, do
 
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
-agenda.every('04 7 * * *', [ 'Send Confirmed Web Registration Report', 'Send Unsuccessful Web Registration Payments Report' ]);
+agenda.every('04 7 * * *',  'Send Confirmed Web Registration Report' );
+agenda.every('07 7 * * *', 'Send Unsuccessful Web Registration Payments Report');
+agenda.every('0.21 hours', 'Delete Incomplete Invoices');
+agenda.every('0.23 hours', 'delete old registrations');
+agenda.every('2.65 hours', 'Create Accounts for Paid Invoices');
+agenda.every('2.70 hours', 'Create Accounts for Direct Bank Registrations');
+agenda.every('11 minutes', 'Update Web Transactions For Individuals');
+agenda.every('12 minutes', 'Update Web Transactions For Groups');
 
-agenda.every('0.21 hours', [ 'Delete Incomplete Invoices', 'delete old registrations' ]);
+agenda.every('13 minutes', 'Send Web Payment Success Email for Individuals');
 
-agenda.every('2.65 hours', [ 'Create Accounts for Paid Invoices', 'Create Accounts for Direct Bank Registrations' ]);
+agenda.every('15 minutes', 'Send Web Payment Success SMS for Individuals');
+agenda.every('14 minutes', 'Send Direct Registration Success SMS for Individuals');
+agenda.every('17 minutes', 'Send Direct Registration Success Email for Individuals');
+agenda.every('19 minutes', 'Send Bank Payment Success SMS for Individuals');
+agenda.every('21 minutes', 'Send Bank Payment Success Email for Individuals');
 
-agenda.every('11 minutes', [ 'Update Web Transactions For Individuals', 'Update Web Transactions For Groups' ]);
+agenda.every('5.02 hours', 'Send Bank Payment Success SMS for Groups');
+agenda.every('5.04 hours', 'Send Bank Payment Success Email for Groups');
+agenda.every('5.06 hours', 'Send Web Payment Success SMS for Groups');
+agenda.every('5.08 hours', 'Send Web Payment Success Email for Groups');
 
-agenda.every('13 minutes', [ 'Send Web Payment Success Email for Individuals', 'Send Web Payment Success SMS for Individuals', 'Send Direct Registration Success SMS for Individuals', 'Send Direct Registration Success Email for Individuals' ]);
-
-agenda.every('19 minutes', [ 'Send Bank Payment Success SMS for Individuals', 'Send Bank Payment Success Email for Individuals' ]);
-
-agenda.every('5.02 hours', [ 'Send Bank Payment Success SMS for Groups', 'Send Bank Payment Success Email for Groups', 'Send Web Payment Success SMS for Groups', 'Send Web Payment Success Email for Groups' ]);
-
-exports.start = function() { agenda.start(); }
+exports.start = function() { agenda.start(); };

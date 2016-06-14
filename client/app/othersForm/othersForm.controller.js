@@ -67,7 +67,6 @@ angular.module('nbaAgc2App')
 
         // gets the registration code from branch
         $scope.regCode = function () {
-            $scope.data.registrationCode = $scope.selectedItem.code+'-'+$scope.selectedItem.order;
             $scope.data.branch = $scope.selectedItem.name;
         };
 
@@ -82,13 +81,6 @@ angular.module('nbaAgc2App')
                     if ($rootScope.isAuthenticated()) { $scope.data.owner = $rootScope.$user.sub; $scope.data.isGroup = true; }
 
                     $scope.data.formFilled = true;
-                    // builds registration code again before submitting
-                    $http.post('api/registrations/onebranch',$scope.data).success(function (branch) {
-                        $scope.data.registrationCode = branch[0].code+'-'+branch[0].order;
-                    });
-                    $http.post('api/registrations/saveOrder',$scope.data);
-
-
                     var reg = new Registration($scope.data);
                     reg.$save().then(function (registrationData) {
 
