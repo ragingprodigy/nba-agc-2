@@ -11,7 +11,6 @@ exports.getFee = function (req,res) {
     var dateEarly = new Date('2016', '04', '15');// month lapses by 1
     var dateNormal = new Date('2016', '05', '16');// month lapses by 1
     var dateLate = new Date('2016', '06', '05');// month lapses by 1
-
     if(todayDate >= dateEarly && todayDate < dateNormal) {
         switch (name) {
             case '0':
@@ -92,7 +91,6 @@ exports.getFee = function (req,res) {
                 break;
         }
     }
-
     if(todayDate >= dateLate) {
         switch (name) {
             case '0':
@@ -142,15 +140,12 @@ exports.getFee = function (req,res) {
     }
     return res.status(200).send({statusCode:200,message:'ok',conferenceFee:feeDue})
 };
-
 Number.prototype.formatMoney = function(c, d, t){
     var n = this,
         s = n < 0 ? '-' : '';
-
     c = isNaN(c = Math.abs(c)) ? 2 : c;
     d = d === undefined ? '.' : d;
     t = t === undefined ? ',' : t;
-
     var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + '',
         j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
