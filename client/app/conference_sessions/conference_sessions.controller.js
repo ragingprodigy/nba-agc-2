@@ -39,7 +39,7 @@ angular.module('nbaAgc2App')
 
             $modal.open({
                 animation: $scope.animationsEnabled,
-              templateUrl: 'rappoteur.html',
+             //templateUrl: 'rappoteur.html',
                 controller: 'RappoteurCtrl',
                 size: 'lg',
                 resolve: {

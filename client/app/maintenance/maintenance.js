@@ -8,7 +8,7 @@ angular.module('nbaAgc2App')
         $stateProvider
             .state('maintenance', {
                 url: '/maintenance',
-              templateUrl: 'app/maintenance/maintenance.html',
+             //templateUrl: 'app/maintenance/maintenance.html',
                 controller: 'MaintenanceCtrl'
             });
     });

@@ -2,33 +2,38 @@
 
 <div class="container">
   <div class="row">
-      <div class="col-md-8 col-md-offset-4">
-
-          <div class="row mb-10" ng-if="!expired()">
-              <div class="col-md-7"
-                   ng-hide="isAuthenticated() && !isGroup()">
-            <a class="btn btn-primary btn-lg btn-block" ng-click="startReg()">
-                {{!noneInProgress()?'Start':'Resume'}} Individual Registration <i class="fa fa-play"></i>
-            </a>
-          </div>
-          </div>
-          <div class="row mb-10" ng-if="!expired()">
-              <div class="col-md-7" ng-show="!isAuthenticated() && !noneInProgress()">
-            <a class="btn btn-info btn-lg btn-block" ui-sref="register">
-                Group Registration <i class="fa fa-play"></i>
-            </a>
-          </div>
+      <div class="">
+        <div class="col-md-8 col-md-offset-4">
+            <div class="row mb-10" ng-if="!expired()">
+                <div class="col-md-7"
+                     ng-hide="isAuthenticated() && !isGroup()">
+                    <a class="btn btn-primary btn-outline btn-lg btn-block" ng-click="startReg()"> <i
+                            class="fa fa-user pull-left"></i>
+                        {{!noneInProgress()?'Start':'Resume'}} Individual Registration <i
+                                class="fa fa-play pull-right btn-outline"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row mb-10" ng-if="!expired()">
+                <div class="col-md-7" ng-show="!isAuthenticated() && !noneInProgress()">
+                    <a class="btn btn-danger btn-outline btn-lg btn-block" ui-sref="register"><i
+                            class="fa fa-users pull-left"></i>
+                        Group Registration <i class="fa fa-play pull-right"></i>
+                    </a>
+                </div>
+            </div>
         </div>
+
         <br>
 
-          <div class="col-md-7 alert alert-info" ng-hide="isAuthenticated()">
+          <div class="col-md-7 col-md-offset-3 alert alert-success" ng-hide="isAuthenticated()">
           <p class="text-center">If you've registered before but could not make payment, please <a ui-sref="login" class="btn btn-success">SIGN IN HERE</a>  using the login details sent to your email the last time you registered.</p>
         </div>
 
       <div class="row">
-          <div class="col-md-7" id="accordion">
+          <div class="col-md-7 col-md-offset-3" id="accordion">
               <div ng-include="'components/rightInfo/rightInfo.html'"></div>
-              <div class="panel panel-default">
+              <div class="panel panel-primary">
                   <div class="panel-heading">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" data-placement="top"
                          title="Click To View More Details">

@@ -9,7 +9,7 @@ exports.getFee = function (req,res) {
     var feeDue = 0;
     var todayDate = new Date();
     var dateEarly = new Date('2016', '04', '15');// month lapses by 1
-    var dateNormal = new Date('2016', '06', '01');// month lapses by 1
+    var dateNormal = new Date('2016', '05', '16');// month lapses by 1
     var dateLate = new Date('2016', '06', '05');// month lapses by 1
 
     if(todayDate >= dateEarly && todayDate < dateNormal) {

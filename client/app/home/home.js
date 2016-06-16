@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('home', {
         url: '/home',
-      templateUrl: 'app/home/home.html',
-       //.templateUrl: 'app/maintenance/maintenance.html',
+     //templateUrl: 'app/home/home.html',
+       templateUrl: 'app/maintenance/maintenance.html',
         controller: 'HomeCtrl'
       });
   });
