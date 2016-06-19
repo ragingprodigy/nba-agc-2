@@ -30,8 +30,7 @@ angular.module('nbaAgc2App')
             $scope.data = {
                 registrationType: 'international',
                 international: true,
-                member: '',
-                registrationCode:''
+                member: ''
             };
         }
 

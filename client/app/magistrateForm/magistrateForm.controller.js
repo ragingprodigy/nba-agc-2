@@ -27,8 +27,7 @@ angular.module('nbaAgc2App')
             $sessionStorage.$reset();
             $scope.data = {
                 registrationType: 'magistrate',
-                member: '',
-                registrationCode:''
+                member: ''
             };
         }
 

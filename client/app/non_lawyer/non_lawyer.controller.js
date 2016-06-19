@@ -27,8 +27,7 @@ angular.module('nbaAgc2App')
             $sessionStorage.$reset();
             $scope.data = {
                 registrationType: 'non_lawyer',
-                member: '',
-                registrationCode:''
+                member: ''
             };
         }
 

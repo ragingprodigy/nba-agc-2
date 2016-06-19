@@ -29,8 +29,7 @@ angular.module('nbaAgc2App')
             $sessionStorage.$reset();
             $scope.data = {
                 registrationType: 'law_students',
-                member: '',
-                registrationCode: ''
+                member: ''
             };
         }
 

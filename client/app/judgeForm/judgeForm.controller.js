@@ -28,8 +28,7 @@ angular.module('nbaAgc2App')
             $scope.data = {
                 prefix: 'Hon. Justice',
                 registrationType: 'judge',
-                member: '',
-                registrationCode : ''
+                member: ''
             };
         }
 

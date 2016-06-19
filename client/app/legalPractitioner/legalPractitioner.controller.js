@@ -34,7 +34,7 @@ angular.module('nbaAgc2App')
         Registration.get({id: $sessionStorage.lpRegistrant._id}, function(regData){
             $sessionStorage.lpRegistrant = regData;
             // Set Some data in the browser cookie and on the server
-            $state.go('lawyerForm');
+            $state.go('legalPractitioner');
         });
     }
 
@@ -161,7 +161,7 @@ angular.module('nbaAgc2App')
         //     $sessionStorage.lpRegistrant = registrationData;
 
             // Set Some data in the browser cookie and on the server
-            $state.go('lawyerForm');
+            $state.go('legalPractitioner');
         // });
     };
 });
