@@ -74,9 +74,6 @@ function start() {
 	var server = require('http').createServer(app);
 	require('./config/express')(app);
 	require('./routes')(app);
-	var favicon = require('serve-favicon');
-
-	app.use(favicon(__dirname + '/public/favicon.ico'));
 	//require('./backgroundTasks').start();
 
 	// Use the rollbar error handler to send exceptions to your rollbar account
