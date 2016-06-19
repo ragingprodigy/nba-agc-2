@@ -10,6 +10,7 @@ var errors = require('./components/errors'),
 var Agenda = require('agenda'),
     Bag = require('./api/bag/bag.model'),
     agendaUI = require('agenda-ui'),
+    favicon = require('serve-favicon'),
     config = require('./config/environment');
 
 var agenda = new Agenda({db: { address: config.mongo.uri }});
