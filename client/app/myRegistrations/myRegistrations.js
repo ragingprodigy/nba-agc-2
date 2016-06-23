@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('myRegistrations', {
         url: '/registrations',
-       templateUrl: 'app/maintenance/maintenance.html',
-     //templateUrl: 'app/myRegistrations/myRegistrations.html',
+      templateUrl: 'app/maintenance/maintenance.html',
+    //templateUrl: 'app/myRegistrations/myRegistrations.html',
         controller: 'MyRegistrationsCtrl'
       });
   });

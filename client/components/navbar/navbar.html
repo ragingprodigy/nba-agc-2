@@ -1,100 +1,56 @@
-<div class="navbar navbar-default navbar-static-top" ng-controller="NavbarCtrl">
-  <div class="container">
+
+<div ng-controller="NavbarCtrl">
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #34bf49;">
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-        <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed; changeClass()">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-        <a href="/" style="margin-bottom: 15px; font-size: medium" class="navbar-brand text-center"><img
-                ng-src="assets/images/logo.png"> <span ng-hide="confirmedUser"><strong>NBA AGC PORTAL</strong> -<small><Strong>PORT HARCOURT 2016</Strong></small></span>
-            <span ng-show="confirmedUser">myNBA</span></a>
-    </div>
-      <div collapse="isCollapsed" class="navbar-collapse collapse" ng-class="pull" id="navbar-main">
-          <strong>
-              <ul class="nav navbar-nav">
-            <!--<li ng-show="isAuthenticated()" ng-class="{active: isActive('/')}">
-                <a ui-sref="main">HOME</a>
-            </li>-->
-            <li ng-if="!expired()" ng-show="!isAuthenticated() && !noneInProgress()"
-                ng-class="{active: isActive('/register')}">
-                <a ui-sref="registerAs">START REGISTRATION</a>
-            </li>
-            <li class="dropdown" ng-show="isAuthenticated() && isGroup()" ng-class="{active: isActive('/register')||isActive('/registrations')||isActive('/my_invoices')}">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">REGISTRATIONS <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li ng-show="isAuthenticated()" ng-class="{active: isActive('/registrations')}">
-                    <a ui-sref="myRegistrations">MY REGISTRATIONS</a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
+            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+        </button>
+        <a class="navbar-brand" href="#"></i> NBA-AGC 2016</a>
+    </div><!-- navbar-header-->
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+        </ul>
+    </div><!-- bs-example-navbar-collapse-1 -->
+</nav>
+
+    <div id="wrapper" class="navbar collapsed">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="font-weight: bolder">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Start Bootstrap
+                    </a>
                 </li>
-                <li ng-show="isGroup()" ng-class="{active: isActive('/register')}">
-                    <a ui-sref="registerAs">START REGISTRATION</a>
+                <li>
+                    <a href="#">Dashboard</a>
                 </li>
-                <li ng-show="isGroup()" role="separator" class="divider"></li>
-                <li ng-show="isGroup()" ng-class="{active: isActive('/my_invoices')}">
-                    <a ui-sref="myInvoices">INVOICES</a>
+                <li>
+                    <a href="#">Shortcuts</a>
                 </li>
-              </ul>
-            </li>
-            <li ng-show="isAuthenticated() && !isGroup()" ng-class="{active: isActive('/registrations')}">
-                <a ui-sref="myRegistrations">MY DASHBOARD</a>
-            </li>
-            <li ng-show="isAuthenticated() && !isGroup()" ng-class="{active: isActive('/my_sessions')}">
-                <a ui-sref="my_sessions">MY SESSIONS</a>
-            </li>
-            <li ng-class="{active: isActive('/conference_sessions')}">
-                <a ui-sref="conference_sessions">PROGRAMME</a>
-            </li>
-            <li ng-class="{active: isActive('/conference_speakers')}">
-                <a ui-sref="conference_speakers">SPEAKERS</a>
-            </li>
-            <li ng-class="{active: isActive('/papers')}">
-                <a ui-sref="papers">PAPERS</a>
-            </li>
-            <!--<li ng-class="{active: isActive('/attendees')}">
-                <a ui-sref="attendees">ATTENDEES</a>
-            </li>-->
-            <li ng-show="isAuthenticated()"><a class="text-danger">{{cUser.firstName}} {{cUser.surname}}</a></li>
-            <li ng-show="!isAuthenticated() && !noneInProgress()" ng-class="{active: isActive('/myaccount')}">
-                <a ui-sref="login">SIGN IN</a>
-            </li>
-            <li ng-show="isAuthenticated()">
-                <button ng-click="logout()" class="btn btn-danger" id="logout">LOGOUT</button>
-            </li>
-            <li ng-show="noneInProgress() && !isAuthenticated()" class="topCancelBtn">
-                <button class="btn btn-danger" ng-click="doReset()">CANCEL REGISTRATION</button>
-            </li>
-            <li ng-show="channelChosen() && !isAuthenticated()" class="topCancelBtn">
-                <button class="btn btn-success" ng-click="completeReg()">FINISH REGISTRATION</button>
-            </li>
-              </ul>
-          </strong>
-    </div>
-  </div>
-</div>
-
-<!--new side nav bar-->
-
-
-
-
-
-
-<header class="hero-unit hidden-print">
-    <!--<img src="assets/images/nba-header.jpg" style="max-width: 100%;">-->
-</header>
-
-<div style="background: #47a447; margin-bottom: 10px;" class="hidden-print">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
-                <h4>
-                    <span class="label label-info pull-left acct-name" ng-show="isGroup()">{{$user.groupName}}</span>
-                    <span class="label label-info pull-left acct-name" ng-hide="isGroup() || !isAuthenticated()">{{cUser.firstName+' '+cUser.surname+' '+cUser.suffix}}</span>
-                    <span ng-show="!isGroup()" class="text-uppercase">Welcome to the Nigerian Bar Association Annual General Conference Portal</span>
-                    <span class="label label-success pull-right" ng-show="isGroup()" id="group-login-email">{{$user.email}}</span>
-                </h4>
-            </div>
+                <li>
+                    <a href="#">Overview</a>
+                </li>
+                <li>
+                    <a href="#">Events</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Services</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
         </div>
-    </div>
+        <!-- /#sidebar-wrapper -->
 </div>
+</div>
+<div id="page-content-wrapper">
+

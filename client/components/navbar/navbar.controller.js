@@ -7,6 +7,13 @@ angular.module('nbaAgc2App')
       'link': '/'
     }];
 
+
+      $("#menu-toggle").click(function(e) {
+          e.preventDefault();
+          $("#wrapper").toggleClass("toggled");
+      });
+
+      
     $scope.isCollapsed = true;
 
     $scope.isActive = function(route) {

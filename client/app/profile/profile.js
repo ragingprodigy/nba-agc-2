@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('profile', {
         url: '/profile',
-       templateUrl: 'app/maintenance/maintenance.html',
-      //templateUrl: 'app/profile/profile.html',
+      templateUrl: 'app/maintenance/maintenance.html',
+     //templateUrl: 'app/profile/profile.html',
         controller: 'ProfileCtrl',
         sp: {
             authenticate: true

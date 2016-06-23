@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('international', {
         url: '/INTERNATIONAL_ATTENDEES',
-     //templateUrl: 'app/international/international.html',
-       templateUrl: 'app/maintenance/maintenance.html',
+    //templateUrl: 'app/international/international.html',
+      templateUrl: 'app/maintenance/maintenance.html',
         controller: 'InternationalCtrl'
       });
   });

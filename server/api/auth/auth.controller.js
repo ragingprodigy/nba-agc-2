@@ -19,7 +19,7 @@ function createJWT(user) {
         bag: user.bag,
         groupName: user.groupName!==undefined?user.groupName:null,
         iat: moment().unix(),
-        exp: moment().add(14, 'days').unix()
+        exp: moment().add(2, 'hours').unix()
     };
     return jwt.encode(payload, process.env.SESSION_SECRET);
 }

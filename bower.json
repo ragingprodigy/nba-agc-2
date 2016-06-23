@@ -34,7 +34,8 @@
     "ng-device-detector": "~1.1.7",
     "underscore": "~1.8.3",
     "satellizer": "~0.11.2",
-    "font-awesome": "4.6.1"
+    "font-awesome": "4.6.1",
+    "jquery": "1.11.2"
   },
   "overrides": {
     "font-awesome": {

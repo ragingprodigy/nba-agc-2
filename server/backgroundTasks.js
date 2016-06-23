@@ -576,6 +576,74 @@ agenda.define('Create Accounts for Direct Bank Registrations', function (job, do
 	});
 });
 
+agenda.define('Create And Send Registration Code For Successfully Registered Member', function (job,done) {
+	Registration.find({ registrationCode: { "$exists": false },paymentSuccessful:true }, function (err,members) {
+		if (err) { job.fail(err); job.save(); done(); }
+		if(members.length){
+			_(members).forEach(function (member) {
+				if(member.registrationType=='legalPractitioner') {
+					Branch.findOne({name: member.branch}, function (err, branch) {
+						if (err) { job.fail(err); job.save(); done(); }
+						if (!branch) {
+							console.log('No branch found while trying to generate registration code for user');
+							if (err) { job.fail(err); job.save(); done(); }
+						}
+						member.registrationCode = branch.code + '-' + branch.order;
+						var num = Number(branch.order) + 1;
+						num = ("000" + num).slice(-4);
+						branch.order = ''+num;
+						branch.save();
+					});
+				}
+				else {
+					var code = '';
+					switch (member.registrationType){
+						case 'law_students':
+							code = 'NLS';
+							break;
+						case 'international':
+							code = 'INT';
+							break;
+						case 'judge':
+							code = 'VIP';
+							break;
+						case 'magistrate':
+							code = 'VIP';
+							break;
+						case 'non_lawyer':
+							code = 'EXT';
+							break;
+						case 'sanAndBench':
+							code = 'VIP';
+							break;
+						case 'others':
+							code = 'VIP';
+							break;
+					}
+					if(code!='')
+					{
+						OtherRegCode.findOne({code:code},function(err, code){
+							if (err) { job.fail(err); job.save(); done(); }
+							if(code){
+								var vipcode = code.code;
+								var order = code.order;
+								entry.registrationCode = vipcode+'-'+order;
+								var num = Number(order) + 1;
+								num = ("000" + num).slice(-4);
+								code.order = ''+num;
+								code.save();
+							}
+						});
+					}
+				}
+				member.save();
+			});
+			done();
+		} else {
+			done();
+		}
+	});
+});
 
 // Run at 6:59am every Day
 agenda.every('59 6 * * *', 'Send Web Registration Report');
@@ -589,7 +657,7 @@ agenda.every('11 minutes', 'Update Web Transactions For Individuals');
 agenda.every('12 minutes', 'Update Web Transactions For Groups');
 
 agenda.every('13 minutes', 'Send Web Payment Success Email for Individuals');
-
+agenda.every('1 minute',  'Create And Send Registration Code For Successfully Registered Member');
 agenda.every('15 minutes', 'Send Web Payment Success SMS for Individuals');
 agenda.every('14 minutes', 'Send Direct Registration Success SMS for Individuals');
 agenda.every('17 minutes', 'Send Direct Registration Success Email for Individuals');
