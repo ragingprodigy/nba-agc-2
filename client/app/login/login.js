@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('login', {
         url: '/myaccount',
-    //templateUrl: 'app/login/login.html',
-    templateUrl: 'app/maintenance/maintenance.html',
+    templateUrl: 'app/login/login.html',
+   //.templateUrl: 'app/maintenance/maintenance.html',
         controller: 'LoginCtrl'
       });
   });

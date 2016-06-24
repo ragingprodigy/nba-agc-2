@@ -47,7 +47,7 @@ angular.module('nbaAgc2App')
 
             var modalInstance = $modal.open({
                 animation: true,
-            //templateUrl: 'components/modal/modal.html',
+            templateUrl: 'components/modal/modal.html',
                 controller: 'ModalInstanceCtrl',
                 size: 'lg',
                 resolve: {

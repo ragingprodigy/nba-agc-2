@@ -5,37 +5,42 @@
         <div class="col-sm-12 col-md-8 col-md-offset-2">
 
             <panel-header title="PLEASE SELECT YOUR CATEGORY" class="success" ng-if="!expired()"></panel-header>
-            <div class="panel panel-default">
+            <div class="panel panel-success">
 
                 <div class="panel-body">
                     <ul class="group-list" ng-if="!expired()">
                         <li>
-                            <a class="btn btn-success btn-sm" ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
+                            <a class="btn btn-success btn-sm" style="white-space: normal;" ui-sref="legalPractitioner">LEGAL PRACTITIONERS</a>
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-sm" ui-sref="sanAndBench">SANs, HONOURABLE AGS &amp;
+                            <a class="btn btn-primary btn-sm" style="white-space: normal;" ui-sref="sanAndBench">SANs, HONOURABLE AGS &amp;
                                 BENCHERS</a>
                         </li>
                         <li>
-                            <a class="btn btn-info btn-sm" ui-sref="law_students">LAW SCHOOL STUDENTS</a>
+                            <a class="btn btn-info btn-sm"  style="white-space: normal;" ui-sref="law_students">LAW
+                                SCHOOL STUDENTS</a>
                         </li>
                         <li>
-                            <a class="btn btn-warning btn-sm" ui-sref="magistrate">MAGISTRATES &amp; OTHER JUDICIAL
+                            <a class="btn btn-warning btn-sm" style="white-space: normal;" ui-sref="magistrate">MAGISTRATES &amp;
+                                OTHER JUDICIAL
                                 OFFICERS</a>
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-sm" ui-sref="judge">HONOURABLE JUSTICES, JUDGES, GRAND KHADIS
+                            <a class="btn btn-primary btn-sm" style="white-space: normal;" ui-sref="judge">HONOURABLE JUSTICES,
+                                JUDGES, GRAND KHADIS
                                 &amp; KHADIS</a>
                         </li>
                         <li>
-                            <a class="btn btn-danger btn-sm" ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL
+                            <a class="btn btn-danger btn-sm" style="white-space: normal;" ui-sref="others">GOVERNORS, LEGISLATORS &amp; POLITICAL
                                 APPOINTEES</a>
                         </li>
                         <li>
-                            <a class="btn btn-warning btn-sm" ui-sref="non_lawyer">NON-LAWYERS</a>
+                            <a class="btn btn-warning btn-sm" style="white-space: normal;" ui-sref="non_lawyer">NON-LAWYERS</a>
                         </li>
                         <li ng-hide="isGroup()">
-                            <a class="btn btn-success btn-sm" ui-sref="international">INTERNATIONAL ATTENDEES</a>
+                            <a class="btn btn-success btn-sm" style="white-space: normal; word-wrap: break-word"
+                               ui-sref="international">INTERNATIONAL
+                                ATTENDEES</a>
                         </li>
                     </ul>
                     <div class="alert alert-danger text-center text-uppercase" ng-if="expired()">

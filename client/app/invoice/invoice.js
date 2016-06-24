@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('invoice', {
         url: '/invoice',
-    //templateUrl: 'app/invoice/invoice.html',
-      templateUrl: 'app/maintenance/maintenance.html',
+    templateUrl: 'app/invoice/invoice.html',
+     //.templateUrl: 'app/maintenance/maintenance.html',
         controller: 'InvoiceCtrl'
       });
   });

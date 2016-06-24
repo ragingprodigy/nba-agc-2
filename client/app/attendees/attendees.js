@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('attendees', {
         url: '/attendees',
-    //templateUrl: 'app/attendees/attendees.html',
-      templateUrl: 'app/maintenance/maintenance.html',
+    templateUrl: 'app/attendees/attendees.html',
+     //.templateUrl: 'app/maintenance/maintenance.html',
         controller: 'AttendeesCtrl'
       });
   });

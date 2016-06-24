@@ -5,7 +5,7 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('papers', {
         url: '/papers',
-    //templateUrl: 'app/papers/papers.html',
+    templateUrl: 'app/papers/papers.html',
         controller: 'PapersCtrl'
       });
   });

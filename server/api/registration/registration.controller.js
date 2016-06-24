@@ -8,7 +8,8 @@ var Registration = require('./registration.model'),
     Branch = require('./branches.model'),
     OtherRegCode = require('./othersRegCode.model'),
     parseString = require('xml2js').parseString,
-    moment = require('moment');
+    moment = require('moment'),
+    async = require('async');
 
 var ObjectId = require('mongoose').Types.ObjectId; 
 
@@ -20,6 +21,108 @@ function postPay (orderID, amount, callback) {
 
   });
 }
+
+exports.genCode = function (req,res) {
+  Registration.find({ registrationCode: { "$exists": false },paymentSuccessful:true }, function (err,members) {
+    if (members.length)
+    {
+        async.forEachSeries(members, function (member,callback) {
+          if(member.registrationType =='legalPractitioner')
+          {
+            async.series([
+                function (callback) {
+                  Branch.findOne({name: member.branch}, function (err, branch) {
+                    if(err){return callback(err);}
+                    member.registrationCode = branch.code + '-' + branch.order;
+                    console.log('member code generated ' + member.registrationCode);
+                    var num = Number(branch.order) + 1;
+                    num = ("000" + num).slice(-4);
+                    branch.order = ''+num;
+                    branch.save();
+                    callback();
+                  });
+                },
+                function (callback) {
+                  Registration.update({ _id: member._id }, { $set: { registrationCode: member.registrationCode } }, function(e){
+                    if (e) { console.log(e); }
+                    callback();
+                  });
+                }
+
+            ],function (err) {
+              if (err) return next(err);
+              console.log('registrationCode generated'+ member.registrationCode);
+              callback();
+            });
+            
+          }
+          else {
+              var code = '';
+              switch (member.registrationType){
+                case 'law_students':
+                  code = 'NLS';
+                  break;
+                case 'international':
+                  code = 'INT';
+                  break;
+                case 'judge':
+                  code = 'VIP';
+                  break;
+                case 'magistrate':
+                  code = 'VIP';
+                  break;
+                case 'non_lawyer':
+                  code = 'EXT';
+                  break;
+                case 'sanAndBench':
+                  code = 'VIP';
+                  break;
+                case 'others':
+                  code = 'VIP';
+                  break;
+              }
+              if(code!='')
+              {
+                async.series([
+                    function(callback){
+                      OtherRegCode.findOne({code:code},function(err, code){
+
+                        if(code){
+                          var vipcode = code.code;
+                          var order = code.order;
+                          member.registrationCode = vipcode+'-'+order;
+                          var num = Number(order) + 1;
+                          num = ("000" + num).slice(-4);
+                          code.order = ''+num;
+                          code.save();
+                          callback();
+                        }
+                      });
+                    },
+                    function (callback) {
+                      Registration.update({ _id: member._id }, { $set: { registrationCode: member.registrationCode } }, function(e){
+                        if (e) { console.log(e); }
+                        callback();
+                      });
+                    }
+                ],function (err) {
+                if (err) return next(err);
+                console.log('registrationCode generated'+ member.registrationCode);
+                callback();
+              });
+
+              }
+            }
+        },function(err){
+          if (err) return next(err);
+          res.json({
+            success: true,
+            message: members.length+' registrationCode was generated.'
+          });
+        })
+    }
+  });
+};
 
 exports.querySwitch = function(a, b, c){
   return postPay(a, b, c);

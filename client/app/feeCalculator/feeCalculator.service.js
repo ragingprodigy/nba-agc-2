@@ -7,9 +7,9 @@ angular.module('nbaAgc2App')
            getFee: function (name) {
                var feeDue = 0;
                var todayDate = new Date();
-               var dateEarly = new Date('2016', '04', '15');// month lapses by 1
-               var dateNormal = new Date('2016', '05', '16');// month lapses by 1
-               var dateLate = new Date('2016', '07', '06');// month lapses by 1
+               var dateEarly = new Date('2016', '05', '20');// month lapses by 1
+               var dateNormal = new Date('2016', '06', '20');// month lapses by 1
+               var dateLate = new Date('2016', '07', '09');// month lapses by 1
 
                if(todayDate >= dateEarly && todayDate < dateNormal) {
                    switch (name) {
@@ -57,7 +57,7 @@ angular.module('nbaAgc2App')
                            feeDue = 250000;
                            break;
                        case 'non_lawyer':
-                           feeDue = 60000;
+                           feeDue = 50000;
                            break;
                        case 'international':
                            feeDue = 750;

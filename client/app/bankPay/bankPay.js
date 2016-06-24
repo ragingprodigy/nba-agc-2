@@ -5,8 +5,8 @@ angular.module('nbaAgc2App')
     $stateProvider
       .state('bankPay', {
         url: '/invoice/bankPay',
-    //templateUrl: 'app/bankPay/bankPay.html',
-      templateUrl: 'app/maintenance/maintenance.html',
+    templateUrl: 'app/bankPay/bankPay.html',
+     //.templateUrl: 'app/maintenance/maintenance.html',
         controller: 'BankPayCtrl'
       });
   });

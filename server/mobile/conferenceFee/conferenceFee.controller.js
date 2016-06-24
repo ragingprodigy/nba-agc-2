@@ -8,9 +8,9 @@ exports.getFee = function (req,res) {
     var name = req.body.category;
     var feeDue = 0;
     var todayDate = new Date();
-    var dateEarly = new Date('2016', '04', '15');// month lapses by 1
-    var dateNormal = new Date('2016', '05', '16');// month lapses by 1
-    var dateLate = new Date('2016', '06', '05');// month lapses by 1
+    var dateEarly = new Date('2016', '05', '20');// month lapses by 1
+    var dateNormal = new Date('2016', '06', '20');// month lapses by 1
+    var dateLate = new Date('2016', '07', '09');// month lapses by 1
     if(todayDate >= dateEarly && todayDate < dateNormal) {
         switch (name) {
             case '0':
@@ -84,7 +84,7 @@ exports.getFee = function (req,res) {
                 feeDue = 250000;
                 break;
             case '9':
-                feeDue = 60000;
+                feeDue = 50000;
                 break;
             case '11':
                 feeDue = 750;
@@ -124,7 +124,7 @@ exports.getFee = function (req,res) {
                 feeDue = 250000;
                 break;
             case '9':
-                feeDue = 100000;
+                feeDue = 50000;
                 break;
             case '11':
                 feeDue = 1000;

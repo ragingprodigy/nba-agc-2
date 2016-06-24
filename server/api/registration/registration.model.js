@@ -13,6 +13,7 @@ var RegistrationSchema = new Schema({
   member: { type:String, default: 0 },
   user : { type: Schema.Types.ObjectId, ref: 'User' },
   owner : { type: Schema.Types.ObjectId, ref: 'User' },
+    _branch : { type: Schema.Types.ObjectId, ref: 'Branch' },
     sponsor : { type: Schema.Types.ObjectId, ref: 'Sponsor' },
   prefix: { type:String, default: "" },
   firstName:  { type:String, default: "" },
@@ -138,229 +139,162 @@ RegistrationSchema.post('save', function(entry){
            if (e) { console.log(e); }
          });
 
-        //Assign registrationCode for successful payment registration
+    }
 
-        if (!entry.registrationCode || entry.registrationCode=='')
-        {
-            if(entry.registrationType=='legalPractitioner') {
-                Branch.findOne({name: entry.branch}, function (err, branch) {
-                    if (err) {
-                        console.log('There was an error when retrieving Branch' +
-                            ' information' +
-                            '  to generate registration code for user');
-                        return;
+    if(Registration.conferenceFee == 0 )
+    {
+        var feeDue = 0;
+        var todayDate = new Date();
+        var dateEarly = new Date('2016', '05', '20');
+        var dateNormal = new Date('2016', '06', '20');
+        var dateLate = new Date('2016', '07', '09');
+
+        // Only Calculate the Conference Fee if the Registration is a new one
+
+        //calculates when the conference fee is in early bird stage
+        if(todayDate >= dateEarly && todayDate < dateNormal) {
+            if (entry.registrationType === 'legalPractitioner') {
+                // Calculate the cost and save
+                Registration.findById(entry._id, function (err, member) {
+                    if (!!err) return;
+                    if (member) {
+                        var currentYear = new Date().getFullYear();
+                        var atTheBar = currentYear - member.yearCalled;
+
+                        if (atTheBar <= 5)
+                        {
+                            feeDue = 8000;
+                        }
+                        if (atTheBar <= 10 && atTheBar > 5)
+                        {
+                            feeDue = 15000;
+                        }
+                        if (atTheBar <= 14 && atTheBar > 10)
+                        {
+                            feeDue = 20000;
+                        }
+                        if (atTheBar <= 20 && atTheBar > 14)
+                        {
+                            feeDue = 30000;
+                        }
+                        if (atTheBar > 20)
+                        {
+                            feeDue=50000;
+                        }
+
+
+                        Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                            return;
+                        });
                     }
-                    if (!branch) {
-                        console.log('No branch found while trying to generate registration code for user');
-                        return
-                    }
-                    entry.registrationCode = branch.code + '-' + branch.order;
-                    var num = Number(branch.order) + 1;
-                    num = ("000" + num).slice(-4);
-                    branch.order = ''+num;
-                    branch.save();
                 });
-            }
-            else {
-                var code = '';
-                switch (entry.registrationType){
-                    case 'law_students':
-                        code = 'NLS';
-                        break;
-                    case 'international':
-                        code = 'INT';
+            } else {
+
+                switch (entry.registrationType) {
+                    case 'sanAndBench':
+                        feeDue = 100000;
                         break;
                     case 'judge':
-                        code = 'VIP';
+                        feeDue = 75000;
+                        break;
+                    case 'law_students':
+                        feeDue = 4500;
                         break;
                     case 'magistrate':
-                        code = 'VIP';
-                        break;
-                    case 'non_lawyer':
-                        code = 'EXT';
-                        break;
-                    case 'sanAndBench':
-                        code = 'VIP';
+                        feeDue = 50000;
                         break;
                     case 'others':
-                        code = 'VIP';
+                        feeDue = 250000;
+                        break;
+                    case 'non_lawyer':
+                        feeDue = 50000;
+                        break;
+                    case 'international':
+                        feeDue = 500;
+                        break;
+                    case 'access_bank_test':
+                        feeDue = 100;
                         break;
                 }
-                if(code!='')
-                {
-                    OtherRegCode.findOne({code:code},function(err, code){
-                        if(err) { console.log('Server Error could not retrieve Vip' +
-                            ' Code'); return;}
-                        if (!code) {console.log('No result returned from OtherCode,' +
-                            ' could not continue with generating code'); return;}
-                        if(code){
-                            var vipcode = code.code;
-                            var order = code.order;
-                            entry.registrationCode = vipcode+'-'+order;
-                            var num = Number(order) + 1;
-                            num = ("000" + num).slice(-4);
-                            code.order = ''+num;
-                            code.save();
+
+                Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                    return;
+                });
+            }
+        }
+
+        //calculate normal registration fee
+        if(todayDate >= dateNormal && todayDate < dateLate) {
+            if (entry.registrationType === 'legalPractitioner') {
+                // Calculate the cost and save
+                Registration.findById(entry._id, function (err, member) {
+                    if (!!err) return;
+                    if (member) {
+                        var currentYear = new Date().getFullYear();
+                        var atTheBar = currentYear - member.yearCalled;
+
+                        if (atTheBar <= 5)
+                        {
+                            feeDue = 10000;
                         }
-                    });
+                        if (atTheBar <= 10 && atTheBar > 5)
+                        {
+                            feeDue = 20000;
+                        }
+                        if (atTheBar <= 14 && atTheBar > 10)
+                        {
+                            feeDue = 30000;
+                        }
+                        if (atTheBar <= 20 && atTheBar > 14)
+                        {
+                            feeDue = 40000;
+                        }
+                        if (atTheBar > 20)
+                        {
+                            feeDue=65000;
+                        }
+
+                        Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                            return;
+                        });
+                    }
+                });
+            } else {
+
+                switch (entry.registrationType) {
+                    case 'sanAndBench':
+                        feeDue = 120000;
+                        break;
+                    case 'judge':
+                        feeDue = 75000;
+                        break;
+                    case 'law_students':
+                        feeDue = 4500;
+                        break;
+                    case 'magistrate':
+                        feeDue = 50000;
+                        break;
+                    case 'others':
+                        feeDue = 250000;
+                        break;
+                    case 'non_lawyer':
+                        feeDue = 50000;
+                        break;
+                    case 'international':
+                        feeDue = 750;
+                        break;
+                    case 'access_bank_test':
+                        feeDue = 100;
+                        break;
                 }
+
+                Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
+                    return;
+                });
             }
-        }  //end assign registrationCode
-        Registration.update({ _id: entry._id }, { $set: { registrationCode: entry.registrationCode } }, function(e){
-            if (e) { console.log(e); }
-        });
-    }
-
-    var feeDue = 0;
-    var todayDate = new Date();
-    var dateEarly = new Date('2016', '04', '15');
-    var dateNormal = new Date('2016', '05', '16');
-    var dateLate = new Date('2016', '06', '05');
-
-    // Only Calculate the Conference Fee if the Registration is a new one
-
-    //calculates when the conference fee is in early bird stage
-    if(todayDate >= dateEarly && todayDate < dateNormal) {
-        if (entry.registrationType === 'legalPractitioner') {
-            // Calculate the cost and save
-            Registration.findById(entry._id, function (err, member) {
-                if (!!err) return;
-                if (member) {
-                    var currentYear = new Date().getFullYear();
-                    var atTheBar = currentYear - member.yearCalled;
-
-                    if (atTheBar <= 5)
-                    {
-                        feeDue = 8000;
-                    }
-                    if (atTheBar <= 10 && atTheBar > 5)
-                    {
-                        feeDue = 15000;
-                    }
-                    if (atTheBar <= 14 && atTheBar > 10)
-                    {
-                        feeDue = 20000;
-                    }
-                    if (atTheBar <= 20 && atTheBar > 14)
-                    {
-                        feeDue = 30000;
-                    }
-                    if (atTheBar > 20)
-                    {
-                        feeDue=50000;
-                    }
-
-
-                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
-                        return;
-                    });
-                }
-            });
-        } else {
-
-            switch (entry.registrationType) {
-                case 'sanAndBench':
-                    feeDue = 100000;
-                    break;
-                case 'judge':
-                    feeDue = 75000;
-                    break;
-                case 'law_students':
-                    feeDue = 4500;
-                    break;
-                case 'magistrate':
-                    feeDue = 50000;
-                    break;
-                case 'others':
-                    feeDue = 250000;
-                    break;
-                case 'non_lawyer':
-                    feeDue = 50000;
-                    break;
-                case 'international':
-                    feeDue = 500;
-                    break;
-                case 'access_bank_test':
-                    feeDue = 100;
-                    break;
-            }
-
-            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
-                return;
-            });
         }
     }
 
-    //calculate normal registration fee
-    if(todayDate >= dateNormal && todayDate < dateLate) {
-        if (entry.registrationType === 'legalPractitioner') {
-            // Calculate the cost and save
-            Registration.findById(entry._id, function (err, member) {
-                if (!!err) return;
-                if (member) {
-                    var currentYear = new Date().getFullYear();
-                    var atTheBar = currentYear - member.yearCalled;
-
-                    if (atTheBar <= 5)
-                    {
-                        feeDue = 10000;
-                    }
-                    if (atTheBar <= 10 && atTheBar > 5)
-                    {
-                        feeDue = 20000;
-                    }
-                    if (atTheBar <= 14 && atTheBar > 10)
-                    {
-                        feeDue = 30000;
-                    }
-                    if (atTheBar <= 20 && atTheBar > 14)
-                    {
-                        feeDue = 40000;
-                    }
-                    if (atTheBar > 20)
-                    {
-                        feeDue=65000;
-                    }
-
-                    Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
-                        return;
-                    });
-                }
-            });
-        } else {
-
-            switch (entry.registrationType) {
-                case 'sanAndBench':
-                    feeDue = 120000;
-                    break;
-                case 'judge':
-                    feeDue = 75000;
-                    break;
-                case 'law_students':
-                    feeDue = 4500;
-                    break;
-                case 'magistrate':
-                    feeDue = 50000;
-                    break;
-                case 'others':
-                    feeDue = 250000;
-                    break;
-                case 'non_lawyer':
-                    feeDue = 60000;
-                    break;
-                case 'international':
-                    feeDue = 750;
-                    break;
-                case 'access_bank_test':
-                    feeDue = 100;
-                    break;
-            }
-
-            Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
-                return;
-            });
-        }
-    }
 });
 
 module.exports = mongoose.model('Registration', RegistrationSchema);

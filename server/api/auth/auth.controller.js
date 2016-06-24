@@ -179,7 +179,14 @@ exports.signUp = function(req, res) {
 
             var user = new User();
 
-            user.email = req.body.email;
+            if(req.body.nbaId)
+            {
+                user.email = req.body.nbaId;
+            }
+            else{
+                user.email = req.body.email;
+            }
+
             user.password = user.generateHash(newPass);
 
             user.save(function() {
