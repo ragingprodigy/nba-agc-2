@@ -52,24 +52,14 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="yearCalled">Year of Call to Bar</label>
-                                    <select class="form-control" name="yearCalled" ng-model="data.yearCalled"
-                                            id="yearCalled">
-                                        <option ng-repeat="y in yearss">{{y}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="branch">NBA Branch </label>
-                                    <select ng-options="branch as branch.name for branch in branchData | orderBy:'-name':'reverse'" class="form-control" ng-change="regCode()" ng-model="selectedItem" id="branch"
-                                            required>
+                            <div class="form-group col-md-6">
+                            <label for="gender">Gender <span class="required">*</span></label>
+                            <select id="gender" ng-required="true" class="form-control" ng-model="data.gender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
 
-                                    </select>
-                                </div>
-                            </div>
                             <div class="col-md-5">
                                 <div style="font-size: 16px" class="form-group">
                                     <label>Conference Fee</label>
@@ -122,17 +112,7 @@
                                         <span class="required">*</span>
                                     </label>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        <label class="btn btn-primary" ng-model="data.material" btn-radio="'branch'">My
-                                            NBA Branch</label>or
-                                        <label class="btn btn-success" ng-model="data.material" btn-radio="'onsite'">Fast
-                                            Track ( Individual )</label>
-                                            <span class="help-block label label-danger"
-                                                  ng-show="data.material.$dirty && (data.material.$error.required)">Please Select one Location
-                            </span>
-                                    </div>
-                                </div>
+
                             </div>
 
                         </div>

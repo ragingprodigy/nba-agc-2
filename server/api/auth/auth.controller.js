@@ -179,13 +179,8 @@ exports.signUp = function(req, res) {
 
             var user = new User();
 
-            if(req.body.nbaId)
-            {
-                user.email = req.body.nbaId;
-            }
-            else{
-                user.email = req.body.email;
-            }
+
+            user.email = req.body.email;
 
             user.password = user.generateHash(newPass);
 

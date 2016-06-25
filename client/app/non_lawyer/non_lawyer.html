@@ -47,12 +47,19 @@
                             <div class="col-md-2">
                                 <label for="suffix">Suffix</label>
                                 <input type="text" name="suffix" id="suffix" ng-model="data.suffix"
-                                       class="form-control">ss
+                                       class="form-control">
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
+                            <div class="form-group col-md-6">
+                            <label for="gender">Gender <span class="required">*</span></label>
+                            <select id="gender" ng-required="true" class="form-control" ng-model="data.gender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                            <div class="col-md-6">
                                 <div style="font-size: 16px" class="form-group">
                                     <label>Conference Fee</label>
                                     <div style="font-size: 20px" class="form-price label label-primary label-lg">NGN

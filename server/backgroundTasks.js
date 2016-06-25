@@ -25,7 +25,7 @@ new CronJob('*/13 * * * *', function () {
 	}, null, true, 'Africa/Lagos'
 );
 
-//Cron Job to Delete incomplete invoice every 12 minutes
+//Cron Job to Delete incomplete invoice that is grater than 2 hours every 12 minutes
 new CronJob('*/12 * * * *', function () {
 	Invoice.remove({finalized: false, bankpay: false, webpay: false, lastModified: { $lt: moment().subtract(2,'h') } });;
 	}, null, true, 'Africa/Lagos'

@@ -31,7 +31,9 @@ var RegistrationSchema = new Schema({
   division:  { type:String, default: "" },
   branch:  { type:String, default: "" },
   nbaId:  { type:String, default: "" },
-    registrationCode:  { type:String, default: "" },
+    gender:  { type:String } ,
+
+    registrationCode:  { type:String },
   yearCalled: {
     type: String,
     default: 1960
@@ -141,7 +143,7 @@ RegistrationSchema.post('save', function(entry){
 
     }
 
-    if(Registration.conferenceFee == 0 )
+    if(entry.conferenceFee == 0 )
     {
         var feeDue = 0;
         var todayDate = new Date();
