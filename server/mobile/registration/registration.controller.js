@@ -223,7 +223,7 @@ exports.update = function(req, res) {
     var updated = _.merge(registration, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.status(200).json(registration);
+      return res.status(200).json({statusCode:200,data:registration});
     });
   });
 };
