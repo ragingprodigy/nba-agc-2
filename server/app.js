@@ -4,6 +4,8 @@
 
 'use strict';
 
+require('newrelic');
+
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -82,7 +84,7 @@ function start() {
 	// Start server
 	server.listen(config.port, config.ip, function () {
 	  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-	  console.log('Registration Cutoff date is: %s', process.env.CUTOFF);
+	  // console.log('Registration Cutoff date is: %s', process.env.CUTOFF);
 	});
 
 	// Expose app

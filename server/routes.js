@@ -9,23 +9,23 @@ var errors = require('./components/errors'),
 
 var Agenda = require('agenda'),
     Bag = require('./api/bag/bag.model'),
-    agendaUI = require('agenda-ui'),
+    // agendaUI = require('agenda-ui'),
     config = require('./config/environment');
 
 var agenda = new Agenda({db: { address: config.mongo.uri }});
 
 module.exports = function(app) {
 
-    Bag.find({}, function(e, b) {
-        if (!b.length) {
-            // Create Default Bags
-            Bag.create({ name: 'OPTION ONE', image: process.env.DOMAIN+'/assets/images/option-1.jpg', quantity: 2019 },{ name: 'OPTION TWO', image: process.env.DOMAIN+'/assets/images/option-2.jpg', quantity: 3874 },{ name: 'OPTION THREE', image: process.env.DOMAIN+'/assets/images/option-3.jpg', quantity: 1048 });
-        }
-    });
+    // Bag.find({}, function(e, b) {
+    //     if (!b.length) {
+    //         // Create Default Bags
+    //         Bag.create({ name: 'OPTION ONE', image: process.env.DOMAIN+'/assets/images/option-1.jpg', quantity: 2019 },{ name: 'OPTION TWO', image: process.env.DOMAIN+'/assets/images/option-2.jpg', quantity: 3874 },{ name: 'OPTION THREE', image: process.env.DOMAIN+'/assets/images/option-3.jpg', quantity: 1048 });
+    //     }
+    // });
 
   app.use('/auth', require('./api/auth'));
 
-  app.use('/__agenda-check__', agendaUI(agenda, {poll: 30000}));
+  // app.use('/__agenda-check__', agendaUI(agenda, {poll: 30000}));
 
   // Insert routes below
   app.use('/api/bags', require('./api/bag'));
