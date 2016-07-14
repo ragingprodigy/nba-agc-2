@@ -23,12 +23,25 @@ angular.module('nbaAgc2App')
 
                 });
             } else {
-                $state.go('main');
+                if($rootScope.isAuthenticated)
+                {
+                    $state.go('myRegistrations')
+                }
+                else{
+                    $state.go('main');
+                }
+                
             }
         }
 
         $scope.back = function() {
-            $state.go($scope.data.registrationType);
+            if($rootScope.isAuthenticated)
+            {
+                $state.go('myRegistrations')
+            }
+            else{
+                $state.go($scope.data.registrationType);
+            }
         };
 
         $scope.getName = function (data) {

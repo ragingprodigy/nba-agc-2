@@ -25,9 +25,23 @@ new CronJob('*/13 * * * *', function () {
 	}, null, true, 'Africa/Lagos'
 );
 
+//remove successful bank payment registration user data
+new CronJob('*/13 * * * *', function () {
+		Registration.find({isDirect: false, paymentSuccessful:true, statusConfirmed:true, bankpay: true, user:{$exists:false} },function (err,data) {
+			if (data.length){
+				_(data).forEach(function (datum) {
+				if (datum.email !== undefined){
+					User.remove({email:datum.email});
+				}
+			});}
+
+		});
+	}, null, true, 'Africa/Lagos'
+);
+
 //Cron Job to Delete incomplete invoice that is grater than 2 hours every 12 minutes
 new CronJob('*/12 * * * *', function () {
-	Invoice.remove({finalized: false, bankpay: false, webpay: false, lastModified: { $lt: moment().subtract(2,'h') } });;
+	Invoice.remove({finalized: false, bankpay: false, webpay: false, lastModified: { $lt: moment().subtract(2,'h') } });
 	}, null, true, 'Africa/Lagos'
 );
 
@@ -597,7 +611,7 @@ new CronJob('*/169 * * * *', function () {
 );
 
 //Cron Job to create Registration code every 2 minutes
-new CronJob('*/1 * * * *', function () {
+new CronJob('*/2 * * * *', function () {
 	console.log('about to start giving out codes');
 	Registration.find({ registrationCode: { "$exists": false },paymentSuccessful:true }, function (err,members) {
 		console.log('log me '+members.length);
@@ -704,3 +718,79 @@ new CronJob('*/1 * * * *', function () {
 	});
 }, null,true,'Africa/Lagos');
 
+// CronJob Create Accounts for Web Bank Registrations 2.70 hours
+new CronJob('*/5 * * * *', function () {
+		Registration.find({bankpay: true, statusConfirmed: true, paymentSuccessful: true, responseGotten: true, isDirect: false, accountCreated: false }, function (err, toResolve){
+
+			if (err) { return; }
+
+			if (toResolve.length) {
+
+				// Iterate through the registrations and Create Accounts for Each
+				_(toResolve).forEach(function (registration) {
+					var username = '';
+					// Create User Account Using First Name and Last Name as Username
+					if (registration.email.match('@'))
+					{
+						username = registration.email.toLowerCase();
+					}
+					else{
+						username = (registration.firstName + registration.surname).split(' ').join('').toLowerCase();
+					}
+
+					var newPass = User.randomString(4).toLowerCase();
+
+					var user = new User();
+					user.email = username;
+					user.password = user.generateHash(newPass);
+
+					user.save(function() {
+
+						Registration.findById(registration._id, function ( err, theReg ){
+							if (theReg) {
+
+								theReg.user = user;
+								theReg.accountCreated = true;
+
+								theReg.save(function ( err ) {
+
+									if (err) { return; }
+
+									// Send Email to the User Here
+									mailer.sendWelcomeMailWithUsername(theReg, newPass, username, function (err){
+										if (err !== null) { return; }
+
+										// Send the text message
+										mailer.sendRegistrationTextWithUsername(theReg, newPass, username, function (err){
+
+											if (err!==null) {return; }
+
+
+										});
+
+									});
+
+								});
+							}
+						});
+
+					});
+					// Find Existing User
+					// User.find({email: username}, function (err, existingUsers) {
+                    //
+					// 	if (existingUsers.length) {
+					// 		username += '_'+existingUsers.length;
+					// 	}
+                    //
+					//	
+					// });
+
+				});
+
+				return;
+			} else {
+				return;
+			}
+		});
+	}, null, true, 'Africa/Lagos'
+);

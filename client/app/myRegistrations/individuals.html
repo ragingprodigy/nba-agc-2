@@ -29,7 +29,7 @@
                                 <td>{{selectedReg.registrationCode}}</td>
                             </tr>
                             <tr>
-                                <th>Order ID</th>
+                                <th>PAYMENT CODE</th>
                                 <td>{{selectedReg.regCode+'-'+selectedReg.conferenceFee}}</td>
                             </tr>
                             <tr>
@@ -65,7 +65,7 @@
                                 <td>{{selectedReg.registrationCode}}</td>
                             </tr>
                             <tr>
-                                <th>Order ID</th>
+                                <th>PAYMENT CODE</th>
                                 <td>{{selectedReg.regCode+'-'+selectedReg.conferenceFee}}</td>
                             </tr>
                             <tr>
@@ -176,7 +176,6 @@
         <!--</div>-->
         <!--</div>-->
     </div>
-
     <div ng-hide="paidRegistrations.length">
         <h4 class="text-primary">Pending Registration(s)</h4><hr/>
         <div class="alert alert-info" ng-hide="pendingRegistrations.length"><h5>You do not have any pending registrations yet.</h5></div>
@@ -188,7 +187,6 @@
                 <th class="text-center">Firm / Court / DESIGNATION</th>
                 <th class="text-center">Conference Fee</th>
                 <th class="text-center">Channel</th>
-                <th />
             </tr>
             <tr ng-repeat="r in pendingRegistrations">
                 <td class="text-center">{{$index+1}}.</td>

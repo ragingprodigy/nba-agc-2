@@ -216,6 +216,21 @@ exports.create = function(req, res) {
 
 // Updates an existing registration in the DB.
 exports.update = function(req, res) {
+  if(req.body.webpay || req.body.bankpay)
+  {
+    req.body.regCode = Registration.pRef();
+  }
+
+  if(req.body.Status) {
+    delete req.body.MerchantID;
+    delete req.body.OrderID;
+    delete req.body.CurrencyCode;
+    delete req.body.AmountIntegrityCode;
+    req.body.DateTime = req.body.Date;
+    delete req.body.StatusCode;
+    delete req.body.Date;
+  }
+
   if(req.body._id) { delete req.body._id; }
   Registration.findById(req.params.id, function (err, registration) {
     if (err) { return handleError(res, err); }

@@ -61,6 +61,7 @@
       <link rel="stylesheet" href="components/modal/modal.css">
       <!-- endinjector -->
     <!-- endbuild -->
+
     
     <script>
       var _rollbarConfig = {
@@ -143,11 +144,17 @@
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
+    <script src='assets/js/plugin.js'></script>
+    <script src="assets/js/modernizr-2.8.3.min.js"></script>
+    <script src='assets/js/variable.js'></script>
+    <script src='assets/js/main1.js'></script>
+    <script src='assets/js/demo.js'></script>
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+
           <!-- injector:js -->
           <script src="app/AccessCheck/AccessCheck.service.js"></script>
           <script src="app/Bags/Bags.service.js"></script>
