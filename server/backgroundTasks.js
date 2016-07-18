@@ -21,12 +21,12 @@ var RegistrationController = require('./api/registration/registration.controller
 
 //create cron job to delete old registration data every 13 minutes
 new CronJob('*/13 * * * *', function () {
-	Registration.remove({formFilled: false, lastModified: { $lt: moment().subtract(2,'h') } });
+	Registration.remove({completed:false,bankpay:false,webpay:false, lastModified: { $lt: moment().subtract(2,'h') } });
 	}, null, true, 'Africa/Lagos'
 );
 
 //remove successful bank payment registration user data
-new CronJob('*/13 * * * *', function () {
+new CronJob('*/5 * * * *', function () {
 		Registration.find({isDirect: false, paymentSuccessful:true, statusConfirmed:true, bankpay: true, user:{$exists:false} },function (err,data) {
 			if (data.length){
 				_(data).forEach(function (datum) {
@@ -610,8 +610,8 @@ new CronJob('*/169 * * * *', function () {
 	}, null, true, 'Africa/Lagos'
 );
 
-//Cron Job to create Registration code every 2 minutes
-new CronJob('*/2 * * * *', function () {
+//Cron Job to create Registration code every 1 minutes
+new CronJob('*/1 * * * *', function () {
 	console.log('about to start giving out codes');
 	Registration.find({ registrationCode: { "$exists": false },paymentSuccessful:true }, function (err,members) {
 		console.log('log me '+members.length);
@@ -719,7 +719,7 @@ new CronJob('*/2 * * * *', function () {
 }, null,true,'Africa/Lagos');
 
 // CronJob Create Accounts for Web Bank Registrations 2.70 hours
-new CronJob('*/5 * * * *', function () {
+new CronJob('*/8 * * * *', function () {
 		Registration.find({bankpay: true, statusConfirmed: true, paymentSuccessful: true, responseGotten: true, isDirect: false, accountCreated: false }, function (err, toResolve){
 
 			if (err) { return; }
@@ -729,7 +729,7 @@ new CronJob('*/5 * * * *', function () {
 				// Iterate through the registrations and Create Accounts for Each
 				_(toResolve).forEach(function (registration) {
 					var username = '';
-					// Create User Account Using First Name and Last Name as Username
+					// Create User Account Using First Name and Last Name as Username Or Email
 					if (registration.email.match('@'))
 					{
 						username = registration.email.toLowerCase();

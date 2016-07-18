@@ -103,6 +103,10 @@
 
                         <input type="hidden" name="mercId" value="09948">
                         <input type="hidden" name="currCode" value="{{data.international?840:566}}">
+                        <input ng-if="data.international == false" type="hidden" name="gatekey"
+                               value="ISW">
+                        <input ng-if="data.international == true" type="hidden" name="gatekey"
+                               value="VISIN">
                         <input type="hidden" name="amt" value="{{ toPay(data.conferenceFee) }}">
                         <input type="hidden" name="orderId" value="{{data.regCode}}-{{data.conferenceFee}}">
                         <input type="hidden" name="prod" value="NBA AGC 2016 Registration for {{getName()}}">
