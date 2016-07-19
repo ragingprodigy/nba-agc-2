@@ -8,8 +8,8 @@ angular.module('nbaAgc2App')
                var feeDue = 0;
                var todayDate = new Date();
                var dateEarly = new Date('2016', '05', '20');// month lapses by 1
-               var dateNormal = new Date('2016', '06', '20');// month lapses by 1
-               var dateLate = new Date('2016', '07', '09');// month lapses by 1
+               var dateNormal = new Date('2016', '06', '23');// month lapses by 1
+               var dateLate = new Date('2016', '07', '10');// month lapses by 1
 
                if(todayDate >= dateEarly && todayDate < dateNormal) {
                    switch (name) {

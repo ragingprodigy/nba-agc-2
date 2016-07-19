@@ -148,8 +148,8 @@ RegistrationSchema.post('save', function(entry){
         var feeDue = 0;
         var todayDate = new Date();
         var dateEarly = new Date('2016', '05', '20');
-        var dateNormal = new Date('2016', '06', '20');
-        var dateLate = new Date('2016', '07', '09');
+        var dateNormal = new Date('2016', '06', '23');
+        var dateLate = new Date('2016', '07', '10');
 
         // Only Calculate the Conference Fee if the Registration is a new one
 
