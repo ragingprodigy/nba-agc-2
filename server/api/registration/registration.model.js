@@ -143,13 +143,15 @@ RegistrationSchema.post('save', function(entry){
 
     }
 
-    if(entry.conferenceFee == 0 )
+    var todayDate = new Date();
+    var dateEarly = new Date('2016', '05', '20');
+    var dateNormal = new Date('2016', '06', '23');
+    var dateLate = new Date('2016', '07', '10');
+
+    if(entry.conferenceFee == 0 || (todayDate >= dateNormal && entry.webpay ==true && entry.paymentSuccessful == false))
     {
         var feeDue = 0;
-        var todayDate = new Date();
-        var dateEarly = new Date('2016', '05', '20');
-        var dateNormal = new Date('2016', '06', '23');
-        var dateLate = new Date('2016', '07', '10');
+
 
         // Only Calculate the Conference Fee if the Registration is a new one
 
