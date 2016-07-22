@@ -24,7 +24,6 @@ new CronJob('*/13 * * * *', function () {
 	Registration.remove({completed:false,bankpay:false,webpay:false, lastModified: { $lt: moment().subtract(2,'h') } });
 	}, null, true, 'Africa/Lagos'
 );
-
 //remove successful bank payment registration user data
 new CronJob('*/5 * * * *', function () {
 		Registration.find({isDirect: false, paymentSuccessful:true, statusConfirmed:true, bankpay: true, user:{$exists:false} },function (err,data) {
@@ -38,7 +37,6 @@ new CronJob('*/5 * * * *', function () {
 		});
 	}, null, true, 'Africa/Lagos'
 );
-
 //Cron Job to Delete incomplete invoice that is grater than 2 hours every 12 minutes
 new CronJob('*/12 * * * *', function () {
 	Invoice.remove({finalized: false, bankpay: false, webpay: false, lastModified: { $lt: moment().subtract(2,'h') } });
@@ -78,7 +76,6 @@ new CronJob('00 59 6 * * 0-6', function () {
 	});
 	}, null, true, 'Africa/Lagos'
 );
-
 //cron job to send unsuccessful web registration Payment Report everyday at 7:07am
 new CronJob('00 07 7 * * 0-6', function(){
 	var start = moment().subtract(1,'d').hours(0).minutes(0).seconds(0),
@@ -449,18 +446,18 @@ new CronJob('*/304 * * * *', function () {
 		});
 	}, null, true, 'Africa/Lagos'
 );
-
-// cron job to Create Accounts for Paid Invoices 2.65 hours
-new CronJob('*/159 * * * *', function () {
+// cron job to Create Accounts for Paid Invoices every 2 mins
+new CronJob('*/2 * * * *', function () {
 	Invoice.find({ statusConfirmed: true, paymentSuccessful: true, responseGotten: true, accountsCreated: false })
 		.populate('registrations')
 		.exec(function (err, toResolve){
+			console.log('creating account invoice for %d groups', toResolve.length);
 
 			if (err) { return; }
 
 			if (toResolve.length) {
 				_(toResolve).forEach(function (invoice) {
-
+					console.log('created account');
 					// Iterate through the registrations in this Invoice and Create Accounts for Each
 					_(invoice.registrations).forEach(function (registration){
 
@@ -610,10 +607,10 @@ new CronJob('*/169 * * * *', function () {
 	}, null, true, 'Africa/Lagos'
 );
 
-//Cron Job to create Registration code every 1 minutes
+//Cron Job to create Registration code every 1 minutes for all successful payment
 new CronJob('*/1 * * * *', function () {
 	console.log('about to start giving out codes');
-	Registration.find({ registrationCode: { "$exists": false },paymentSuccessful:true }, function (err,members) {
+	Registration.find({ registrationCode: { "$exists": false },paymentSuccessful:true, sponsor: { "$exists": false } }, function (err,members) {
 		console.log('log me '+members.length);
 		if (members.length)
 		{
