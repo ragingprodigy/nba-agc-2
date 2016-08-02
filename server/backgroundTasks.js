@@ -20,10 +20,10 @@ var User = require('./api/user/user.model');
 var RegistrationController = require('./api/registration/registration.controller');
 
 //create cron job to delete old registration data every 13 minutes
-new CronJob('*/13 * * * *', function () {
-	Registration.remove({completed:false,bankpay:false,webpay:false, lastModified: { $lt: moment().subtract(2,'h') } });
-	}, null, true, 'Africa/Lagos'
-);
+// new CronJob('*/13 * * * *', function () {
+// 	Registration.remove({completed:false,bankpay:false,webpay:false, lastModified: { $lt: moment().subtract(2,'h') } });
+// 	}, null, true, 'Africa/Lagos'
+// );
 //remove successful bank payment registration user data
 new CronJob('*/5 * * * *', function () {
 		Registration.find({isDirect: false, paymentSuccessful:true, statusConfirmed:true, bankpay: true, user:{$exists:false} },function (err,data) {
@@ -38,10 +38,7 @@ new CronJob('*/5 * * * *', function () {
 	}, null, true, 'Africa/Lagos'
 );
 //Cron Job to Delete incomplete invoice that is grater than 2 hours every 12 minutes
-new CronJob('*/12 * * * *', function () {
-	Invoice.remove({finalized: false, bankpay: false, webpay: false, lastModified: { $lt: moment().subtract(2,'h') } });
-	}, null, true, 'Africa/Lagos'
-);
+// mem
 
 //cron job to send web registration report everyday at 6:59am
 new CronJob('00 59 6 * * 0-6', function () {
@@ -622,12 +619,15 @@ new CronJob('*/1 * * * *', function () {
 							Branch.findOne({name: member.branch}, function (err, branch) {
 								if(err){
 									return callback(err);}
-								member.registrationCode = branch.code + '-' + branch.order;
-								console.log('member code generated ' + member.registrationCode);
-								var num = Number(branch.order) + 1;
-								num = ("000" + num).slice(-4);
-								branch.order = ''+num;
-								branch.save();
+								if (branch){
+									member.registrationCode = branch.code + '-' + branch.order;
+									console.log('member code generated ' + member.registrationCode);
+									var num = Number(branch.order) + 1;
+									num = ("000" + num).slice(-4);
+									branch.order = ''+num;
+									branch.save();
+								}
+
 								callback();
 							});
 						},
