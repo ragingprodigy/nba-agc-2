@@ -11,7 +11,7 @@ module.exports = {
     // Control debug level for modules using visionmedia/debug
     DEBUG: '',
     WEB_CONCURRENCY: 1,
-    SENDGRID_API_KEY: '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',
+    
 
     SMS_OWNER_EMAIL: 'benedicta.moha@lawpavilion.com',
     SMS_SUB_ACCOUNT: 'NBA-AGC',
