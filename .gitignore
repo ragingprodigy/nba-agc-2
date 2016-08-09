@@ -2,6 +2,7 @@
 # Logs
 logs
 *.log
+/server/config/local.env.js
 *.env.js
 .DS_STORE
 
