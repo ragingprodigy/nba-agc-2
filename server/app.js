@@ -12,7 +12,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
-var rollbar = require('rollbar');
+// var rollbar = require('rollbar');
 
 var throng = require('throng');
 

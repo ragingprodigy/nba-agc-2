@@ -6,10 +6,10 @@ angular.module('nbaAgc2App')
        return {
            getFee: function (name) {
                var feeDue = 0;
-               var todayDate = new Date();
-               var dateEarly = new Date('2016', '05', '20');// month lapses by 1
-               var dateNormal = new Date('2016', '06', '23');// month lapses by 1
-               var dateLate = new Date('2016', '07', '10');// month lapses by 1
+               var todayDate = moment().format('L');
+               var dateEarly = moment('20/06/2016', 'DD/MM/YYYY', true).format('L');
+               var dateNormal = moment('23/07/2016', 'DD/MM/YYYY', true).format('L');
+               var dateLate = moment('16/08/2016', 'DD/MM/YYYY', true).format('L');
 
                if(todayDate >= dateEarly && todayDate < dateNormal) {
                    switch (name) {

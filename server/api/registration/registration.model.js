@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
     Member = require('../member/member.model'),
     Branch = require('./branches.model'),
     OtherRegCode = require('./othersRegCode.model'),
-    User = require('../user/user.model');
+    User = require('../user/user.model'),
+    moment = require('moment');
 
 var pRef = require('../../components/tools/pRef');
 
@@ -143,10 +144,10 @@ RegistrationSchema.post('save', function(entry){
 
     }
 
-    var todayDate = new Date();
-    var dateEarly = new Date('2016', '05', '20');
-    var dateNormal = new Date('2016', '06', '23');
-    var dateLate = new Date('2016', '07', '10');
+    var todayDate = moment().format('L');
+    var dateEarly = moment('20/06/2016', 'DD/MM/YYYY', true).format('L');
+    var dateNormal = moment('23/07/2016', 'DD/MM/YYYY', true).format('L');
+    var dateLate = moment('16/08/2016', 'DD/MM/YYYY', true).format('L');
 
     if(entry.conferenceFee == 0 || (todayDate >= dateNormal && entry.webpay ==true && entry.paymentSuccessful == false))
     {
@@ -291,7 +292,6 @@ RegistrationSchema.post('save', function(entry){
                         feeDue = 100;
                         break;
                 }
-
                 Registration.update({_id: entry._id}, {$set: {conferenceFee: feeDue}}, function (e) {
                     return;
                 });
