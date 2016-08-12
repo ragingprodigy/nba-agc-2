@@ -12,9 +12,9 @@ var Agenda = require('agenda'),
     // agendaUI = require('agenda-ui'),
     config = require('./config/environment');
 
-var agenda = new Agenda({db: { address: config.mongo.uri }});
+var agenda = new Agenda({db: {address: config.mongo.uri}});
 
-module.exports = function(app) {
+module.exports = function (app) {
 
     // Bag.find({}, function(e, b) {
     //     if (!b.length) {
@@ -23,18 +23,19 @@ module.exports = function(app) {
     //     }
     // });
 
-  app.use('/auth', require('./api/auth'));
+    app.use('/auth', require('./api/auth'));
 
-  // app.use('/__agenda-check__', agendaUI(agenda, {poll: 30000}));
+    // app.use('/__agenda-check__', agendaUI(agenda, {poll: 30000}));
 
-  // Insert routes below
-  app.use('/api/bags', require('./api/bag'));
-  app.use('/api/speakers', require('./api/speaker'));
-  app.use('/api/sessions', require('./api/session'));
-  app.use('/api/invoices', require('./api/invoice'));
-  app.use('/api/users', require('./api/user'));
-  app.use('/api/registrations', require('./api/registration'));
-  app.use('/api/members', require('./api/member'));
+    // Insert routes below
+    app.use('/api/bags', require('./api/bag'));
+    app.use('/api/speakers', require('./api/speaker'));
+    app.use('/api/sessions', require('./api/session'));
+    app.use('/api/invoices', require('./api/invoice'));
+    app.use('/api/users', require('./api/user'));
+    app.use('/api/registrations', require('./api/registration'));
+    app.use('/api/members', require('./api/member'));
+    app.use('/api/livefeed', require('./api/livefeed'));
 
     //api routes for mobile
     app.use('/mobile/conferenceFee', require('./mobile/conferenceFee'));
@@ -47,19 +48,19 @@ module.exports = function(app) {
     app.use('/mobile/api/members', require('./mobile/member'));
 
 
-  // All undefined asset or api routes should return a 404
-  app.route('/:url(api|mobile|mobile|auth|components|app|bower_components|assets)/*').get(errors[404]);
+    // All undefined asset or api routes should return a 404
+    app.route('/:url(api|mobile|mobile|auth|components|app|bower_components|assets)/*').get(errors[404]);
 
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
 
-  // All other routes should redirect to the index.html
-  app.route('/*')
-  .get(function(req, res) {
-    res.sendfile(app.get('appPath') + '/index.html');
-  });
+    // All other routes should redirect to the index.html
+    app.route('/*')
+        .get(function (req, res) {
+            res.sendfile(app.get('appPath') + '/index.html');
+        });
 
 };
