@@ -70,6 +70,29 @@ exports.create = function (req, res) {
     });
 };
 
+// Comment on a live feed
+exports.addComment = function (req, res) {
+    LiveFeed.findById({_id: req.query.id}, function (err, post) {
+        if (err) {
+            return handleError(res, err);
+        }
+        if (!post) {
+            return res.send(404);
+        }
+
+        var comment = _.pick(req.body, ['email', 'fullname', 'content']);
+        comment.comment_date = new Date;
+
+        post.comments.push(comment);
+        post.save(function (err, newPost) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.json(newPost);
+        });
+    });
+};
+
 
 function handleError(res, err) {
     return res.send(500, err);
