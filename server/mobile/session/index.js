@@ -10,10 +10,10 @@ router.get('/', controller.index);
 router.get('/papers', controller.papers);
 router.get('/:id', controller.show);
 
-router.post('/:id/question', sessionSec, controller.question);
+router.post('/:id/question', controller.question);
 router.delete('/:id/question/:questionId', sessionSec, controller.removeQuestion);
 
-router.post('/:id/attend', sessionSec, controller.attendSession);
+router.post('/:id/attend', controller.attendSession);
 router.post('/:id/unAttend', sessionSec, controller.unAttendSession);
 router.post('/:id/vote', sessionSec, controller.castVote);
 

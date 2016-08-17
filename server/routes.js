@@ -46,7 +46,7 @@ module.exports = function (app) {
     app.use('/mobile/api/users', require('./mobile/user'));
     app.use('/mobile/api/registrations', require('./mobile/registration'));
     app.use('/mobile/api/members', require('./mobile/member'));
-
+    app.use('/mobile/api/tokens', require('./mobile/token'));
 
     // All undefined asset or api routes should return a 404
     app.route('/:url(api|mobile|mobile|auth|components|app|bower_components|assets)/*').get(errors[404]);

@@ -619,25 +619,31 @@ new CronJob('*/1 * * * *', function () {
 							Branch.findOne({name: member.branch}, function (err, branch) {
 								if(err){
 									return callback(err);}
-								if (branch){
-									member.registrationCode = branch.code + '-' + branch.order;
-									console.log('member code generated ' + member.registrationCode);
-									var num = Number(branch.order) + 1;
-									num = ("000" + num).slice(-4);
-									branch.order = ''+num;
-									branch.save();
+								if(branch){
+									if (branch.name == member.branch){
+										member.registrationCode = branch.code + '-' + branch.order;
+										console.log('member code generated ' + member.registrationCode);
+										var num = Number(branch.order) + 1;
+										num = ("000" + num).slice(-4);
+										branch.order = ''+num;
+										branch.save();
+									}
 								}
+								if(!branch){console.log('Something went wrong trying to generate code for '+member.branch );}
 
 								callback();
 							});
 						},
 						function (callback) {
-							Registration.update({ _id: member._id }, { $set: { registrationCode: member.registrationCode } }, function(e){
-								if (e) {
+							if (member.registrationCode!=undefined){
+								Registration.update({ _id: member._id }, { $set: { registrationCode: member.registrationCode } }, function(e){
+									if (e) {
 
-									console.log(e); }
-								callback();
-							});
+										console.log(e); }
+									callback();
+								});
+							}
+
 						}
 
 					],function (err) {

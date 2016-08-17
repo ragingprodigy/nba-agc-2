@@ -123,7 +123,12 @@ var RegistrationSchema = new Schema({
   bankTeller:  { type:String, default: "" },
   statusConfirmed: { type: Boolean, default: false },
   international: { type: Boolean, default: false },
-  responseGotten: { type: Boolean, default: false }
+  responseGotten: { type: Boolean, default: false },
+    fastTracked: {
+        type: Boolean,
+        default: false
+    },
+    fastTrackTime: Date
 });
 
 RegistrationSchema.statics.pRef = pRef;
@@ -229,7 +234,7 @@ RegistrationSchema.post('save', function(entry){
         }
 
         //calculate normal registration fee
-        if(todayDate >= dateNormal && todayDate < dateLate) {
+        if(todayDate >= dateNormal && todayDate <= dateLate) {
             if (entry.registrationType === 'legalPractitioner') {
                 // Calculate the cost and save
                 Registration.findById(entry._id, function (err, member) {
