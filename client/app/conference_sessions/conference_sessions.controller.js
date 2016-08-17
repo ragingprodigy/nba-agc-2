@@ -4,7 +4,8 @@ angular.module('nbaAgc2App')
     .controller('ConferenceSessionsCtrl', function ($scope, Sessions, $location, $anchorScroll, $modal) {
 
         Sessions.query({}, function(data) {
-            $scope.sessions = _.sortBy(data, 'start_time');
+            // $scope.sessions = _.sortBy(data, 'start_time');
+            $scope.sessions = [];
             $scope.buffer = {};
 
             $scope.days = _.uniq(_.map($scope.sessions, function(s){
