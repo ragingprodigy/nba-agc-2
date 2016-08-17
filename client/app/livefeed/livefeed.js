@@ -1,19 +1,21 @@
 'use strict';
 
-var nbaAgc2App = angular.module('nbaAgc2App', ['ngRoute']);
-
-nbaAgc2App.config(['$routeProvider',function($routeProvider) {
-    $routeProvider.when('/livefeed', {
-            templateUrl: 'app/livefeed/partials/live_feeds.html',
-            controller: 'LiveFeedCtrl'
-        })
-        .when('/:session_id', {
-            templateUrl: 'partials/viewSession.html',
-            controller: 'viewUserCtrl'
-        })
-        .when('/editUser/:userid', {
-            templateUrl: 'partials/editUser.html',
-            controller: 'editUserCtrl'
-        })
-        .otherwise({ redirectTo: '/livefeed' });
-}]);
+angular.module('nbaAgc2App')
+    .config(function ($stateProvider) {
+        $stateProvider
+            .state('livefeed', {
+                url: '/livefeed',
+                templateUrl: 'app/livefeed/livefeed.html',
+                controller: 'LiveFeedCtrl'
+            })
+            .state('liveFeedSingle', {
+                url: '/livefeed/:id',
+                templateUrl: 'app/livefeed/livefeed_single.html',
+                controller: 'SingleLiveFeedCtrl'
+            })
+            .state('addComment', {
+                url: '/addComment',
+                templateUrl: 'app/livefeed/add_comment.html',
+                controller: 'addCommentCtrl'
+            })
+    });

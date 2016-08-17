@@ -1,0 +1,36 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<style>
+    .has-error .form-control.focus, .has-error .form-control:focus{
+        border-color: #ff3838;
+    }
+</style>
+<div class="container" ng-controller="SingleLiveFeedCtrl">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h2>{{singleFeed.tweet}}</h2>
+            <div ng-repeat="comment in singleFeed.comments">
+                {{comments}}
+            </div>
+            <form name="form" ng-submit="comment();" role="form">
+                <div class="form-group" ng-class="{ 'has-error': form.fullname.$dirty && form.fullname.$error.required }">
+                    <label for="fullname">Fullname</label>
+                    <input type="text" name="fullname" id="fullname" class="form-control" ng-model="con.fullname" required="required" />
+                    <span ng-show="form.fullname.$dirty && form.fullname.$error.required" class="help-block">Fullname is required</span>
+                    <input type="hidden" name="_id" value="singleFeed._id" ng-model="con._id"/>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error': form.comment.$dirty && form.comment.$error.required }">
+                    <label for="comment">Comment</label>
+                    <textarea name="content" id="content" class="form-control" ng-model="con.content" required="required" ></textarea>
+                    <span ng-show="form.content.$dirty && form.content.$error.required" class="help-block">Comment is required</span>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-success">Login</button>
+                    <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

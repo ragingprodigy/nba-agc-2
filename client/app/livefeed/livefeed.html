@@ -1,0 +1,17 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container" ng-controller="LiveFeedCtrl">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12"  ng-repeat="value in feeds track by $index">
+            <div class="forum-header">
+               <a href="" ng-click="getSingle(value._id)">{{value.tweet}}</a>
+            </div>
+            <div class="container-fluid top-space" style="border-top:1px solid #eee;">
+                <div class="row">
+                    <span class="col-xs-6 col-sm-6 col-md-6">{{value.star}} Likes<a ng-click="rateFeeds(value._id,$index)"> <i class="fa fa-star" aria-hidden="true"></i></a></span>
+                    <span class="col-xs-6 col-sm-6 col-md-6"><a ng-click="getSingle(value._id)"><i class="fa fa-comments" aria-hidden="true"></i></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

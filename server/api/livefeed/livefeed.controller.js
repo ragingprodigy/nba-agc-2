@@ -38,22 +38,33 @@ exports.sessionLiveFeed = function (req, res) {
 
 // Star a post
 exports.likePost = function (req, res) {
-    LiveFeed.update({_id: req.query.id}, {$inc: {star: 1}}, function (e) {
+    //console.log(req.query);
+    //console.log(req.params);
+    LiveFeed.update({_id: req.params.id}, {$inc: {star: 1}}, function (e) {
         if (e) {
             return handleError(res, err);
         }
-        return res.status(200);
+        LiveFeed.findById(req.params.id)
+            .sort('tweet_time')
+            .exec(function (err, livefeed) {
+                if (err) {
+                    return handleError(res, err);
+                }
+                //console.log(livefeed);
+                return res.json(livefeed);
+            });
     });
 };
 
 // Get a single livefeed post
 exports.show = function (req, res) {
-    Livefeed.findById(req.params.id)
+
+    LiveFeed.findById(req.query.id)
         .exec(function (err, livefeedPost) {
             if (err) {
                 return handleError(res, err);
             }
-            if (!session) {
+            if (!livefeedPost) {
                 return res.send(404);
             }
             return res.json(livefeedPost);
@@ -72,24 +83,33 @@ exports.create = function (req, res) {
 
 // Comment on a live feed
 exports.addComment = function (req, res) {
-    LiveFeed.findById({_id: req.query.id}, function (err, post) {
+    LiveFeed.find({_id: req.query.id}, function (err, post) {
+        //console.log(req.params);
+        //console.log(req.query);
+        //console.log(req.body);
         if (err) {
+            console.error('error');
             return handleError(res, err);
         }
         if (!post) {
+            console.warn('not found');
             return res.send(404);
         }
-
+        console.info('good');
         var comment = _.pick(req.body, ['email', 'fullname', 'content']);
+        console.log(comment);
         comment.comment_date = new Date;
+
 
         post.comments.push(comment);
         post.save(function (err, newPost) {
             if (err) {
                 return handleError(res, err);
             }
+            console.log(newPost);
             return res.json(newPost);
         });
+
     });
 };
 
