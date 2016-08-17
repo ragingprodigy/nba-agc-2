@@ -109,7 +109,6 @@ exports.addComment = function (req, res) {
             console.log(newPost);
             return res.json(newPost);
         });
-
     });
 };
 
