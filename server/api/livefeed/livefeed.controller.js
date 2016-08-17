@@ -83,10 +83,12 @@ exports.create = function (req, res) {
 
 // Comment on a live feed
 exports.addComment = function (req, res) {
-    LiveFeed.find({_id: req.query.id}, function (err, post) {
+
+    LiveFeed.findById(req.query.id, function (err, post) {
         //console.log(req.params);
         //console.log(req.query);
         //console.log(req.body);
+
         if (err) {
             console.error('error');
             return handleError(res, err);
