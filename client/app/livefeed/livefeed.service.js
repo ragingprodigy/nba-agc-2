@@ -16,6 +16,10 @@ nbaAgc2App.service('Livefeed', function($resource){
             url: '/api/livefeed/likePost/:id',
             method: 'GET'
         },
+        unRateFeed: {
+            url: '/api/livefeed/unLikePost/:id',
+            method: 'GET'
+        },
         addComment: {
             url: '/api/livefeed/addComment',
             method: 'POST'
