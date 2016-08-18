@@ -38,22 +38,52 @@ exports.sessionLiveFeed = function (req, res) {
 
 // Star a post
 exports.likePost = function (req, res) {
-    LiveFeed.update({_id: req.query.id}, {$inc: {star: 1}}, function (e) {
+    //console.log(req.query);
+    //console.log(req.params);
+    LiveFeed.update({_id: req.params.id}, {$inc: {star: 1}}, function (e) {
         if (e) {
             return handleError(res, err);
         }
-        return res.status(200);
+        LiveFeed.findById(req.params.id)
+            .sort('tweet_time')
+            .exec(function (err, livefeed) {
+                if (err) {
+                    return handleError(res, err);
+                }
+                //console.log(livefeed);
+                return res.json(livefeed);
+            });
+    });
+};
+
+// Unstar a post
+exports.unLikePost = function (req, res) {
+
+    LiveFeed.update({_id: req.params.id}, {$inc: {star: -1}}, function (e) {
+        if (e) {
+            return handleError(res, err);
+        }
+        LiveFeed.findById(req.params.id)
+            .sort('tweet_time')
+            .exec(function (err, livefeed) {
+                if (err) {
+                    return handleError(res, err);
+                }
+                //console.log(livefeed);
+                return res.json(livefeed);
+            });
     });
 };
 
 // Get a single livefeed post
 exports.show = function (req, res) {
-    Livefeed.findById(req.params.id)
+
+    LiveFeed.findById(req.query.id)
         .exec(function (err, livefeedPost) {
             if (err) {
                 return handleError(res, err);
             }
-            if (!session) {
+            if (!livefeedPost) {
                 return res.send(404);
             }
             return res.json(livefeedPost);
@@ -62,6 +92,11 @@ exports.show = function (req, res) {
 
 // Create a new post for live feed
 exports.create = function (req, res) {
+    // Make sure post is no empty
+    if (typeof req.body.tweet == "undefined" || req.body.tweet == ''){
+        return res.status(406).json({message : 'Post cannot be empty!'})
+    }
+
     LiveFeed.create(req.body, function (err, post) {
         if (err) {
             return handleError(res, err);
@@ -72,22 +107,30 @@ exports.create = function (req, res) {
 
 // Comment on a live feed
 exports.addComment = function (req, res) {
-    LiveFeed.findById({_id: req.query.id}, function (err, post) {
+
+    // Make sure comment is no tempty
+    if (typeof req.body.content == "undefined" || req.body.content == ''){
+        return res.status(406).json({message : 'Comment cannot be empty!'})
+    }
+
+    LiveFeed.findById(req.query.id, function (err, post) {
+
         if (err) {
             return handleError(res, err);
         }
         if (!post) {
             return res.send(404);
         }
-
         var comment = _.pick(req.body, ['email', 'fullname', 'content']);
         comment.comment_date = new Date;
+
 
         post.comments.push(comment);
         post.save(function (err, newPost) {
             if (err) {
                 return handleError(res, err);
             }
+            console.log(newPost);
             return res.json(newPost);
         });
     });

@@ -1,0 +1,23 @@
+.forum-header{
+    font-weight: bold;
+    font-size: 17px;
+}
+.forum-header a{
+    padding: 5px 0;
+    color: #34bf49;
+}
+.forum-header a:hover{
+    color: #34bf49;
+}
+.forum-author{
+    font-size: 15px;
+}
+.shadow{
+    -webkit-box-shadow: 5px 5px 3px 5px rgba(34,34,34,0.67);
+    -moz-box-shadow: 5px 5px 3px 5px rgba(34,34,34,0.67);
+    box-shadow: 5px 5px 3px 5px rgba(34,34,34,0.67);
+}
+.top-border{
+    border-top: 1px solid #eee;
+    float: left;
+}

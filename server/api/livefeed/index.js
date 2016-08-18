@@ -11,12 +11,15 @@ var sessionSec = require('../../components/tools/sessionSec');
 var router = express.Router();
 
 router.get('/', controller.index);  // get all liveFeed posts
+
 router.get('/sessionLiveFeed', controller.sessionLiveFeed); // requires '_session' of session as query <ID of session>
-router.get('/likePost', controller.likePost);   // requires 'id' of post as query
+router.get('/likePost/:id', controller.likePost);   // requires 'id' of post as query
+
+router.get('/unLikePost/:id', controller.unLikePost);   // requires 'id' of post as query
+
+router.get('/aFeed', controller.show);    // requires 'id' of post as query
 
 router.post('/addComment', controller.addComment);
-
-router.get('/:id', controller.show);    // requires 'id' of post as query
 router.post('/', controller.create); // create a live feed post
 
 module.exports = router;
