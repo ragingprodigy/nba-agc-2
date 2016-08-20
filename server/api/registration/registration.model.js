@@ -128,7 +128,8 @@ var RegistrationSchema = new Schema({
         type: Boolean,
         default: false
     },
-    fastTrackTime: Date
+    fastTrackTime: Date,
+    sendGeneral:Boolean
 });
 
 RegistrationSchema.statics.pRef = pRef;

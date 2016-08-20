@@ -797,3 +797,41 @@ new CronJob('*/8 * * * *', function () {
 		});
 	}, null, true, 'Africa/Lagos'
 );
+//Cron Job to Send Registration message every 1 minutes for all successful payment
+new CronJob('*/1 * * * *', function () {
+	Registration.find({ "statusConfirmed":true, "paymentSuccessful": true, "sendGeneral": { $ne: true } }).limit(200).exec( function (err,members) {
+		if (members.length)
+		{
+			async.forEachSeries(members, function (member,callback) {
+				async.series([
+					function (callback) {
+						mailer.sendGeneral(member,function () {
+							mailer.sendGeneralEmail(member,function () {
+								callback();
+							})
+						});
+					},
+					function (callback) {
+							Registration.update({ _id: member._id }, { $set: { sendGeneral: true} }, function(e){
+								if (e) {
+
+									console.log(e); }
+								callback();
+							});
+					}
+
+				],function (err) {
+					if (err)
+					{
+						return next(err);
+					}
+					console.log('Message Sent to'+ member.firstName);
+					callback();
+				});
+			},function(err){
+				if (err) return next(err);
+				console.log('Messages sent to '+members.length+' members');
+			});
+		}
+	});
+}, null,true,'Africa/Lagos');

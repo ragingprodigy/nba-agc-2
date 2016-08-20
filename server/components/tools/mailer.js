@@ -502,3 +502,41 @@ exports.sendBankWelcomeMail = function(registration, password, next) {
         });
     });
 };
+
+exports.sendGeneral = function(registration, next) {
+    var __message = 'Dear Learned Colleague, We are constrained to notify you that only NAME TAGS are available for pickup today. Conference Bags will only be available from TOMORROW, Sunday. Apologies for the inconvenience';
+
+    var destination = registration.mobile.indexOf("0") == 0 ? registration.mobile.replace(registration.mobile.indexOf("0"),"234") : "234"+registration.mobile;
+    var url = 'http://52.206.236.158/mcast_ws_v2/index.php?user='+process.env.MCAST_USERNAME+'&password='+process.env.MCAST_PASSWORD+'&from='+process.env.SMS_FROM+'&to='+destination+'&message='+__message+'&type=json';
+    request(url, function(error, resp, body) {
+
+        if (!error && resp.statusCode === 200) {
+            next(null, body);
+        } else {
+            console.log('SMS Error: ', error);
+            next(error);
+        }
+
+    });
+};
+
+exports.sendGeneralEmail = function(registration, next) {
+
+    var newMessage = message;
+
+    var emailData = '<div style="margin:0; padding:0; font-family:Segoe UI,Segoe UI,Arial,Sans-Serif;"><div style="margin:0; padding:0;"><div style="max-width:600px; margin: 10px auto 0; background-color: green;"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:block; max-width:600px"><tbody><tr><td colspan="3" height="15"></td></tr><tr><td width="20"></td><td style="text-align: center;"><a href="http://nigerianbar.org.ng"><img src="https://nba-agc.org/assets/images/561e82db.banner1.jpg"></a></td></tr><tr><td colspan="3"><h3 align="left" valign="top" style="line-height:41px;font-size: 28px;font-family:Segoe UI Light,Segoe UI,Arial,Sans-Serif;color: #FFFFFF; text-align:center; margin: 10px auto 0;">NBA Annual General Conference 2016</h3></td></tr><tr><td colspan="3" height="15"></td></tr></tbody></table></div><div style="max-width:600px; margin:0 auto; border-left: 1px solid #CCC; border-right: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-bottom: 20px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:block; max-width:600px;"><tbody><tr><td colspan="3" height="20"></td></tr><tr><td width="40"></td><td align="left" valign="top"><table width="520" border="0" cellspacing="0" cellpadding="0" style="display:block"><tbody><tr><td align="left" valign="top" style="line-height:36px;font-size:23px;font-family:Segoe UI Light,Segoe UI,Arial,Sans-Serif;color: green;padding-right:15px;padding-left:0px"> </td></tr></tbody></table></td><td width="40"></td></tr><tr><td colspan="3" height="20"></td></tr><tr><td width="40"></td><td align="left" valign="top"><table width="520" border="0" cellspacing="0" cellpadding="0" style="display:block"><tbody><tr><td align="left" valign="top" style="line-height:19px;font-size:15px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;text-align: justify;color:#000000;padding-right:10px">Dear Learned Colleague, We are constrained to notify you that only NAME TAGS are available for pickup today. Conference Bags will only be available from TOMORROW, Sunday. Apologies for the inconvenience<br></td></tr><tr><td height="50"></td></tr><tr><td align="left" valign="top" style="line-height:19px;font-size:25px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;color:#000000;padding-right:10px; text-align: center;"><span style="background: green; padding: 10px; border-radius: 5px;"><a href="' + theUrl + '" style="color:#FFFFFF; text-decoration:none;">Reset Password</a></span></td></tr><tr><td height="50"></td></tr><tr><td height="30"></td></tr><tr><td align="left" valign="top" style="line-height:19px;font-size:15px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;color:#000000;padding-right:10px">For further enquiries, please call Registration Support on <b>08068619570, 08106721947, 09059999693, 09085524199</b>. </td></tr><tr><td height="50" style="border-bottom:1px solid #CCC;"></td></tr><tr><td align="center" valign="top" style="padding-top:10px"><table><tbody><tr><td width="30%"><img style="max-width:100%" src="http://lawpavilion.com/img/official-logo.png"></td><td style="line-height:19px;font-size:12px;font-family: Segoe UI,Segoe UI,Arial,Sans-Serif;color:#4b4b4b;padding-right:10px; text-align:center;"><span style="color: #00CC39; font-weight:bold;">For Enquiries and Conference Information </span>  Send emails to: registration@nba-agc.org</td></tr></tbody></table></td></tr></tbody></table></td><td width="40"></td></tr></tbody></table></div></div></div>';
+
+    newMessage.html = emailData;
+    newMessage.subject = 'NBA 2016 AGC UPDATE:Bags and Conference Materials';
+    newMessage.to = [registration.email];
+
+    sendMessage(newMessage, function(){
+
+        return next(null);
+
+    }, function(e) {
+
+        return next(e);
+    });
+
+};
