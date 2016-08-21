@@ -93,8 +93,8 @@ exports.show = function (req, res) {
 // Create a new post for live feed
 exports.create = function (req, res) {
     // Make sure post is no empty
-    if (typeof req.body.tweet == "undefined" || req.body.tweet == ''){
-        return res.status(406).json({message : 'Post cannot be empty!'})
+    if (typeof req.body.tweet == "undefined" || req.body.tweet == '') {
+        return res.status(406).json({message: 'Post cannot be empty!'})
     }
 
     LiveFeed.create(req.body, function (err, post) {
@@ -109,8 +109,8 @@ exports.create = function (req, res) {
 exports.addComment = function (req, res) {
 
     // Make sure comment is no tempty
-    if (typeof req.body.content == "undefined" || req.body.content == ''){
-        return res.status(406).json({message : 'Comment cannot be empty!'})
+    if (typeof req.body.content == "undefined" || req.body.content == '') {
+        return res.status(406).json({message: 'Comment cannot be empty!'})
     }
 
     LiveFeed.findById(req.query.id, function (err, post) {
