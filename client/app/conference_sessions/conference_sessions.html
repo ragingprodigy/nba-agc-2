@@ -19,7 +19,7 @@
                 <input type="text" class="form-control" placeholder="Search by session | speaker | title | day" ng-model="searchQuery">
             </div>
 
-            <!--<table class="table">
+            <table class="table">
                 <tr data-ng-repeat="day in days">
                     <td class="no-padding" id="{{day}}"   >
                         <panel-header title="{{day}}" class="default"></panel-header>
@@ -35,7 +35,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    &lt;!&ndash;<panel-header  title="{{ s.title }}"></panel-header>&ndash;&gt;
+                                    <panel-header  title="{{ s.title }}"></panel-header>
                                     <table class="table table-bordered table-striped">
                                         <tr class="text-uppercase" data-ng-repeat="paper in s.papers">
                                             <td class="col-md-6">{{paper.title}}</td>
@@ -44,7 +44,7 @@
                                                 <a class="btn btn-primary btn-xs btn-block"  href="{{paper.document}}" target="_blank">DOWNLOAD PAPER</a>
                                                 <a class="btn btn-primary btn-xs btn-block" ng-show="(s.rappoteur.length > 0)" ng-click="showRappoteur( s.rappoteur )" style="width:100%; background-color: #be0006">Rapporteurs Report</a>
                                             </td>
-                                            &lt;!&ndash;<td class="col-md-2"><a class="btn btn-primary btn-xs btn-block" ui-sref="conference_session_detail({id: s._id})">DOWNLOAD</a></td>&ndash;&gt;
+                                            <td class="col-md-2"><a class="btn btn-primary btn-xs btn-block" ui-sref="conference_session_detail({id: s._id})">DOWNLOAD</a></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -52,14 +52,7 @@
                         </table>
                     </td>
                 </tr>
-            </table>-->
-            <br>
-            <br>
-            <br>
-
-            <div class="text-center alert alert-danger" style="font-size: 20px"><b>Online Registration Has Closed</b><br> <i
-                    class="fa fa-spinner fa-spin"></i>Conference Details are Coming
-                Soon</div>
+            </table>
 
         </div>
 

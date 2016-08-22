@@ -166,7 +166,7 @@ exports.attendSession = function(req, res) {
 
         if (moment(session.end_time).isAfter(new Date())) {
             // Ensure a user cannot attend two sessions that start at the same time
-            Attendee.find({user: new ObjectId(req.user)})
+            Attendee.find({user: new ObjectId(req.body.userId)})
             .populate({
                 path: 'session',
                 select: 'title venue start_time'
@@ -180,7 +180,7 @@ exports.attendSession = function(req, res) {
                 } else {
 
                     Attendee.findOrCreate({
-                        user: new ObjectId(req.user),
+                        user: new ObjectId(req.body.userId),
                         session: new ObjectId(req.params.id)
                     }, function (err, record, created) {
                         if (err) {
@@ -193,7 +193,8 @@ exports.attendSession = function(req, res) {
                         else {
                             //var alertDate = moment(session.start_time).subtract(2,'h');
                             //agenda.schedule(alertDate, 'Send Mail and SMS Reminder', {session:session, userId:req.user});
-                            Registration.findOne({user: new ObjectId(req.user), statusConfirmed:true, paymentSuccessful:true}, function(err, registration){
+                            Registration.findOne({user: new ObjectId(req.body.userId), statusConfirmed:true, paymentSuccessful:true}, function(err, registration){
+                                if (!registration){return res.status(401).json({message:'This User was not found so yo cannot regiter for this session'});}
                                 mailer.sendReminderMail(registration.email, session, record._id, function(){
                                     mailer.sendReminderSMS(registration.mobile, session, function(body){
                                         var smsId = body.split(': ')[1];
@@ -224,17 +225,13 @@ exports.unAttendSession = function(req, res) {
         if (!session) { res.status(404).json({message: 'Session not found.'}); }
 
         if (moment(session.end_time).isAfter(new Date())) {
-            Attendee.findOne({ user: new ObjectId(req.user), session: new ObjectId(req.params.id) }, function(err, record) {
+            Attendee.findOne({ user: new ObjectId(req.body.userId), session: new ObjectId(req.params.id) }, function(err, record) {
                 if (err) { return handleError(res, err); }
                 if (!record) { return res.status(401).json({message: 'You have not registered to attend this session.' }); }
 
-                mailer.cancelMail(record.messageId, function() {
-                    mailer.cancelSMS(record.smsId, function(){
-                        record.remove(function(err){
-                            if (err) { return handleError(res, err); }
-                            return renderSession(session, res);
-                        });
-                    });
+                record.remove(function(err){
+                    if (err) { return handleError(res, err); }
+                    return renderSession(session, res);
                 });
             });
         } else {

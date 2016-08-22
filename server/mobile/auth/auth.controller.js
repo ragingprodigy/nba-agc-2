@@ -254,7 +254,7 @@ exports.signIn = function(req, res) {
             if(user.accountType=='single')
             {
                 Registration.findOne({email :req.body.email}).sort('-lastModified').exec(function (err,data) {
-                    res.status(200).send({statusCode:200,message:'ok',isGroup:false, token: createJWT(user), data:[data]});
+                    res.status(200).send({statusCode:200,message:'ok',isGroup:false,userId:user._id,token: createJWT(user), data:[data]});
                 });
             }
             else {
