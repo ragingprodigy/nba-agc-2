@@ -6,7 +6,7 @@
 'use strict';
 var nbaAgc2App = angular.module('nbaAgc2App');
 
-nbaAgc2App.service('Livefeed', function($resource){
+nbaAgc2App.service('Livefeed', function ($resource) {
     return $resource('/api/livefeed/:id', null, {
         getSingleFeed: {
             url: '/api/livefeed/aFeed',
