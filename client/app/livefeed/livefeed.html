@@ -1,22 +1,32 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-
 <div class="container" ng-controller="LiveFeedCtrl">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3" ng-repeat="value in feeds track by $index">
+    <div class="row ">
+        <div class="well col-xs-12 col-sm-offset-1 col-sm-10 col-md-12" style="margin-left: 5px;" ng-repeat="value in feeds track by value._id">
             <div class="forum-header">
                 <a href="" ng-click="getSingle(value._id)">{{value.tweet}}</a>
             </div>
+            <span class="pull-right top">{{value.tweet_time}}</span>
+            <Br>
             <div class="container-fluid top-space" style="border-top:1px solid #eee;">
                 <div class="row">
-                    <span class="col-xs-6 col-sm-6 col-md-6">{{value.star}} <i style="color: #2e9bff;" class=" fa fa-thumbs-up" aria-hidden="true"></i>
-                        <label class="text-bold" ng-click="rateFeeds(value._id,$index)">
+                    <span class="col-xs-6 col-sm-6 col-md-6">
+                        {{value.star}}
+                        <i style="color: #2e9bff;" class=" fa fa-thumbs-up" aria-hidden="true"></i>
+                        <label ng-if="likeStatus('liked'+value._id) == 1" class="text-bold" ng-click="rateFeeds(value._id,$index)">
+                               Unlike
+                        </label>
+                        <label ng-if="likeStatus('liked'+value._id) == 0 || !likeStatus('liked'+value._id)" class="text-bold" ng-click="rateFeeds(value._id,$index)">
                                Like
                         </label>
                     </span>
-                    <span class="col-xs-6 col-sm-6 col-md-6"><a ng-click="getSingle(value._id)"><i class="fa fa-comments" aria-hidden="true"></i></a></span>
+                    <span class="pull-right">
+                        {{value.comment_count}}
+                        <i style="color: #2e9bff;" class=" fa fa-comment" aria-hidden="true"></i>
+                        <label ng-click="getSingle(value._id)" class="text-bold">
+                               Comment
+                        </label>
+                    </span>
                 </div>
             </div>
-            <br>
         </div>
     </div>
 </div>

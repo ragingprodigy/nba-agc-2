@@ -8,6 +8,10 @@ var nbaAgc2App = angular.module('nbaAgc2App');
 nbaAgc2App.controller('LiveFeedCtrl', function ($scope, $stateParams, $state, Livefeed, $cookies) {
     $scope.feeds = Livefeed.query({});
 
+    $scope.likeStatus = function (cookieKey) {
+        return $cookies.get(cookieKey);
+    };
+
     $scope.rateFeeds = function (id, index) {
 
         // Retrieving a cookie of this post
@@ -45,17 +49,51 @@ nbaAgc2App.controller('LiveFeedCtrl', function ($scope, $stateParams, $state, Li
 
 });
 
-nbaAgc2App.controller('SingleLiveFeedCtrl', function ($scope, Livefeed, $stateParams) {
+nbaAgc2App.controller('SingleLiveFeedCtrl', function ($cookies, $scope, Livefeed, $stateParams) {
+    $scope.makeComment = false;
+
+    $scope.likeStatus = function (cookieKey) {
+        return $cookies.get(cookieKey);
+    };
+
+    $scope.rateFeed = function (id) {
+        // Retrieving a cookie of this post
+        var postCookie = $cookies.get('liked' + id);
+
+
+        if (postCookie == 1) {
+
+            // Unlike Post
+            Livefeed.unRateFeed({id: id}, function (response) {
+                // Set a cookie
+                $cookies.put('liked' + id, 0);
+
+                $scope.singleFeed = response;
+            });
+        }
+        else if (typeof postCookie == 'undefined' || postCookie == 0) {
+
+            // Like Post
+            Livefeed.rateFeed({id: id}, function (response) {
+                // Set a cookie
+                $cookies.put('liked' + id, 1);
+
+                $scope.singleFeed = response;
+            });
+        }
+
+    };
+
     $scope.getSingle = function (id) {
         Livefeed.getSingleFeed({id: id}, function (response) {
             $scope.singleFeed = response;
-            //state.go();
         });
     }
+
     $scope.getSingle($stateParams.id);
 
-    $scope.comment = function ($scope, Livefeed) {
-        Livefeed.addComment(function (response) {
+    $scope.comment = function (form) {
+        Livefeed.addComment({id: $stateParams.id}, form, function (response) {
             console.log(response);
         });
     };
