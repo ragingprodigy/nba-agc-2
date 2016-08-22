@@ -117,3 +117,22 @@ nbaAgc2App.controller('SingleLiveFeedCtrl', function ($cookies, $scope, Livefeed
 
     };
 });
+
+nbaAgc2App.controller('PostLiveFeedCtrl', function ($scope, Livefeed, $state, Sessions, Speakers) {
+    Sessions.query(function (response) {
+        $scope.allSessions = response;
+    });
+
+    $scope.getSpeakers = function (id) {
+        Sessions.query({id : id}, function (response) {
+            $scope.allSpeakers = response.speakers;
+        });
+    };
+
+    $scope.createPost = function (form) {
+        Livefeed.addFeed(form, function (response) {
+            $scope.singleFeed = response
+            $state.go('liveFeedSingle', response._id);
+        });
+    };
+});

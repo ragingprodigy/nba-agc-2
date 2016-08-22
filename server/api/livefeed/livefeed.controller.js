@@ -81,7 +81,7 @@ exports.show = function (req, res) {
                 return handleError(res, err);
             }
             if (!livefeedPost) {
-                return res.send(404);
+                return res.sendStatus(404);
             }
             return res.json(livefeedPost);
         });

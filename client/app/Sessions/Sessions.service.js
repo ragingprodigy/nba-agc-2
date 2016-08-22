@@ -33,6 +33,6 @@ angular.module('nbaAgc2App')
                 method: 'GET',
                 isArray: true,
                 url: '/api/sessions/papers'
-            }
+            },
         });
   });

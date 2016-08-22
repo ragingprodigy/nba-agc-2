@@ -1,0 +1,44 @@
+<style>
+    .has-error .form-control.focus, .has-error .form-control:focus {
+        border-color: #ff3838;
+    }
+</style>
+<div class="container" ng-controller="PostLiveFeedCtrl">
+    <br>
+    <div class="row">
+        <strong class="text-center h2">Post a Live Feed</strong>
+        <br>
+
+        <div class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12">
+            <div class="container-fluid top-space" style="border-top:1px solid #eee;">
+
+                <form style="" name="form" ng-submit="comment(new_post)" role="form">
+                    <div class="form-group" ng-class="{ 'has-error': form.session.$dirty && form.session.$error.required }">
+                        <label for="session">Session</label>
+                        <select ng-options="session._id as session.title for session in allSessions track by session._id" name="session" id="session" class="form-control" ng-change="getSpeakers(new_post.session)" ng-model="new_post.session" required="required"/>
+                        <span ng-show="form.session.$dirty && form.session.$error.required" class="help-block">session is required</span>
+                    </div>
+
+                    <div  class="form-group" ng-class="{ 'has-error': form.speaker.$dirty && form.speaker.$error.required }">
+                        <label for="speaker">Speaker</label>
+                        <select ng-options="speaker._id as speaker.name for speaker in allSpeakers track by speaker._id" name="speaker" id="speaker" class="form-control" ng-model="new_post.speaker" required="required"/>
+                        <span ng-show="form.speaker.$dirty && form.speaker.$error.required" class="help-block">speaker Address is required</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': form.tweet.$dirty && form.tweet.$error.required }">
+                        <label for="tweet">Tweet</label>
+                        <textarea maxlength="140" minlength="3" name="tweet" id="tweet" class="form-control" ng-model="new_post.tweet" required="required"></textarea>
+                        <span ng-show="form.tweet.$dirty && form.tweet.$error.required" class="help-block">Comment is required</span>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" ng-disabled="form.$invalid || vm.dataLoading || submitting" class="btn btn-success">New Post</button>
+                        <img ng-if="vm.dataLoading || submitting"
+                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

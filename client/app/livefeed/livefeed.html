@@ -20,9 +20,7 @@
                         <i ng-if="likeStatus('liked'+value._id) == 1" class="fa fa-2x fa-thumbs-up" style="color: #2e9bff;" ng-click="rateFeeds(value._id, $index)"></i>
                         <i ng-if="likeStatus('liked'+value._id) == 0 || !likeStatus('liked'+value._id)" class=" fa-2x fa fa-thumbs-up"
                            ng-click="rateFeeds(value._id, $index)"></i>
-                        <!--<label ng-click="getSingle(value._id)" class="btn-link">
-                               Add a Comment...
-                        </label>-->
+
                     </span>
                 </div>
             </div>
