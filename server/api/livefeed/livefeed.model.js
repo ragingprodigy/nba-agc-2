@@ -12,8 +12,9 @@ var mongoose = require('mongoose'),
 
 var LiveFeedSchema = new Schema({
     tweet: String,
-    tweet_time: {type: Date, default: Date.now()},
-    star: Number,
+    tweet_time: {type: Date, default: Date.now},
+    star: {type: Number, default: 0},
+    comment_count: {type: Number, default: 0},
     _author: {type: Schema.Types.ObjectId, ref: 'User'},
     _session: {type: Schema.Types.ObjectId, ref: 'Session'},
     _speaker: {type: Schema.Types.ObjectId, ref: 'Speaker'},

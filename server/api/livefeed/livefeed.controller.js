@@ -9,8 +9,8 @@ var _ = require('lodash'),
 
 // Get list of livefeed posts
 exports.index = function (req, res) {
-    LiveFeed.find(req.query)
-        .sort('tweet_time')
+    LiveFeed.find(req.query, '-comments')
+        .sort('-tweet_time')
         .exec(function (err, livefeed) {
             if (err) {
                 return handleError(res, err);
@@ -26,7 +26,7 @@ exports.sessionLiveFeed = function (req, res) {
     }
     LiveFeed.find({_session: req.query._session}, '-comments')
         .populate()
-        .sort('tweet_time')
+        .sort('-tweet_time')
         .limit(10)
         .exec(function (err, livefeed) {
             if (err) {
@@ -108,9 +108,13 @@ exports.create = function (req, res) {
 // Comment on a live feed
 exports.addComment = function (req, res) {
 
+    console.info(req.body, 'body');
+    console.warn(req.params, 'params');
+    console.error(req.query, 'query');
+
     // Make sure comment is no tempty
     if (typeof req.body.content == "undefined" || req.body.content == '') {
-        return res.status(406).json({message: 'Comment cannot be empty!'})
+        return res.status(406).json({message: 'Comment cannot be empty!'});
     }
 
     LiveFeed.findById(req.query.id, function (err, post) {
@@ -126,6 +130,7 @@ exports.addComment = function (req, res) {
 
 
         post.comments.push(comment);
+        post.comment_count = post.comment_count + 1 //inc comment count
         post.save(function (err, newPost) {
             if (err) {
                 return handleError(res, err);
