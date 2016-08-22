@@ -50,7 +50,10 @@ nbaAgc2App.controller('LiveFeedCtrl', function ($scope, $stateParams, $state, Li
 });
 
 nbaAgc2App.controller('SingleLiveFeedCtrl', function ($cookies, $scope, Livefeed, $stateParams) {
-    $scope.makeComment = false;
+    $scope.make_comment = false;
+    $scope.con = {};
+    $scope.wroxy_f = $cookies.get('wroxy_f');
+    $scope.wroxy_e = $cookies.get('wroxy_e');
 
     $scope.likeStatus = function (cookieKey) {
         return $cookies.get(cookieKey);
@@ -93,10 +96,24 @@ nbaAgc2App.controller('SingleLiveFeedCtrl', function ($cookies, $scope, Livefeed
     $scope.getSingle($stateParams.id);
 
     $scope.comment = function (form) {
+        $scope.submitting = true;
+
+        if (typeof form.fullname == 'undefined' || form.fullname == null) {
+            form.fullname = $scope.wroxy_f;
+            form.email = $scope.wroxy_e;
+        }
+
         Livefeed.addComment({id: $stateParams.id}, form, function (response) {
             $scope.singleFeed = response;
-            $scope.makeComment = false;
+            $scope.make_comment = false;
+
+            // Set a cookie
+            $cookies.put('wroxy_f', form.fullname);
+            $cookies.put('wroxy_e', form.email);
 
         });
+        $scope.con = {};
+        $scope.submitting = false;
+
     };
 });

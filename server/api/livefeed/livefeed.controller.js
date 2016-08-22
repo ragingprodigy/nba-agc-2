@@ -38,19 +38,17 @@ exports.sessionLiveFeed = function (req, res) {
 
 // Star a post
 exports.likePost = function (req, res) {
-    //console.log(req.query);
-    //console.log(req.params);
+
     LiveFeed.update({_id: req.params.id}, {$inc: {star: 1}}, function (e) {
         if (e) {
             return handleError(res, err);
         }
         LiveFeed.findById(req.params.id)
-            .sort('tweet_time')
+            .sort('-tweet_time')
             .exec(function (err, livefeed) {
                 if (err) {
                     return handleError(res, err);
                 }
-                //console.log(livefeed);
                 return res.json(livefeed);
             });
     });
@@ -64,12 +62,11 @@ exports.unLikePost = function (req, res) {
             return handleError(res, err);
         }
         LiveFeed.findById(req.params.id)
-            .sort('tweet_time')
+            .sort('-tweet_time')
             .exec(function (err, livefeed) {
                 if (err) {
                     return handleError(res, err);
                 }
-                //console.log(livefeed);
                 return res.json(livefeed);
             });
     });
@@ -108,10 +105,6 @@ exports.create = function (req, res) {
 // Comment on a live feed
 exports.addComment = function (req, res) {
 
-    console.info(req.body, 'body');
-    console.warn(req.params, 'params');
-    console.error(req.query, 'query');
-
     // Make sure comment is no tempty
     if (typeof req.body.content == "undefined" || req.body.content == '') {
         return res.status(406).json({message: 'Comment cannot be empty!'});
@@ -135,7 +128,6 @@ exports.addComment = function (req, res) {
             if (err) {
                 return handleError(res, err);
             }
-            console.log(newPost);
             return res.json(newPost);
         });
     });
@@ -143,5 +135,5 @@ exports.addComment = function (req, res) {
 
 
 function handleError(res, err) {
-    return res.send(500, err);
+    return res.status(500).send(err);
 };
