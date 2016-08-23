@@ -7,16 +7,20 @@
     <br>
     <div class="row">
         <div class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12">
-            <div title="session" class="btn btn-primary btn-xs pull-left">{{singleFeed._session.title}}</div>
+            <div style="font-size: 70%; margin-top: 0px; margin-bottom: 0px;" title="session" class="text-left row h5">{{singleFeed._session.title}}</div>
 
-            <small  class="pull-right top small">{{ago(singleFeed.tweet_time)}}</small>
+            <small class="row pull-right top small" style="font-size: 30%;">{{ago(singleFeed.tweet_time)}}</small>
 
             <div class="forum-header">
-                <p class="h2">{{singleFeed.tweet}}</p>
+                <p class="h2">{{singleFeed.tweet}}
+                    <span class="small" style="color: #2c3a4c; font-size: 40%;">
+                        - {{singleFeed._speaker.name}}
+                    </span>
+                </p>
 
             </div>
 
-            <div class="col-xs-12">
+            <div style="padding-left: 0px; padding-right: 0px;" class="col-xs-12">
                 <span class="pull-right">
 
                     <i ng-if="likeStatus('liked'+singleFeed._id) == 1" class="fa fa-2x fa-thumbs-up" style="color: #2e9bff;" ng-click="rateFeed(singleFeed._id)"></i>
@@ -36,7 +40,7 @@
 
             </div>
 
-            <div class="container-fluid top-space" style="border-top:1px solid #eee;">
+            <div class="container-fluid top-space" style="border-top:1px solid #eee; padding-left: 0px; padding-right: 0px;">
 
                 <div ng-repeat="comment in singleFeed.comments">
                     <span style="font-weight: 600;">{{comment.fullname}}</span> -

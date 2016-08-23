@@ -7,10 +7,23 @@
 var _ = require('lodash'),
     LiveFeed = require('./livefeed.model');
 
+function getAFeed(id, res) {
+    LiveFeed.findById(id)
+        .populate('_session', 'title')
+        .populate('_speaker', 'name')
+        .exec(function (err, livefeed) {
+            if (err) {
+                return handleError(res, err);
+            }
+            return res.json(livefeed);
+        });
+};
+
 // Get list of livefeed posts
 exports.index = function (req, res) {
     LiveFeed.find(req.query, '-comments')
         .populate('_session', 'title')
+        .populate('_speaker', 'name')
         .sort('-tweet_time')
         .exec(function (err, livefeed) {
             if (err) {
@@ -44,14 +57,17 @@ exports.likePost = function (req, res) {
         if (e) {
             return handleError(res, err);
         }
-        LiveFeed.findById(req.params.id)
-            .sort('-tweet_time')
-            .exec(function (err, livefeed) {
-                if (err) {
-                    return handleError(res, err);
-                }
-                return res.json(livefeed);
-            });
+        getAFeed(req.params.id, res);
+        /*        LiveFeed.findById(req.params.id)
+         .sort('-tweet_time')
+         .populate('_session', 'title')
+         .populate('_speaker', 'name')
+         .exec(function (err, livefeed) {
+         if (err) {
+         return handleError(res, err);
+         }
+         return res.json(livefeed);
+         });*/
     });
 };
 
@@ -62,31 +78,35 @@ exports.unLikePost = function (req, res) {
         if (e) {
             return handleError(res, err);
         }
-        LiveFeed.findById(req.params.id)
-            .sort('-tweet_time')
-            .exec(function (err, livefeed) {
-                if (err) {
-                    return handleError(res, err);
-                }
-                return res.json(livefeed);
-            });
+        getAFeed(req.params.id, res);
+        /*        LiveFeed.findById(req.params.id)
+         .sort('-tweet_time')
+         .populate('_session', 'title')
+         .populate('_speaker', 'name').exec(function (err, livefeed) {
+         if (err) {
+         return handleError(res, err);
+         }
+         return res.json(livefeed);
+         });*/
     });
 };
 
 // Get a single livefeed post
 exports.show = function (req, res) {
+    getAFeed(req.query.id, res);
 
-    LiveFeed.findById(req.query.id)
-        .populate('_session', 'title')
-        .exec(function (err, livefeedPost) {
-            if (err) {
-                return handleError(res, err);
-            }
-            if (!livefeedPost) {
-                return res.sendStatus(404);
-            }
-            return res.json(livefeedPost);
-        });
+    /*    LiveFeed.findById(req.query.id)
+     .populate('_session', 'title')
+     .populate('_speaker', 'name')
+     .exec(function (err, livefeedPost) {
+     if (err) {
+     return handleError(res, err);
+     }
+     if (!livefeedPost) {
+     return res.sendStatus(404);
+     }
+     return res.json(livefeedPost);
+     });*/
 };
 
 // Create a new post for live feed
@@ -100,7 +120,10 @@ exports.create = function (req, res) {
         if (err) {
             return handleError(res, err);
         }
-        return res.json(post);
+        getAFeed(post._id, res);
+        /*
+         return res.json(post);
+         */
     });
 };
 
@@ -130,7 +153,7 @@ exports.addComment = function (req, res) {
             if (err) {
                 return handleError(res, err);
             }
-            return res.json(newPost);
+            getAFeed(newPost._id, res);
         });
     });
 };
