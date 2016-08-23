@@ -24,8 +24,9 @@
                     <td class="no-padding" id="{{day}}"   >
                         <panel-header title="{{day}}" class="default"></panel-header>
                         <table class="table table-bordered table-striped">
-                            <tr class="text-uppercase" data-ng-repeat="s in buffer[day] | filter: searchQuery"
-                                ng-show="s.papers.length || s.rappoteur.length">
+                            <tr class="text-uppercase" data-ng-repeat="s in buffer[day] | filter: searchQuery">
+                                <!--ng-show="s.papers.length || s.rappoteur.length"-->
+
                                 <td>
                                     <div class="panel panel-default">
                                         <div class="panel-body" style="padding-right: 0px">

@@ -32,7 +32,8 @@ exports.index = function(req, res) {
             res.json(records);
         });
     } else {
-        Session.find(req.query, 'title venue start_time end_time rating_start speakers papers rappoteur')
+        Session.find(req.query, 'title venue start_time end_time rating_start speakers papers canRegister' +
+            ' description rappoteur')
         .populate('papers.speaker', '-photo_base64')
         .exec(function (err, sessions) {
             if(err) { return handleError(res, err); }
@@ -179,33 +180,31 @@ exports.attendSession = function(req, res) {
                     return res.status(409).json({message: 'You\'ve registered for another session '+ sameTimeSession.session.title +' that starts at the same time as this one.' });
                 } else {
 
-                    Attendee.findOrCreate({
-                        user: new ObjectId(req.body.userId),
-                        session: new ObjectId(req.params.id)
-                    }, function (err, record, created) {
-                        if (err) {
-                            return handleError(res, err);
-                        }
 
-                        if (!created) {
-                            return res.status(409).json({message: 'You can only register to attend once'});
-                        }
-                        else {
-                            //var alertDate = moment(session.start_time).subtract(2,'h');
-                            //agenda.schedule(alertDate, 'Send Mail and SMS Reminder', {session:session, userId:req.user});
-                            Registration.findOne({user: new ObjectId(req.body.userId), statusConfirmed:true, paymentSuccessful:true}, function(err, registration){
-                                if (!registration){return res.status(401).json({message:'This User was not found so yo cannot regiter for this session'});}
-                                mailer.sendReminderMail(registration.email, session, record._id, function(){
-                                    mailer.sendReminderSMS(registration.mobile, session, function(body){
-                                        var smsId = body.split(': ')[1];
-                                        Attendee.update({_id:record._id}, {$set:{smsId:smsId}}, function(){
-                                            return renderSession(session, res);
-                                        });
+                    Registration.findOne({_id: new ObjectId(req.body.userId), statusConfirmed:true, paymentSuccessful:true}, function(err, registration){
+                        if (!registration){return res.status(401).json({message:'This User was not found so you cannot register for this session'});}
+                        Attendee.findOrCreate({
+                            user: new ObjectId(req.body.userId),
+                            session: new ObjectId(req.params.id)
+                        }, function (err, record, created) {
+                            if (err) {
+                                return handleError(res, err);
+                            }
+                            if (!created) {
+                                return res.status(409).json({message: 'You can only register to attend once'});
+                            }
+                            mailer.sendReminderMail(registration.email, session, record._id, function(){
+                                mailer.sendReminderSMS(registration.mobile, session, function(body){
+                                    var smsId = body.split(': ')[1];
+                                    Attendee.update({_id:record._id}, {$set:{smsId:smsId}}, function(){
+                                        return renderSession(session, res);
                                     });
                                 });
                             });
-                        }
+                        });
+
                     });
+
                 }
             });
         } else {

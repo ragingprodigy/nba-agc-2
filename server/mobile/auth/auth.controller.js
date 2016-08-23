@@ -242,29 +242,14 @@ exports.signUp = function(req, res) {
 };
 
 exports.signIn = function(req, res) {
-    User.findOne({ email: req.body.email }, '+password', function(err, user) {
+    Registration.findOne({ registrationCode: req.body.code.toUpperCase() }).sort('-lastModified').exec(function(err, user) {
+        if (err) { return handleError(res, err); }
         if (!user) {
-            return res.status(401).send({statusCode:401, message: 'Wrong email/username and/or password' });
+            return res.status(401).send({statusCode:401, message: 'Sorry Registration Code does Not Exist' });
         }
-
-        user.validPassword(req.body.password, function(err, isMatch) {
-            if (!isMatch) {
-                return res.status(401).send({statusCode :401, message: 'Wrong email/username and/or password' });
-            }
-            if(user.accountType=='single')
-            {
-                Registration.findOne({email :req.body.email}).sort('-lastModified').exec(function (err,data) {
-                    res.status(200).send({statusCode:200,message:'ok',isGroup:false,userId:user._id,token: createJWT(user), data:[data]});
-                });
-            }
-            else {
-                var groupId = user._id;
-                Registration.find({owner :groupId}).sort('lastModified').exec(function (err,data) {
-                    res.status(200).send({statusCode:200,message:'ok', isGroup:true, token: createJWT(user),groupId: groupId, data:data});
-                });
-            }
-
-        });
+        if(user){
+            return res.status(200).send({statusCode:200,message:'ok',isGroup:false, data:[user]});
+        }
     });
 };
 

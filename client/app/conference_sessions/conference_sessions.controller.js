@@ -13,6 +13,7 @@ angular.module('nbaAgc2App')
                     anchor = $scope.week[date.getUTCDay()]+date.getUTCDate();
                 if ($scope.buffer[anchor] ==undefined) { $scope.buffer[anchor] = []; }
                 $scope.buffer[anchor].push(s);
+                console.log($scope.buffer);
                 return anchor;
             }));
 
