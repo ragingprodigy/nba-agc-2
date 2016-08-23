@@ -20,6 +20,6 @@ router.get('/unLikePost/:id', controller.unLikePost);   // requires 'id' of post
 router.get('/aFeed', controller.show);    // requires 'id' of post as query
 
 router.post('/addComment', controller.addComment);
-router.post('/', controller.create); // create a live feed post
+router.post('/', sessionSec, controller.create); // create a live feed post
 
 module.exports = router;

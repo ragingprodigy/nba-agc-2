@@ -28,6 +28,10 @@ nbaAgc2App.service('Livefeed', function ($resource) {
             method: 'GET',
             url: '/api/livefeed/',
             isArray: true
+        },
+        addFeed: {
+            method: 'POST',
+            url: '/api/livefeed/',
         }
     });
 });

@@ -13,9 +13,10 @@ angular.module('nbaAgc2App')
                 templateUrl: 'app/livefeed/livefeed_single.html',
                 controller: 'SingleLiveFeedCtrl'
             })
-            .state('addComment', {
-                url: '/addComment',
-                templateUrl: 'app/livefeed/add_comment.html',
-                controller: 'addCommentCtrl'
-            })
+            .state('livefeedPost', {
+                url: '/livefeed/post/',
+                requireLogin: true,
+                templateUrl: 'app/livefeed/livefeed_post.html',
+                controller: 'PostLiveFeedCtrl'
+            });
     });

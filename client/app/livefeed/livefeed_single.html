@@ -4,56 +4,72 @@
     }
 </style>
 <div class="container" ng-controller="SingleLiveFeedCtrl">
+    <br>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <h2>{{singleFeed.tweet}}</h2>
-            <div class="row">
-                    <span class="col-xs-6 col-sm-6 col-md-6">
-                        {{singleFeed.star}}
-                        <span ng-bind="singleFeed.star == 1 ? 'Like' : 'Likes'"></span>
-                        {{singleFeed.comment_count}}
-                        <span ng-bind="singleFeed.comment_count == 1 ? 'Comment' : 'Comments'"></span>
+        <div class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12">
+            <small class="pull-right top small">{{ago(singleFeed.tweet_time)}}</small>
+
+            <div class="forum-header">
+                <p class="h2">{{singleFeed.tweet}}</p>
+
+            </div>
+
+            <div class="col-xs-12">
+                <span class="pull-right">
+
+                    <i ng-if="likeStatus('liked'+singleFeed._id) == 1" class="fa fa-2x fa-thumbs-up" style="color: #2e9bff;" ng-click="rateFeed(singleFeed._id)"></i>
+                    <i ng-if="likeStatus('liked'+singleFeed._id) == 0 || !likeStatus('liked'+singleFeed._id)" class=" fa-2x fa fa-thumbs-up"
+                       ng-click="rateFeed(singleFeed._id)"></i>
+
+                </span>
+                <small class="pull-left">
+                    {{singleFeed.star}}
+                    <span ng-bind="singleFeed.star == 1 ? 'Like' : 'Likes'"></span>
+                    {{singleFeed.comment_count}}
+                    <span ng-bind="singleFeed.comment_count == 1 ? 'Comment' : 'Comments'">
 
                     </span>
-                    <span class="pull-right">
-                        <i ng-if="likeStatus('liked'+singleFeed._id) == 1" class="fa fa-thumbs-down" style="color: #ff5880;" ng-click="rateFeed(singleFeed._id)"></i>
-                        <i ng-if="likeStatus('liked'+singleFeed._id) == 0 || !likeStatus('liked'+singleFeed._id)" style="color: #2e9bff;" class="fa fa-thumbs-up" ng-click="rateFeed(singleFeed._id)"></i>
 
-                        <i style="color: #2e9bff;" class=" fa fa-comment" aria-hidden="true"></i>
-                        <label ng-click="makeComment = !makeComment" class="text-bold">
-                              Add Comment
-                        </label>
-                    </span>
+                </small>
+
             </div>
-            <div ng-repeat="comment in singleFeed.comments">
-                <span style="font-weight: 600;">{{comment.fullname}}</span> -
-                <span style="font-weight: 300;">{{comment.content}}</span>
+
+            <div class="container-fluid top-space" style="border-top:1px solid #eee;">
+
+                <div ng-repeat="comment in singleFeed.comments">
+                    <span style="font-weight: 600;">{{comment.fullname}}</span> -
+                    <span style="font-weight: 300;">{{comment.content}}</span>
+                </div>
+                <small class="btn-link" ng-click="commentCheck()">
+                    Add a Comment
+                </small>
+                <form style="" ng-if="make_comment" name="form" ng-submit="comment(con)" role="form">
+                    <div ng-if="!wroxy_f" class="form-group" ng-class="{ 'has-error': form.fullname.$dirty && form.fullname.$error.required }">
+                        <label for="fullname">Fullname</label>
+                        <input type="text" name="fullname" id="fullname" class="form-control" ng-model="con.fullname" required="required"/>
+                        <span ng-show="form.fullname.$dirty && form.fullname.$error.required" class="help-block">Fullname is required</span>
+                    </div>
+
+                    <div ng-if="!wroxy_e" class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" ng-model="con.email" required="required"/>
+                        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email Address is required</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': form.content.$dirty && form.content.$error.required }">
+                        <label for="content">Comment</label>
+                        <textarea maxlength="140" minlength="3" name="content" id="content" class="form-control" ng-model="con.content" required="required"></textarea>
+                        <span ng-show="form.content.$dirty && form.content.$error.required" class="help-block">Comment is required</span>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" ng-disabled="form.$invalid || vm.dataLoading || submitting" class="btn btn-success">Comment</button>
+                        <img ng-if="vm.dataLoading || submitting"
+                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+
+                    </div>
+                </form>
             </div>
-            <form ng-if="makeComment" name="form" ng-submit="comment(con)" role="form">
-                <div class="form-group" ng-class="{ 'has-error': form.fullname.$dirty && form.fullname.$error.required }">
-                    <label for="fullname">Fullname</label>
-                    <input type="text" name="fullname" id="fullname" class="form-control" ng-model="con.fullname" required="required"/>
-                    <span ng-show="form.fullname.$dirty && form.fullname.$error.required" class="help-block">Fullname is required</span>
-                </div>
 
-                <div class="form-group" ng-class="{ 'has-error': form.fullname.$dirty && form.fullname.$error.required }">
-                    <label for="fullname">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" ng-model="con.email" required="required"/>
-                    <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email Address is required</span>
-                </div>
-
-                <div class="form-group" ng-class="{ 'has-error': form.comment.$dirty && form.comment.$error.required }">
-                    <label for="content">Comment</label>
-                    <textarea name="content" id="content" class="form-control" ng-model="con.content" required="required"></textarea>
-                    <span ng-show="form.content.$dirty && form.content.$error.required" class="help-block">Comment is required</span>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-success">Comment</button>
-                    <img ng-if="vm.dataLoading"
-                         src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-
-                </div>
-            </form>
         </div>
     </div>
 </div>

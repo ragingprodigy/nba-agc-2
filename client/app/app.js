@@ -152,6 +152,10 @@ angular.module('nbaAgc2App', [
             }
             
         };
+
+        $rootScope.ago = function(dt) {
+            return moment(dt).fromNow();
+        };
     });
 
 Number.prototype.formatMoney = function(c, d, t){

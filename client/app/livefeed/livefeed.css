@@ -2,11 +2,11 @@
     font-weight: bold;
     font-size: 17px;
 }
-.forum-header a{
+.forum-header p{
     padding: 5px 0;
     color: #34bf49;
 }
-.forum-header a:hover{
+.forum-header p:hover{
     color: #34bf49;
 }
 .forum-author{

@@ -1,31 +1,33 @@
 <div class="container" ng-controller="LiveFeedCtrl">
+    <br>
     <div class="row ">
-        <div class="well col-xs-12 col-sm-offset-1 col-sm-10 col-md-12" style="margin-left: 5px;" ng-repeat="value in feeds track by value._id">
+        <div ng-if="!noFeed" class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12" ng-repeat="value in feeds track by value._id">
             <div class="forum-header">
-                <a href="" ng-click="getSingle(value._id)">{{value.tweet}}</a>
+                <p href="" ng-click="getSingle(value._id)">{{value.tweet}}</p>
             </div>
-            <span class="pull-right top">{{value.tweet_time}}</span>
+            <small class="pull-right top small">{{ago(value.tweet_time)}}</small>
             <Br>
             <div class="container-fluid top-space" style="border-top:1px solid #eee;">
                 <div class="row">
-                    <span class="col-xs-6 col-sm-6 col-md-6">
+                    <small class="col-xs-6 col-sm-6 col-md-6">
                         {{value.star}}
-                        <i style="color: #2e9bff;" class=" fa fa-thumbs-up" aria-hidden="true"></i>
-                        <label ng-if="likeStatus('liked'+value._id) == 1" class="text-bold" ng-click="rateFeeds(value._id,$index)">
-                               Unlike
-                        </label>
-                        <label ng-if="likeStatus('liked'+value._id) == 0 || !likeStatus('liked'+value._id)" class="text-bold" ng-click="rateFeeds(value._id,$index)">
-                               Like
-                        </label>
-                    </span>
-                    <span class="pull-right">
+                        <span ng-bind="value.star == 1 ? 'Like' : 'Likes'"></span>
                         {{value.comment_count}}
-                        <i style="color: #2e9bff;" class=" fa fa-comment" aria-hidden="true"></i>
-                        <label ng-click="getSingle(value._id)" class="text-bold">
-                               Comment
-                        </label>
+                        <span ng-bind="value.comment_count == 1 ? 'Comment' : 'Comments'"></span>
+                    </small>
+
+                    <span class="pull-right">
+                        <i ng-if="likeStatus('liked'+value._id) == 1" class="fa fa-2x fa-thumbs-up" style="color: #2e9bff;" ng-click="rateFeeds(value._id, $index)"></i>
+                        <i ng-if="likeStatus('liked'+value._id) == 0 || !likeStatus('liked'+value._id)" class=" fa-2x fa fa-thumbs-up"
+                           ng-click="rateFeeds(value._id, $index)"></i>
+
                     </span>
                 </div>
+            </div>
+        </div>
+        <div ng-if="noFeed" class="col-xs-12 col-md-offset-1 col-md-10 col-md-12">
+            <div class=" h3 text-center">
+                No Feeds Available yet
             </div>
         </div>
     </div>

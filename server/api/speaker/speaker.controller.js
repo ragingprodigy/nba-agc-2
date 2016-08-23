@@ -5,11 +5,9 @@ var Speaker = require('./speaker.model');
 
 // Get list of speakers
 exports.index = function(req, res) {
-  var fields = req.query.lean?'-photo_base64':'-__v';
-
-  Speaker.find({}, fields, function (err, speakers) {
+  Speaker.find({}, '-photo_base64', function (err, speakers) {
     if(err) { return handleError(res, err); }
-    return res.json(speakers);
+    return res.status(200).json(speakers);
   });
 };
 
