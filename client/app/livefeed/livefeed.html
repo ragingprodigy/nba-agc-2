@@ -1,7 +1,7 @@
 <div class="container" ng-controller="LiveFeedCtrl">
     <br>
     <div class="row ">
-        <div class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12" ng-repeat="value in feeds track by value._id">
+        <div ng-if="!noFeed" class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12" ng-repeat="value in feeds track by value._id">
             <div class="forum-header">
                 <p href="" ng-click="getSingle(value._id)">{{value.tweet}}</p>
             </div>
@@ -23,6 +23,11 @@
 
                     </span>
                 </div>
+            </div>
+        </div>
+        <div ng-if="noFeed" class="col-xs-12 col-md-offset-1 col-md-10 col-md-12">
+            <div class=" h3 text-center">
+                No Feeds Available yet
             </div>
         </div>
     </div>

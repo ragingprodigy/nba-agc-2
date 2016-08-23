@@ -40,7 +40,7 @@
                     <span style="font-weight: 600;">{{comment.fullname}}</span> -
                     <span style="font-weight: 300;">{{comment.content}}</span>
                 </div>
-                <small class="btn-link" ng-click="make_comment = !make_comment">
+                <small class="btn-link" ng-click="commentCheck()">
                     Add a Comment
                 </small>
                 <form style="" ng-if="make_comment" name="form" ng-submit="comment(con)" role="form">

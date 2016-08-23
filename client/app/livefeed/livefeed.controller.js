@@ -6,7 +6,14 @@
 var nbaAgc2App = angular.module('nbaAgc2App');
 
 nbaAgc2App.controller('LiveFeedCtrl', function ($scope, $stateParams, $state, Livefeed, $cookies) {
-    $scope.feeds = Livefeed.query({});
+    // $scope.feeds = Livefeed.query({});
+
+    Livefeed.query({}).$promise.then(function (livefeed) {
+        if (livefeed.length == 0) {
+            $scope.noFeed = true;
+        }
+        $scope.feeds = livefeed;
+    });
 
     $scope.likeStatus = function (cookieKey) {
         return $cookies.get(cookieKey);
@@ -54,6 +61,13 @@ nbaAgc2App.controller('SingleLiveFeedCtrl', function ($cookies, $scope, Livefeed
     $scope.con = {};
     $scope.wroxy_f = $cookies.get('wroxy_f');
     $scope.wroxy_e = $cookies.get('wroxy_e');
+
+    $scope.commentCheck = function () {
+        $scope.make_comment = !$scope.make_comment;
+
+        $scope.wroxy_f = $cookies.get('wroxy_f');
+        $scope.wroxy_e = $cookies.get('wroxy_e');
+    }
 
     $scope.likeStatus = function (cookieKey) {
         return $cookies.get(cookieKey);
@@ -123,16 +137,14 @@ nbaAgc2App.controller('PostLiveFeedCtrl', function ($scope, Livefeed, $state, Se
         $scope.allSessions = response;
     });
 
-    $scope.getSpeakers = function (id) {
-        Sessions.query({id : id}, function (response) {
-            $scope.allSpeakers = response.speakers;
-        });
-    };
+    Speakers.query({}).$promise.then(function (speakers) {
+        return $scope.allSpeakers = speakers;
+    });
 
     $scope.createPost = function (form) {
         Livefeed.addFeed(form, function (response) {
             $scope.singleFeed = response
-            $state.go('liveFeedSingle', response._id);
+            $state.go('liveFeedSingle', {id: response._id});
         });
     };
 });
