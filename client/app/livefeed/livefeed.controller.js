@@ -133,12 +133,14 @@ nbaAgc2App.controller('SingleLiveFeedCtrl', function ($cookies, $scope, Livefeed
 });
 
 nbaAgc2App.controller('PostLiveFeedCtrl', function ($scope, Livefeed, $state, Sessions, Speakers) {
+    $scope.new_post = {};
+
     Sessions.query(function (response) {
         $scope.allSessions = response;
     });
 
     Speakers.query({}).$promise.then(function (speakers) {
-        return $scope.allSpeakers = speakers;
+        $scope.allSpeakers = speakers;
     });
 
     $scope.createPost = function (form) {
