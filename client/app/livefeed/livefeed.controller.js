@@ -52,7 +52,7 @@ nbaAgc2App.controller('LiveFeedCtrl', function ($scope, $stateParams, $state, Li
             id: id
         });
 
-    }
+    };
 
 });
 

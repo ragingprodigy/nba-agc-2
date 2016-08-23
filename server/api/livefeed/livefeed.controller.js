@@ -10,6 +10,7 @@ var _ = require('lodash'),
 // Get list of livefeed posts
 exports.index = function (req, res) {
     LiveFeed.find(req.query, '-comments')
+        .populate('_session', 'title')
         .sort('-tweet_time')
         .exec(function (err, livefeed) {
             if (err) {
@@ -76,6 +77,7 @@ exports.unLikePost = function (req, res) {
 exports.show = function (req, res) {
 
     LiveFeed.findById(req.query.id)
+        .populate('_session', 'title')
         .exec(function (err, livefeedPost) {
             if (err) {
                 return handleError(res, err);

@@ -7,7 +7,9 @@
     <br>
     <div class="row">
         <div class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12">
-            <small class="pull-right top small">{{ago(singleFeed.tweet_time)}}</small>
+            <div title="session" class="btn btn-primary btn-xs pull-left">{{singleFeed._session.title}}</div>
+
+            <small  class="pull-right top small">{{ago(singleFeed.tweet_time)}}</small>
 
             <div class="forum-header">
                 <p class="h2">{{singleFeed.tweet}}</p>

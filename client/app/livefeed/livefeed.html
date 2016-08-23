@@ -3,6 +3,8 @@
     <div class="row ">
         <div ng-if="!noFeed" class="well col-xs-12 col-md-offset-1 col-md-10 col-md-12" ng-repeat="value in feeds track by value._id">
             <div class="forum-header">
+                <div title="session" class="btn btn-primary btn-xs pull-right">{{value._session.title}}</div>
+
                 <p href="" ng-click="getSingle(value._id)">{{value.tweet}}</p>
             </div>
             <small class="pull-right top small">{{ago(value.tweet_time)}}</small>

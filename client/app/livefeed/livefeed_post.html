@@ -15,21 +15,19 @@
                 <form style="" name="form" ng-submit="createPost(new_post)" role="form">
                     <div class="form-group" ng-class="{ 'has-error': form.session.$dirty && form.session.$error.required }">
                         <label for="session">Session</label>
-                        <select ng-options="session._id as session.title for session in allSessions track by session._id" name="session" id="session" class="form-control"
-                        ng-model="new_post._session" required="required"/>
+                        <select ng-options="session._id as session.title for session in allSessions track by session._id" name="session" id="session" class="form-control" ng-model="new_post._session" ng-required="true"/>
                         <span ng-show="form.session.$dirty && form.session.$error.required" class="help-block">session is required</span>
                     </div>
 
                     <div class="form-group" ng-class="{ 'has-error': form.speaker.$dirty && form.speaker.$error.required }">
                         <label for="speaker">Speaker</label>
-                        <select ng-options="speaker._id as speaker.name for speaker in allSpeakers track by speaker._id" name="speaker" id="speaker" class="form-control"
-                                ng-model="new_post._speaker"/>
-                        <span ng-show="form.speaker.$dirty && form.speaker.$error.required" class="help-block">speaker Address is required</span>
+                        <select ng-options="speaker._id as speaker.name for speaker in allSpeakers track by speaker._id" name="speaker" id="speaker" class="form-control" ng-required="false" ng-model="new_post._speaker"/>
+                        <span ng-show="form.speaker.$dirty" class="help-block">speaker Address is required</span>
                     </div>
 
                     <div class="form-group" ng-class="{ 'has-error': form.tweet.$dirty && form.tweet.$error.required }">
                         <label for="tweet">Tweet</label>
-                        <textarea maxlength="140" minlength="3" name="tweet" id="tweet" class="form-control" ng-model="new_post.tweet" required="required"></textarea>
+                        <textarea maxlength="140" minlength="3" name="tweet" id="tweet" class="form-control" ng-model="new_post.tweet" ng-required="true"></textarea>
                         <span ng-show="form.tweet.$dirty && form.tweet.$error.required" class="help-block">Comment is required</span>
                     </div>
                     <div class="form-actions">
